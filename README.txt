@@ -82,7 +82,7 @@ more, send donation inquries to the aforementioned e-mail.
 ========================
 Into the Dungeon++ is an open source, freeware roguelike.
 The software is licensed under GNU General Public License; see COPYING.txt.
-Source code can be obtained by contacting the author.
+Source code can be from: https://github.com/Th30n/into-the-dungeon
 
 Use of sounds and graphical files without asking the authors 
 will be frowned upon!

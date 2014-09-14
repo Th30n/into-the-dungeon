@@ -1,7 +1,7 @@
 ***************************************************************************
 The following license applies to Into the Dungeon++ software.
-The source code of the software can be obtained by contacting the author
-via e-mail: <intothedungeon@gmail.com>
+The source code is on: https://github.com/Th30n/into-the-dungeon
+Author e-mail: <intothedungeon@gmail.com>
 ***************************************************************************
 
                     GNU GENERAL PUBLIC LICENSE
