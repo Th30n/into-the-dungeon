@@ -1,0 +1,382 @@
+Possible Items: 38
+
+Potion
+ItemLevel: 1
+Details: Gives health.
+HPBoost: 5
+Attack: 0
+Armor: 0
+UseType: 0
+EquipmentType: 0
+GFX_ID: 00
+
+Great Potion
+ItemLevel: 3
+Details: Gives more health.
+HPBoost: 10
+Attack: 0
+Armor: 0
+UseType: 0
+EquipmentType: 0
+GFX_ID: 00
+
+Greater Potion
+ItemLevel: 6
+Details: Gives even more health.
+HPBoost: 15
+Attack: 0
+Armor: 0
+UseType: 0
+EquipmentType: 0
+GFX_ID: 00
+
+Rapier
+ItemLevel: 3
+Details: Arr! Why is the rum gone?!
+HPBoost: 0
+Attack: 2
+Armor: 0
+UseType: 1
+EquipmentType: 1
+GFX_ID: 80
+
+Gladius
+ItemLevel: 6
+Details: Good, balanced sword.
+HPBoost: 0
+Attack: 3
+Armor: 0
+UseType: 1
+EquipmentType: 1
+GFX_ID: 81
+
+Scimitar
+ItemLevel: 9
+Details: Usually wielded by aristocrats.
+HPBoost: 0
+Attack: 4
+Armor: 0
+UseType: 1
+EquipmentType: 1
+GFX_ID: 82
+
+El Machette
+ItemLevel: 12
+Details: When extreme cutting is needed.
+HPBoost: 0
+Attack: 5
+Armor: 0
+UseType: 1
+EquipmentType: 1
+GFX_ID: 83
+
+Wakizashi
+ItemLevel: 15
+Details: So sharp you can almost hear it.
+HPBoost: 0
+Attack: 6
+Armor: 0
+UseType: 1
+EquipmentType: 1
+GFX_ID: 84
+
+Shield
+ItemLevel: 1
+Details: It does what a shield does.
+HPBoost: 0
+Attack: 0
+Armor: 1
+UseType: 1
+EquipmentType: 2
+GFX_ID: 20
+
+Kite Shield
+ItemLevel: 4
+Details: Protects a larger area.
+HPBoost: 0
+Attack: 0
+Armor: 2
+UseType: 1
+EquipmentType: 2
+GFX_ID: 21
+
+Greenpiece
+ItemLevel: 7
+Details: Part of the green collection.
+HPBoost: 0
+Attack: 0
+Armor: 3
+UseType: 1
+EquipmentType: 2
+GFX_ID: 22
+
+Round Devil
+ItemLevel: 10
+Details: Makes you feel powerful.
+HPBoost: 0
+Attack: 1
+Armor: 3
+UseType: 1
+EquipmentType: 2
+GFX_ID: 23
+
+Arcane Tower
+ItemLevel: 13
+Details: A mystical shield.
+HPBoost: 0
+Attack: 1
+Armor: 4
+UseType: 1
+EquipmentType: 2
+GFX_ID: 24
+
+Helmet
+ItemLevel: 2
+Details: This Helmet was sold in 300 copies.
+HPBoost: 0
+Attack: 0
+Armor: 1
+UseType: 1
+EquipmentType: 3
+GFX_ID: 30
+
+Steel Helmet
+ItemLevel: 5
+Details: Made out of stainless steel.
+HPBoost: 0
+Attack: 0
+Armor: 2
+UseType: 1
+EquipmentType: 3
+GFX_ID: 31
+
+Basilisko
+ItemLevel: 8
+Details: Even a naked snake would be scared.
+HPBoost: 0
+Attack: 0
+Armor: 3
+UseType: 1
+EquipmentType: 3
+GFX_ID: 32
+
+Firebrand's Semblance
+ItemLevel: 11
+Details: How do I spat fire?
+HPBoost: 0
+Attack: 1
+Armor: 3
+UseType: 1
+EquipmentType: 3
+GFX_ID: 33
+
+Mack'Car
+ItemLevel: 14
+Details: Excellent sand protection.
+HPBoost: 0
+Attack: 1
+Armor: 4
+UseType: 1
+EquipmentType: 3
+GFX_ID: 34
+
+Breast Plate
+ItemLevel: 4
+Details: Basic armor.
+HPBoost: 0
+Attack: 0
+Armor: 3
+UseType: 1
+EquipmentType: 4
+GFX_ID: 40
+
+Knight's Armor
+ItemLevel: 7
+Details: Contains extra polish!
+HPBoost: 0
+Attack: 0
+Armor: 4
+UseType: 1
+EquipmentType: 4
+GFX_ID: 41
+
+Lizardskin
+ItemLevel: 10
+Details: It's alive!
+HPBoost: 0
+Attack: 0
+Armor: 5
+UseType: 1
+EquipmentType: 4
+GFX_ID: 42
+
+Infernal Plate
+ItemLevel: 13
+Details: Keeps you very warm.
+HPBoost: 0
+Attack: 1
+Armor: 5
+UseType: 1
+EquipmentType: 4
+GFX_ID: 43
+
+Wintermute
+ItemLevel: 16
+Details: Cool!
+HPBoost: 0
+Attack: 1
+Armor: 6
+UseType: 1
+EquipmentType: 4
+GFX_ID: 44
+
+Elf Boots
+ItemLevel: 2
+Details: Regular boots for pointy-eared.
+HPBoost: 1
+Attack: 0
+Armor: 1
+UseType: 1
+EquipmentType: 5
+GFX_ID: 50
+
+Woodland Boots
+ItemLevel: 5
+Details: Protects from bugs.
+HPBoost: 2
+Attack: 0
+Armor: 1
+UseType: 1
+EquipmentType: 5
+GFX_ID: 52
+
+Greaves
+ItemLevel: 8
+Details: No warrior can walk without them.
+HPBoost: 2
+Attack: 0
+Armor: 2
+UseType: 1
+EquipmentType: 5
+GFX_ID: 51
+
+Dwarven Boots
+ItemLevel: 11
+Details: When good rear-kicking is required.
+HPBoost: 2
+Attack: 1
+Armor: 2
+UseType: 1
+EquipmentType: 5
+GFX_ID: 53
+
+Windwalkers
+ItemLevel: 14
+Details: Feels like walking on the wind. Duh!
+HPBoost: 3
+Attack: 1
+Armor: 2
+UseType: 1
+EquipmentType: 5
+GFX_ID: 54
+
+Ring
+ItemLevel: 2
+Details: It's not That One Ring.
+HPBoost: 1
+Attack: 1
+Armor: 0
+UseType: 1
+EquipmentType: 6
+GFX_ID: 60
+
+Bone Ring
+ItemLevel: 5
+Details: Whose bone is that?
+HPBoost: 1
+Attack: 2
+Armor: 0
+UseType: 1
+EquipmentType: 6
+GFX_ID: 61
+
+Snakeloop
+ItemLevel: 8
+Details: Looks quite intimidating.
+HPBoosts: 2
+Attack: 2
+Armor: 0
+UseType: 1
+EquipmentType: 6
+GFX_ID: 62
+
+Fiery Ring
+ItemLevel: 11
+Details: This ring is a burning thing!
+HPBoost: 2
+Attack: 3
+Armor: 0
+UseType: 1
+EquipmentType: 6
+GFX_ID: 63
+
+Cyclone
+ItemLevel: 14
+Details: Feels like a breeze.
+HPBoost: 3
+Attack: 3
+Armor: 0
+UseType: 1
+EquipmentType: 6
+GFX_ID: 64
+
+Khaydarin Amulet
+ItemLevel: 1
+Details: It's (over)powered.
+HPBoost: 1
+Attack: 1
+Armor: 0
+UseType: 1
+EquipmentType: 7
+GFX_ID: 70
+
+King's Skull
+ItemLevel: 4
+Details: Looks like Leoric's amulet.
+HPBoost: 1
+Attack: 2
+Armor: 0
+UseType: 1
+EquipmentType: 7
+GFX_ID: 71
+
+Ven'Let Om'Amu
+ItemLevel: 7
+Details: Belongs to another world.
+HPBoost: 2
+Attack: 2
+Armor: 0
+UseType: 1
+EquipmentType: 7
+GFX_ID: 72
+
+Crystal Eye
+ItemLevel: 10
+Details: The Red Crystal is radiating.
+HPBoost: 3
+Attack: 2
+Armor: 0
+UseType: 1
+EquipmentType: 7
+GFX_ID: 73
+
+Markus' Relic
+ItemLevel: 13
+Details: It might stop an arrow.
+HPBoost: 3
+Attack: 2
+Armor: 1
+UseType: 1
+EquipmentType: 7
+GFX_ID: 74
+

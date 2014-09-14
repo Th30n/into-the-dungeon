@@ -1,0 +1,43 @@
+==========================================
+===========SOUND INFORMATION==============
+==========================================
+
+Each sound has 2 variations (suffix: _number)
+Total number of sounds: 52
+The sounds are differentied by type:
+
+EQUIP SOUNDS, 7x2 (name_equip_number)
+- weapon_equip_# for equiping weapons
+- shield_equip_# for equiping shields
+- head_equip_# for equiping headwear
+- chest_equip_# for equiping armour
+- feet_equip_# for equiping boots
+- ring_equip_# for equiping rings
+- neck_equip_# for equiping necklace/amulet
+
+HIT SOUNDS, 3x2 (name_hit_number)
+- mace_hit_# for enemy attacks
+- sword_hit_# for attacks from player
+- projectile_hit_# for projectile hits/explosions
+
+PICKUP SOUNDS, 9x2 (name_sound_number)
+- potion_sound_# for picking up potions
+- weapon_sound_# for picking up weapons
+- shield_sound_# for picking up shields
+- head_sound_# for picking up headwear
+- chest_sound_# for picking up armor
+- feet_sound_# for picking up boots
+- ring_sound_# for picking up rings
+- neck_sound_# for picking up necklaces/amulets
+- scroll_sound_# for picking up scrolls
+
+SPECIAL SOUNDS, 6x2 + 2 (name_number)
+- walk_# for player walking
+- door_open_# for opening doors
+- level_up for leveling up (only 1 sound, not 2)
+- descend for descending into a new dungeon level (only 1 sound, not 2)
+- drink_# for drinking potions
+- miss_# for when a 'miss' happens
+- drop_# for dropping items out of the inventory
+- turn_page_# for turning pages in inventory/spellbook
+

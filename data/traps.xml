@@ -1,0 +1,32 @@
+<!--
+ All traps for the game are here. Each trap has a spell which is applied
+ when the trap is triggered.
+ Spell name is a reference to a spell in 'spells.xml' file. -->
+
+<traps>
+
+  <poisonTrap>
+    <item name="Poison Trap" level="1" type="trap"
+      description="Causes poisoning." spriteId="22">
+      <statsModifiers/>
+    </item>
+    <trap spell="poisonTarget"/>
+  </poisonTrap>
+
+  <spikeTrap>
+    <item name="Spike Trap" level="1" type="trap"
+      description="Ouch! Sharp spikes." spriteId="11">
+      <statsModifiers/>
+    </item>
+    <trap spell="spikeTarget"/>
+  </spikeTrap>
+
+  <stunTrap>
+    <item name="Bear Trap" level="1" type="trap"
+      description="Causes immobilization." spriteId="33">
+      <statsModifiers/>
+    </item>
+    <trap spell="stunTarget"/>
+  </stunTrap>
+
+</traps>

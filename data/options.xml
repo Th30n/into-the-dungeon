@@ -1,0 +1,7 @@
+<options>
+
+  <!-- So far only 800 x 600 is supported properly -->
+  <screen height="600" width="800" windowed="1"/>
+  <gameplay newGameTips="1"/>
+
+</options>

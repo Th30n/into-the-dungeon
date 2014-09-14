@@ -1,0 +1,395 @@
+<!--
+  Here are all the items for the game.
+  Each item has:
+    name - name displayed
+  level - item level
+  type - use type (potion, trap, scroll, weapon, shield, helmet, armor,
+      boots, ring, amulet, cbox)
+  description - description text
+  spriteId - id of the image in gfx/Items.png file
+  spell - spell effect reference to data/spells.xml
+  -->
+
+<items>
+
+<!-- Potions -->
+
+  <potion>
+    <item name="Potion" level="1" type="potion" description="Gives health."
+      spriteId="0" spell="healI">
+      <statsModifiers/>
+    </item>
+  </potion>
+
+  <greatPotion>
+    <item name="Great Potion" level="3" type="potion"
+      description="Gives more health." spriteId="0" spell="healII">
+      <statsModifiers/>
+    </item>
+  </greatPotion>
+
+  <greaterPotion>
+    <item name="Greater Potion" level="6" type="potion"
+      description="Gives even more health." spriteId="0" spell="healIII">
+      <statsModifiers/>
+    </item>
+  </greaterPotion>
+
+<!-- Swords -->
+
+  <rapier>
+    <item name="Rapier" level="3" type="weapon"
+      description="Arr! Why is the rum gone?!" spriteId="8">
+      <statsModifiers attack="2"/>
+    </item>
+  </rapier>
+
+  <gladius>
+    <item name="Gladius" level="6" type="weapon"
+      description="Good, balanced sword." spriteId="19">
+      <statsModifiers attack="3"/>
+    </item>
+  </gladius>
+
+  <scimitar>
+    <item name="Scimitar" level="9" type="weapon"
+      description="Usually wielded by aristocrats." spriteId="30">
+      <statsModifiers attack="4"/>
+    </item>
+  </scimitar>
+
+  <machette>
+    <item name="El Machette" level="12" type="weapon"
+      description="When extreme cutting is needed." spriteId="41">
+      <statsModifiers attack="5"/>
+    </item>
+  </machette>
+
+  <wakizashi>
+    <item name="Wakizashi" level="15" type="weapon"
+      description="So sharp you can almost hear it." spriteId="52">
+      <statsModifiers attack="6"/>
+    </item>
+  </wakizashi>
+
+<!-- Shields -->
+
+  <shield>
+    <item name="Shield" level="1" type="shield"
+      description="It does what a shield does." spriteId="2">
+      <statsModifiers armor="1"/>
+    </item>
+  </shield>
+
+  <kiteShield>
+    <item name="Kite Shield" level="4" type="shield"
+      description="Protects a larger area." spriteId="13">
+      <statsModifiers armor="2"/>
+    </item>
+  </kiteShield>
+
+  <greenpiece>
+    <item name="Greenpiece" level="7" type="shield"
+      description="Part of the green collection." spriteId="24">
+      <statsModifiers armor="3"/>
+    </item>
+  </greenpiece>
+
+  <roundDevil>
+    <item name="Round Devil" level="10" type="shield"
+      description="Makes you feel powerful." spriteId="35">
+      <statsModifiers attack="1" armor="3"/>
+    </item>
+  </roundDevil>
+
+  <arcaneTower>
+    <item name="Arcane Tower" level="13" type="shield"
+      description="A mystical shield." spriteId="46">
+      <statsModifiers attack="1" armor="4"/>
+    </item>
+  </arcaneTower>
+
+<!-- Helmets -->
+
+  <helmet>
+    <item name="Helmet" level="2" type="helmet"
+      description="This helmet was sold in 300 copies." spriteId="3">
+      <statsModifiers armor="1"/>
+    </item>
+  </helmet>
+
+  <steelHelmet>
+    <item name="Steel Helmet" level="5" type="helmet"
+      description="Made out of stainless steel." spriteId="14">
+      <statsModifiers armor="2"/>
+    </item>
+  </steelHelmet>
+
+  <basilisko>
+    <item name="Basilisko" level="8" type="helmet"
+      description="Even a naked snake would be scared." spriteId="25">
+      <statsModifiers armor="3"/>
+    </item>
+  </basilisko>
+
+  <firebrand>
+    <item name="Firebrand's Semblance" level="11" type="helmet"
+      description="How do I spat fire?" spriteId="36">
+      <statsModifiers attack="1" armor="3"/>
+    </item>
+  </firebrand>
+
+  <mackcar>
+    <item name="Mack'Car" level="14" type="helmet"
+      description="Excellent sand protection." spriteId="47">
+      <statsModifiers attack="1" armor="4"/>
+    </item>
+  </mackcar>
+
+<!-- Body Armors -->
+
+  <breastPlate>
+    <item name="Breast Plate" level="4" type="armor"
+      description="Basic armor." spriteId="4">
+      <statsModifiers armor="3"/>
+    </item>
+  </breastPlate>
+
+  <knightsArmor>
+    <item name="Knight's Armor" level="7" type="armor"
+      description="Contains extra polish!" spriteId="15">
+      <statsModifiers armor="4"/>
+    </item>
+  </knightsArmor>
+
+  <lizardskin>
+    <item name="Lizardskin" level="10" type="armor"
+      description="It's alive!" spriteId="26">
+      <statsModifiers armor="5"/>
+    </item>
+  </lizardskin>
+
+  <infernalPlate>
+    <item name="Infernal Plate" level="13" type="armor"
+      description="Keeps you very warm." spriteId="37">
+      <statsModifiers attack="1" armor="5"/>
+    </item>
+  </infernalPlate>
+
+  <wintermute>
+    <item name="Wintermute" level="16" type="armor"
+      description="Cool!" spriteId="48">
+      <statsModifiers attack="1" armor="6"/>
+    </item>
+  </wintermute>
+
+<!-- Boots -->
+
+  <elfBoots>
+    <item name="Elf Boots" level="2" type="boots"
+      description="Regular boots for the pointy-eared." spriteId="5">
+      <statsModifiers armor="1"/>
+    </item>
+  </elfBoots>
+
+  <woodlandBoots>
+    <item name="Woodland Boots" level="5" type="boots"
+      description="Protects from bugs." spriteId="27">
+      <statsModifiers health="2" armor="1"/>
+    </item>
+  </woodlandBoots>
+
+  <greaves>
+    <item name="Greaves" level="8" type="boots"
+      description="No warrior can walk without them." spriteId="16">
+      <statsModifiers health="2" armor="2"/>
+    </item>
+  </greaves>
+
+  <dwarvenBoots>
+    <item name="Dwarven Boots" level="11" type="boots"
+      description="When good read-kicking is required." spriteId="38">
+      <statsModifiers health="2" attack="1" armor="2"/>
+    </item>
+  </dwarvenBoots>
+
+  <windwalkers>
+    <item name="Windwalkers" level="14" type="boots"
+      description="Feels like walking on the wind. Duh!" spriteId="49">
+      <statsModifiers health="3" attack="1" armor="2"/>
+    </item>
+  </windwalkers>
+
+<!-- Rings -->
+
+  <ring>
+    <item name="Ring" level="2" type="ring"
+      description="It's not That One Ring." spriteId="6">
+      <statsModifiers attack="1"/>
+    </item>
+  </ring>
+
+  <boneRing>
+    <item name="Bone Ring" level="5" type="ring"
+      description="Whose bone is that?" spriteId="17">
+      <statsModifiers health="1" attack="2"/>
+    </item>
+  </boneRing>
+
+  <snakeloop>
+    <item name="Snakeloop" level="8" type="ring"
+      description="Looks quite intimidating." spriteId="28">
+      <statsModifiers health="2" attack="2"/>
+    </item>
+  </snakeloop>
+
+  <fieryRing>
+    <item name="Fiery Ring" level="11" type="ring"
+      description="This ring is a burning thing!" spriteId="39">
+      <statsModifiers health="2" attack="3"/>
+    </item>
+  </fieryRing>
+
+  <cyclone>
+    <item name="Cyclone" level="14" type="ring"
+      description="Feels like a breeze." spriteId="50">
+      <statsModifiers health="3" attack="3"/>
+    </item>
+  </cyclone>
+
+<!-- Amulets -->
+
+  <khaydarin>
+    <item name="Khaydarin Amulet" level="1" type="amulet"
+      description="It's (over)powered." spriteId="7">
+      <statsModifiers health="1" attack="1"/>
+    </item>
+  </khaydarin>
+
+  <kingsSkull>
+    <item name="King's Skull" level="4" type="amulet"
+      description="Looks like Leoric's amulet." spriteId="18">
+      <statsModifiers health="1" attack="2"/>
+    </item>
+  </kingsSkull>
+
+  <venlet>
+    <item name="Ven'Let Om'Amu" level="7" type="amulet"
+      description="Belongs to another world." spriteId="29">
+      <statsModifiers health="2" attack="2"/>
+    </item>
+  </venlet>
+
+  <crystalEye>
+    <item name="Crystal Eye" level="10" type="amulet"
+      description="The Red Crystal is radiating." spriteId="40">
+      <statsModifiers health="3" attack="2"/>
+    </item>
+  </crystalEye>
+
+  <markusRelic>
+    <item name="Markus' Relic" level="13" type="amulet"
+      description="It might stop an arrow." spriteId="51">
+      <statsModifiers health="3" attack="2" armor="1"/>
+    </item>
+  </markusRelic>
+
+<!-- Scrolls -->
+
+  <identifyScroll>
+    <item name="Scroll of Identify" level="2" type="scroll"
+      description="Identify an item." spriteId="9"
+      spell="identifyItem">
+      <statsModifiers />
+    </item>
+  </identifyScroll>
+
+  <blessingScroll>
+    <item name="Scroll of Blessing" level="4" type="scroll"
+      description="Bless your inventory." spriteId="10"
+      spell="blessInventory">
+      <statsModifiers />
+    </item>
+  </blessingScroll>
+
+  <fireballScroll>
+    <item name="Fireball Scroll" level="4" type="scroll"
+      description="Fire a ball of fire." spriteId="20"
+      spell="fireballTarget">
+      <statsModifiers />
+    </item>
+  </fireballScroll>
+
+  <teleportScroll>
+    <item name="Scroll of teleport" level="2" type="scroll"
+      description="Teleport to a random location." spriteId="21"
+      spell="teleportRandom">
+      <statsModifiers />
+    </item>
+  </teleportScroll>
+
+  <enchantArmorScroll>
+    <item name="Enchant Armor" level="4" type="scroll"
+      description="Increase armor qualities of an item." spriteId="31"
+      spell="enchantArmor">
+      <statsModifiers />
+    </item>
+  </enchantArmorScroll>
+
+  <enchantAttackScroll>
+    <item name="Enchant Attack" level="3" type="scroll"
+      description="Increase attack qualities of an item." spriteId="32"
+      spell="enchantAttack">
+      <statsModifiers />
+    </item>
+  </enchantAttackScroll>
+
+  <iceboltScroll>
+    <item name="Icebolt Scroll" level="5" type="scroll"
+      description="Fire an icebolt." spriteId="42"
+      spell="iceboltTarget">
+      <statsModifiers />
+    </item>
+  </iceboltScroll>
+
+  <regenScroll>
+    <item name="Scroll of Regeneration" level="5" type="scroll"
+      description="Regenerate health over time." spriteId="43"
+      spell="healthRegen">
+      <statsModifiers />
+    </item>
+  </regenScroll>
+
+  <lightningScroll>
+    <item name="Chain Lightning Scroll" level="6" type="scroll"
+      description="Fire a bolt of lightning." spriteId="53"
+      spell="chainLightning">
+      <statsModifiers />
+    </item>
+  </lightningScroll>
+
+  <poisonScroll>
+    <item name="Scroll of Poisoning" level="3" type="scroll"
+      description="Poison your target." spriteId="54"
+      spell="poisonTarget">
+      <statsModifiers />
+    </item>
+  </poisonScroll>
+
+  <confuseScroll>
+    <item name="Scroll of Confusion" level="6" type="scroll"
+      description="Confuse your target." spriteId="64"
+      spell="confuseTarget">
+      <statsModifiers />
+    </item>
+  </confuseScroll>
+
+  <invisibilityScroll>
+    <item name="Scroll of Invisibility" level="1" type="scroll"
+      description="Become invisible for short period of time." spriteId="65"
+      spell="invisibility">
+      <statsModifiers />
+    </item>
+  </invisibilityScroll>
+
+</items>

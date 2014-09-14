@@ -1,0 +1,88 @@
+Traps and Spells/Scrolls system
+---------------------------------
+* items (can be picked up and used)
+* traps on use are set
+* spells on use create various effects
+* traps when triggered create various effects
+* traps can be disarmed when triggered
+
+Effects
+-------------
+* targeting: item, inventory, user/triggerer, targeted field, targeted object,
+	aoe presets (line, square, random ...), closest
+* effects: direct damage, stat modification, damage over time & status ailments,
+	position change (random, targeted with limits), spawn object (count)
+* traveling: instant, projectile (which one?)
+
+Example:
+
+<lightningProjectile>
+  <projectile>
+    <file>./gfx/Lightning.png</file>
+	<width>32</width>
+	<height>32</height>
+  </projectile>
+  <space>
+    <width>1</width>
+	<height>1</height>
+  </space>
+  <movement>
+    <speed>0.25</speed>
+  </movement>
+</lightning_projectile>
+
+<chainLightning>
+  <effect>
+	<name>Chaing Lightning</name>
+	<description>blah blah</description>
+    <targeting>object</targeting>
+	<damage>10</damage>
+	<spawn>
+	  <chainLightning>
+	    <targeting>closest</targeting>
+		<count>1</count>
+		<chain>1</chain>
+	  </chainLightning>
+	</spawn>
+	<projectile>lightningProjectile</projectile>
+  </effect>
+</chainLightning>
+
+<poisonTriggerer>
+  <effect>
+    <name>Poison</name>
+	<description>...</description>
+	<targeting>user<targeting>
+	<damage>2</damage>
+	<duration>5</duration>
+	<ailment>poison</ailment>
+	<spawn>
+	</spawn>
+  </effect>
+</poison>
+
+<poisonTrap>
+  <item>
+  <itemLevel>1</itemLevel>
+  <name>Poison Trap</name>
+  <description></description>
+  <statsModifiers></statsModifiers>
+  <type>trap</type>
+  <spriteId>12</spriteId>
+  </item>
+  <trap>
+    <effect>poisonTriggerer</effect>
+  </trap>
+</poisonTrap>
+
+<chainLightningSpell>
+  <item>
+    <itemLevel>1</itemLevel>
+	<name>Chain Lightning</name>
+	<description>blah blah</description>
+	<statsModifiers></statsModifiers>
+	<type>spell</type>
+	<spriteId>10</spriteId>
+	<effect>chainLightning</effect>
+  </item>
+</chainLightningSpell>

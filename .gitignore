@@ -1,0 +1,6 @@
+build
+bin
+save/*
+data/highscore.dat
+Thumbs.db
+

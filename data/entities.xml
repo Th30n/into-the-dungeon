@@ -1,0 +1,197 @@
+<!--
+  This file contains all entities (player character and monsters)
+  for the game. AI entities need to have <ai/> component.
+  Each entity also needs to have <turnControl/> and <collider/> components.
+  Currently supported <stats/> are:
+    attack - flat bonus to weapon damage
+  armor - flat bonus to damage reduction
+  visionRange - how far the entity can see
+  experience - current experience value
+  level - current level
+  -->
+
+<entities>
+
+  <!-- Player -->
+  <!-- ignore="1" means this entity will not be generated randomly. -->
+
+  <player ignore="1">
+    <spritesheet file="gfx/hero/hero.png" width="32" height="32"/>
+    <animation frames="2" frameRate="200"/>
+    <space width="1" height="1"/>
+    <movement speed="0.25"/>
+    <collider/>
+    <turnControl team="0"/>
+    <weapon minRange="1" maxRange="1" minDamage="2" maxDamage="4"
+      accuracy="90" critChance="10">
+      <statsMultipliers attack="1"/>
+    </weapon>
+    <health max="25" light="1000">
+      <statsMultipliers endurance="5"/>
+    </health>
+    <stats level="1" visionRange="7" attack="2" armor="0"/>
+    <inventory size="20"/>
+  </player>
+
+  <!-- Other monsters -->
+
+  <skeleton>
+    <spritesheet file="gfx/Skeleton.png" width="32" height="32"/>
+    <animation frames="2" frameRate="200"/>
+    <space width="1" height="1"/>
+    <movement speed="0.25"/>
+    <collider/>
+    <turnControl team="1"/>
+    <ai />
+    <weapon minRange="1" maxRange="1" minDamage="1" maxDamage="2"
+      accuracy="70" critChance="5">
+      <statsMultipliers attack="1"/>
+    </weapon>
+    <health max="6" light="1000">
+      <statsMultipliers endurance="5"/>
+    </health>
+    <stats level="1" visionRange="6" attack="0" armor="0" experience="100"/>
+  </skeleton>
+
+  <orc>
+    <spritesheet file="gfx/Orc.png" width="32" height="32"/>
+    <animation frames="2" frameRate="200"/>
+    <space width="1" height="1"/>
+    <movement speed="0.25"/>
+    <collider />
+    <turnControl team="1"/>
+    <ai />
+    <weapon minRange="1" maxRange="1" minDamage="2" maxDamage="4"
+      accuracy="70" critChange="5">
+      <statsMultipliers attack="1"/>
+    </weapon>
+    <health max="16" light="1000">
+      <statsMultipliers />
+    </health>
+    <stats level="2" visionRange="6" attack="1" experience="200"/>
+  </orc>
+
+  <thunderbird>
+    <spritesheet file="gfx/ThunderBird.png" width="32" height="32"/>
+    <animation frames="2" frameRate="200"/>
+    <space width="1" height="1"/>
+    <movement speed="0.25"/>
+    <collider />
+    <turnControl team="1"/>
+    <ai />
+    <weapon minRange="1" maxRange="2" minDamage="5" maxDamage="8"
+      accuracy="70" critChance="5" spell="shockTrigger">
+      <statsMultipliers attack="1"/>
+      <projectile sprite="gfx/Lightning.png" width="32" height="32"
+        frames="2" frameRate="200" speed="0.25"/>
+    </weapon>
+    <health max="20" light="1000">
+      <statsMultipliers />
+    </health>
+    <stats level="3" visionRange="6" attack="2" armor="1" experience="400"/>
+  </thunderbird>
+
+  <skeletonII>
+    <spritesheet file="gfx/Skeleton2.png" width="32" height="32"/>
+    <animation frames="2" frameRate="200"/>
+    <space width="1" height="1"/>
+    <movement speed="0.25"/>
+    <collider/>
+    <turnControl team="1"/>
+    <ai />
+    <weapon minRange="1" maxRange="1" minDamage="7" maxDamage="9"
+      accuracy="80" critChance="5">
+      <statsMultipliers attack="1"/>
+    </weapon>
+    <health max="30" light="1000">
+      <statsMultipliers endurance="5"/>
+    </health>
+    <stats level="4" visionRange="6" attack="3" armor="2" experience="600"/>
+  </skeletonII>
+
+  <orcII>
+    <spritesheet file="gfx/Orc2.png" width="32" height="32"/>
+    <animation frames="2" frameRate="200"/>
+    <space width="1" height="1"/>
+    <movement speed="0.25"/>
+    <collider/>
+    <turnControl team="1"/>
+    <ai />
+    <weapon minRange="1" maxRange="1" minDamage="11" maxDamage="13"
+      accuracy="80" critChance="5" spell="lifesteal">
+      <statsMultipliers attack="1"/>
+    </weapon>
+    <health max="50" light="1000">
+      <statsMultipliers endurance="5"/>
+    </health>
+    <stats level="5" visionRange="6" attack="4" armor="2" experience="800"/>
+  </orcII>
+
+  <thunderbirdII>
+    <spritesheet file="gfx/ThunderBird.png" width="32" height="32"/>
+    <animation frames="2" frameRate="200"/>
+    <space width="1" height="1"/>
+    <movement speed="0.25"/>
+    <collider />
+    <turnControl team="1"/>
+    <ai />
+    <weapon minRange="1" maxRange="2" minDamage="14" maxDamage="17"
+      accuracy="70" critChance="5" spell="shockTrigger">
+      <statsMultipliers attack="1"/>
+      <projectile sprite="gfx/Lightning.png" width="32" height="32"
+        frames="2" frameRate="200" speed="0.25"/>
+    </weapon>
+    <health max="70" light="1000">
+      <statsMultipliers />
+    </health>
+    <stats level="6" visionRange="6" attack="5" armor="3" experience="1000"/>
+  </thunderbirdII>
+
+  <skullGolem>
+    <spritesheet file="gfx/SkullGolem.png" width="32" height="32"/>
+    <animation frames="2" frameRate="200"/>
+    <space width="1" height="1"/>
+    <movement speed="0.25"/>
+    <collider/>
+    <turnControl team="1"/>
+    <ai />
+    <weapon minRange="1" maxRange="1" minDamage="19" maxDamage="21"
+      accuracy="80" critChance="5">
+      <statsMultipliers attack="1"/>
+    </weapon>
+    <health max="100" light="1000">
+      <statsMultipliers endurance="5"/>
+    </health>
+    <stats level="8" visionRange="6" attack="6" armor="5" experience="1500"/>
+    <sightBlocker />
+  </skullGolem>
+
+<!-- Bosses -->
+
+  <dragonBoss ignore="1">
+    <spritesheet file="gfx/boss.png" width="64" height="64"/>
+    <animation frames="2" frameRate="200"/>
+    <space width="2" height="2"/>
+    <movement speed="0.25"/>
+    <collider/>
+    <turnControl team="1"/>
+    <weapon minRange="1" maxRange="6" minDamage="10" maxDamage="12"
+      accuracy="90" critChance="10">
+      <statsMultipliers attack="1"/>
+      <projectile sprite="gfx/FireBall.png" width="32" height="32"
+        frames="2" frameRate="200" speed="0.25"/>
+    </weapon>
+    <health max="100" light="1000">
+      <statsMultipliers endurance="5"/>
+    </health>
+    <ai castRate="20"/>
+    <stats level="5" visionRange="8" attack="5" armor="3" experience="1500">
+      <skills>
+        <skill name="healthRegen"/>
+        <skill name="spawnSkeleton"/>
+        <skill name="dragonFireBall"/>
+      </skills>
+    </stats>
+  </dragonBoss>
+
+</entities>

@@ -1,0 +1,229 @@
+<!--
+ All spells for the game are here.
+ <targeting> determins valid targets, it can be:
+   target - targetted game object
+   user - the caster of the spell
+ <effects> is a list of possible effects which are applied.
+ Each <effect> has:
+   type - dot, damage
+   damage - damage value
+   duration - duration if dot
+   ailment - status ailment (poisoned, immobile, confused, regen, invisible)
+ -->
+
+<spells>
+
+<!-- Healing spells -->
+
+<healI>
+  <spell name="Heal I" targeting="user"
+    description="Heals the user.">
+    <effects>
+      <effect type="heal" damage="5"/>
+    </effects>
+  </spell>
+</healI>
+
+<healII>
+  <spell name="Heal II" targeting="user"
+    description="Heals the user more.">
+    <effects>
+      <effect type="heal" damage="10"/>
+    </effects>
+  </spell>
+</healII>
+
+<healIII>
+  <spell name="Heal III" targeting="user"
+    description="Heals the user even more.">
+    <effects>
+      <effect type="heal" damage="15"/>
+    </effects>
+  </spell>
+</healIII>
+
+<!-- Trap spells -->
+
+<poisonTarget>
+  <spell name="Poison" targeting="target"
+    description="Applies poison.">
+    <effects>
+      <effect type="dot" damage="1" duration="5" ailment="poisoned"/>
+    </effects>
+  </spell>
+</poisonTarget>
+
+<spikeTarget>
+  <spell name="Spikes" targeting="target"
+    description="Spikes hurt.">
+    <effects>
+      <effect type="damage" damage="2"/>
+    </effects>
+  </spell>
+</spikeTarget>
+
+<stunTarget>
+  <spell name="Stun" targeting="target"
+    description="Stuns target">
+    <effects>
+      <effect type="dot" duration="1" ailment="immobile"/>
+      <effect type="damage" damage="1"/>
+    </effects>
+  </spell>
+</stunTarget>
+
+<!-- Weapon trigger spells -->
+<lifesteal>
+  <spell name="Lifesteal" targeting="target"
+    description="Steals target's life.">
+    <effects>
+      <effect type="lifesteal" damage="2"/>
+    </effects>
+  </spell>
+</lifesteal>
+
+<shockTrigger>
+  <spell name="Shocker" targeting="target"
+    description="Chance to stun target.">
+    <effects>
+      <effect type="trigger" spell="stunTarget" chance="5"/>
+    </effects>
+  </spell>
+</shockTrigger>
+
+<!-- Scroll spells -->
+
+<healthRegen>
+  <spell name="Health Regen" targeting="user"
+    description="Regenerates health.">
+    <effects>
+      <effect type="dot" duration="5" spell="healI" ailment="regen"/>
+    </effects>
+  </spell>
+</healthRegen>
+
+<teleportRandom>
+  <spell name="Random Teleportation" targeting="user"
+    description="Teleport to a random location.">
+    <effects>
+      <effect type="teleportRandom" />
+    </effects>
+    <preSfx type="animation" sprite="gfx/hero/hero_blink_out.png" width="32"
+      height="32" frames="8" frameRate="200"/>
+    <postSfx type="animation" sprite="gfx/hero/hero_blink_in.png" width="32"
+      height="32" frames="8" frameRate="200"/>
+  </spell>
+</teleportRandom>
+
+<invisibility>
+  <spell name="Invisibility" targeting="user"
+    description="Become invisible.">
+    <effects>
+      <effect type="dot" duration="5" ailment="invisible"/>
+    </effects>
+  </spell>
+</invisibility>
+
+<confuseTarget>
+  <spell name="Confusion" targeting="target"
+    description="Cause confusion.">
+    <effects>
+      <effect type="dot" duration="5" ailment="confused"/>
+    </effects>
+  </spell>
+</confuseTarget>
+
+<chainLightning>
+  <spell name="Chain Lightning" targeting="target"
+    description="Fire bolts of lightning."
+    bounces="2" bounceRange="3">
+    <effects>
+      <effect type="damage" damage="15"/>
+    </effects>
+    <preSfx type="projectile"  sprite="gfx/Lightning.png" width="32"
+      height="32" frames="2" frameRate="200" speed="0.25" />
+  </spell>
+</chainLightning>
+
+<iceboltTarget>
+  <spell name="Icebolt" targeting="target"
+    description="Fire an ice bolt.">
+    <effects>
+      <effect type="dot" duration="2" ailment="immobile"/>
+      <effect type="damage" damage="5"/>
+    </effects>
+    <preSfx type="projectile"  sprite="gfx/IceBolt.png" width="32"
+      height="32" frames="2" frameRate="200" speed="0.25" />
+  </iceboltTarget>
+
+  <fireballTarget>
+    <spell name="Fireball" targeting="target"
+      description="Shoot a ball of fire.">
+      <effects>
+        <effect type="damage" damage="10"/>
+      </effects>
+      <preSfx type="projectile"  sprite="gfx/FireBall.png" width="32"
+        height="32" frames="2" frameRate="200" speed="0.25" />
+    </spell>
+  </fireballTarget>
+
+  <blessInventory>
+    <spell name="Blessing" targeting="user"
+      description="Bless your items.">
+      <effects>
+        <effect type="blessing" />
+      </effects>
+    </spell>
+  </blessInventory>
+
+  <identifyItem>
+    <spell name="Identify item" targeting="item"
+      description="Identify an item.">
+      <effects>
+        <effect type="identify" />
+      </effects>
+    </spell>
+  </identifyItem>
+
+  <enchantArmor>
+    <spell name="Enchant armor" targeting="item"
+      description="Improve item's armor.">
+      <effects>
+        <effect type="itemMod" armor="1" />
+      </effects>
+    </spell>
+  </enchantArmor>
+
+  <enchantAttack>
+    <spell name="Enchant attack" targeting="item"
+      description="Improve item's attack.">
+      <effects>
+        <effect type="itemMod" attack="1" />
+      </effects>
+    </spell>
+  </enchantAttack>
+
+<!-- Boss spells -->
+
+<spawnSkeleton>
+  <spell name="Spawn Skeleton" targeting="adjacentField"
+    description="Spawn a skeleton.">
+    <effects>
+      <effect type="spawnEntity" entity="skeleton" />
+    </effects>
+  </spell>
+</spawnSkeleton>
+
+<dragonFireBall>
+  <spell name="Dragon FireBall" targeting="targetField"
+    description="Dragon Boss' FireBall." aoe="square" radius="2">
+    <effects>
+      <effect type="damage" damage="10"/>
+    </effects>
+    <preSfx type="projectile"  sprite="gfx/DragonFireBall.png" width="64"
+      height="64" xOffset="-32" yOffset="-32"
+      frames="2" frameRate="200" speed="0.25" />
+  </spell>
+</dragonFireBall>
+
+</spells>
