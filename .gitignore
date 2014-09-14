@@ -1,4 +1,5 @@
 build
+clang-build
 bin
 save/*
 data/highscore.dat
