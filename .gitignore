@@ -1,7 +1,6 @@
-build
-clang-build
+*build
 bin
-save/*
-data/highscore.dat
+save
+highscore.dat
 Thumbs.db
 
