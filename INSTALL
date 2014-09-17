@@ -1,0 +1,35 @@
+1. Prerequisites
+
+The following libraries are required:
+
+  libsdl >= 1.2
+  libsdl-image >= 1.2
+  libsdl-mixer >= 1.2
+
+For building you will also need:
+
+  gcc >= 4.8
+  make >= 4.0
+  cmake >= 3.0
+
+2. Building & Installing
+
+Out of source build with cmake is preferred.
+The simplest way to build is the following:
+
+  $ mkdir build && cd build
+  $ cmake ..
+  $ make
+
+And then you can install with (which might require root using su or sudo):
+
+  # make install
+
+If you want to use a different generator with cmake, for example if you are
+on Windows and want to build with CodeBlocks use -G <generator_name> when
+calling cmake:
+
+  $ mkdir build && cd build
+  $ cmake -G "CodeBlocks" ..
+
+Then open the generated project in CodeBlocks and build from there.
