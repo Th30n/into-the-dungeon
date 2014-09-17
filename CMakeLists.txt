@@ -15,17 +15,36 @@ set (ITD++_VERSION_PATCH 1)
 # Always check for warnings
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
+# Disable absolute path install destinations
+set(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION ON)
+
 add_subdirectory(src)
 
 # Install paths
 # Default prefix is /usr/local or C:\Program Files based on OS.
-set(CMAKE_INSTALL_PREFIX ${ITD++_SOURCE_DIR}/IntoTheDungeon++)
+# To change prefix use 'make DESTDIR=prefix_before_default'
 
-install(DIRECTORY gfx/ DESTINATION gfx
+# set(CMAKE_INSTALL_PREFIX ${ITD++_SOURCE_DIR}/IntoTheDungeon++)
+
+if(${WIN32})
+  # C:\Program Files\IntoTheDungeon++
+  set(BIN_DIR "IntoTheDungeon++/bin/")
+  set(DATA_DIR "IntoTheDungeon++/")
+  set(USER_DATA_DIR ${DATA_DIR})
+else()
+  # /usr/local/bin
+  set(BIN_DIR "bin/")
+  # /usr/local/share/IntoTheDungeon++
+  set(DATA_DIR "share/IntoTheDungeon++/")
+endif()
+
+install(DIRECTORY gfx/ DESTINATION ${DATA_DIR}gfx
   PATTERN Thumbs.db EXCLUDE)
-install(DIRECTORY audio/ DESTINATION audio)
-install(DIRECTORY data/ DESTINATION data PATTERN highscore.dat EXCLUDE)
-install(DIRECTORY DESTINATION save)
+install(DIRECTORY audio/ DESTINATION ${DATA_DIR}audio)
+install(DIRECTORY data/ DESTINATION ${DATA_DIR}data
+  PATTERN highscore.dat EXCLUDE)
+# Save should be created from the game
+# install(DIRECTORY DESTINATION ${USER_DATA_DIR}save)
 
 include(InstallRequiredSystemLibraries)
 
