@@ -41,5 +41,5 @@ set(CPACK_PACKAGE_VERSION_MINOR ${ITD++_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${ITD++_VERSION_PATCH})
 
 # CPack settings for source package
-set(CPACK_SOURCE_IGNORE_FILES .git* build clang-build .swp$ save highscore.dat)
+set(CPACK_SOURCE_IGNORE_FILES .git* Thumbs.db build .swp$ save highscore.dat)
 include(CPack)
