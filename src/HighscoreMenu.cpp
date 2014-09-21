@@ -23,6 +23,7 @@
 #include "CApp.h"
 #include "CText.h"
 #include "CSurface.h"
+#include "data/dirs.h"
 #include "StateMachine.h"
 
 #define HIGHSCORE_ITEMS 10
@@ -53,7 +54,7 @@ void HighscoreMenu::deleteSurfaces()
 void HighscoreMenu::initializeSurfaces()
 {
   if (background_ == NULL)
-    background_ = CSurface::OnLoad("./gfx/UI/MENU_BACKGROUND_800x600.png");
+    background_ = CSurface::OnLoad(data::FindFile("gfx/UI/MENU_BACKGROUND_800x600.png").c_str());
 }
   
 void HighscoreMenu::Enter(CApp* app)

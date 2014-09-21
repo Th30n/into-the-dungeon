@@ -29,6 +29,7 @@
 #include "CSurface.h"
 #include "CCamera.h"
 #include "CTile.h"
+#include "data/dirs.h"
 #include "EntityManager.h"
 #include "HealthComponent.h"
 #include "InventoryComponent.h"
@@ -76,33 +77,32 @@ bool CHud::OnLoad()
 {
   hud_inventory_.OnLoad();
   hud_targeting_.OnLoad();
-  if ((Surf_Interface = CSurface::OnLoad("./gfx/UI/HUD.png")) == false)
+  if (!(Surf_Interface = CSurface::OnLoad(data::FindFile("gfx/UI/HUD.png").c_str())))
+  {
+    return false;
+  }
+  if (!(Surf_HPGlobe = CSurface::OnLoad(data::FindFile("gfx/UI/health.png").c_str())))
   {
     return false;
   }
   
-  if ((Surf_HPGlobe = CSurface::OnLoad("./gfx/UI/health.png")) == false)
+  if (!(Surf_WinScreen = CSurface::OnLoad(data::FindFile("gfx/UI/WinScreen.png").c_str())))
   {
     return false;
   }
-  
-  if ((Surf_WinScreen = CSurface::OnLoad("./gfx/UI/WinScreen.png")) == false)
+  if (!(Surf_DeathScreen = CSurface::OnLoad(data::FindFile("gfx/UI/DeathScreen.png").c_str())))
   {
     return false;
   }
-  if ((Surf_DeathScreen = CSurface::OnLoad("./gfx/UI/DeathScreen.png")) == false)
+  if (!(Surf_FoV = CSurface::OnLoad(data::FindFile("gfx/UI/FoV.png").c_str())))
   {
     return false;
   }
-  if ((Surf_FoV = CSurface::OnLoad("./gfx/UI/FoV.png")) == false)
+  if (!(Surf_HelpScreen = CSurface::OnLoad(data::FindFile("gfx/UI/HelpScreen.png").c_str())))
   {
     return false;
   }
-  if ((Surf_HelpScreen = CSurface::OnLoad("./gfx/UI/HelpScreen.png")) == false)
-  {
-    return false;
-  }
-  if ((Surf_Candle = CSurface::OnLoad("./gfx/UI/Candle.png")) == false)
+  if (!(Surf_Candle = CSurface::OnLoad(data::FindFile("gfx/UI/Candle.png").c_str())))
   {
     return false;
   }

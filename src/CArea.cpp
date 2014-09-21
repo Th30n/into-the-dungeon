@@ -22,6 +22,7 @@
 #include "CArea.h"
 #include "CSurface.h"
 #include "CMap.h"
+#include "data/dirs.h"
 
 int CArea::dungeon_level = 1;
 CArea CArea::area_control;
@@ -34,15 +35,15 @@ bool CArea::OnLoad()
 {
   map_list.clear();
   
-  if ((surf_tileset = CSurface::OnLoad("./gfx/Tileset.png")) == false)
+  if (!(surf_tileset = CSurface::OnLoad(data::FindFile("gfx/Tileset.png").c_str())))
   {
     return false;
   }
-  if ((surf_fog_ = CSurface::OnLoad("./gfx/Fog.png")) == false)
+  if (!(surf_fog_ = CSurface::OnLoad(data::FindFile("gfx/Fog.png").c_str())))
   {
     return false;
   }
-  if ((surf_mini_tileset_ = CSurface::OnLoad("./gfx/MiniTileset.png")) == false)
+  if (!(surf_mini_tileset_ = CSurface::OnLoad(data::FindFile("gfx/MiniTileset.png").c_str())))
   {
     return false;
   }

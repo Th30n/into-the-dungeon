@@ -21,6 +21,10 @@
  */
 #include "CMusic.h"
 
+#include <string>
+
+#include "data/dirs.h"
+
 CMusic CMusic::SoundControl;
 
 CMusic::CMusic()
@@ -96,62 +100,72 @@ void CMusic::PlaySFX(Mix_Chunk *sound, int loop_number)
   SoundVariance();
 }
 
+static Mix_Chunk *loadWAV(const char *filename)
+{
+  std::string path = data::FindFile(filename);
+  if (path.empty()) {
+    return 0;
+  }
+  return Mix_LoadWAV(path.c_str());
+
+}
+
 bool CMusic::LoadSounds()
 {
   bool Return = false;
   
-  if ((EquipChest1 = Mix_LoadWAV("./audio/sounds/chest_equip_1.ogg")) &&
-      (EquipChest2 = Mix_LoadWAV("./audio/sounds/chest_equip_2.ogg")) &&
-      (DoorOpen1 = Mix_LoadWAV("./audio/sounds/door_open_1.ogg")) &&
-      (DoorOpen2 = Mix_LoadWAV("./audio/sounds/door_open_2.ogg")) &&
-      (EquipFeet1 = Mix_LoadWAV("./audio/sounds/feet_equip_1.ogg")) &&
-      (EquipFeet2 = Mix_LoadWAV("./audio/sounds/feet_equip_2.ogg")) &&
-      (EquipHead1 = Mix_LoadWAV("./audio/sounds/head_equip_1.ogg")) &&
-      (EquipHead2 = Mix_LoadWAV("./audio/sounds/head_equip_2.ogg")) &&
-      (Walk1 = Mix_LoadWAV("./audio/sounds/walk_1.ogg")) &&
-      (Walk2 = Mix_LoadWAV("./audio/sounds/walk_2.ogg")) &&
-      (MaceHit1 = Mix_LoadWAV("./audio/sounds/mace_hit_1.ogg")) &&
-      (MaceHit2 = Mix_LoadWAV("./audio/sounds/mace_hit_2.ogg")) &&
-      (NeckSound1 = Mix_LoadWAV("./audio/sounds/neck_sound_1.ogg")) &&
-      (NeckSound2 = Mix_LoadWAV("./audio/sounds/neck_sound_2.ogg")) &&
-      (PotionSound1 = Mix_LoadWAV("./audio/sounds/potion_sound_1.ogg")) &&
-      (PotionSound2 = Mix_LoadWAV("./audio/sounds/potion_sound_2.ogg")) &&
-      (ScrollSound1 = Mix_LoadWAV("./audio/sounds/scroll_sound_1.ogg")) &&
-      (ScrollSound2 = Mix_LoadWAV("./audio/sounds/scroll_sound_2.ogg")) &&
-      (SwordHit1 = Mix_LoadWAV("./audio/sounds/sword_hit_1.ogg")) &&
-      (SwordHit2 = Mix_LoadWAV("./audio/sounds/sword_hit_2.ogg")) &&
-      (LevelUp = Mix_LoadWAV("./audio/sounds/level_up.ogg")) &&
-      (Descend = Mix_LoadWAV("./audio/sounds/descend.ogg")) &&
-      (Drink1 = Mix_LoadWAV("./audio/sounds/drink_1.ogg")) &&
-      (Drink2 = Mix_LoadWAV("./audio/sounds/drink_2.ogg")) &&
-      (Miss1 = Mix_LoadWAV("./audio/sounds/miss_1.ogg")) &&
-      (Miss2 = Mix_LoadWAV("./audio/sounds/miss_2.ogg")) &&
-      (Drop1 = Mix_LoadWAV("./audio/sounds/drop_1.ogg")) &&
-      (Drop2 = Mix_LoadWAV("./audio/sounds/drop_2.ogg")) &&
-      (ProjectileHit1 = Mix_LoadWAV("./audio/sounds/projectile_hit_1.ogg")) &&
-      (ProjectileHit2 = Mix_LoadWAV("./audio/sounds/projectile_hit_2.ogg")) &&
-      (EquipWeapon1 = Mix_LoadWAV("./audio/sounds/weapon_equip_1.ogg")) &&
-      (EquipWeapon2 = Mix_LoadWAV("./audio/sounds/weapon_equip_2.ogg")) &&
-      (EquipShield1 = Mix_LoadWAV("./audio/sounds/shield_equip_1.ogg")) &&
-      (EquipShield2 = Mix_LoadWAV("./audio/sounds/shield_equip_2.ogg")) &&
-      (EquipRing1 = Mix_LoadWAV("./audio/sounds/ring_equip_1.ogg")) &&
-      (EquipRing2 = Mix_LoadWAV("./audio/sounds/ring_equip_2.ogg")) &&
-      (EquipNeck1 = Mix_LoadWAV("./audio/sounds/neck_equip_1.ogg")) &&
-      (EquipNeck2 = Mix_LoadWAV("./audio/sounds/neck_equip_2.ogg")) &&
-      (WeaponSound1 = Mix_LoadWAV("./audio/sounds/weapon_sound_1.ogg")) &&
-      (WeaponSound2 = Mix_LoadWAV("./audio/sounds/weapon_sound_2.ogg")) &&
-      (ShieldSound1 = Mix_LoadWAV("./audio/sounds/shield_sound_1.ogg")) &&
-      (ShieldSound2 = Mix_LoadWAV("./audio/sounds/shield_sound_2.ogg")) &&
-      (HeadSound1 = Mix_LoadWAV("./audio/sounds/head_sound_1.ogg")) &&
-      (HeadSound2 = Mix_LoadWAV("./audio/sounds/head_sound_2.ogg")) &&
-      (ChestSound1 = Mix_LoadWAV("./audio/sounds/chest_sound_1.ogg")) &&
-      (ChestSound2 = Mix_LoadWAV("./audio/sounds/chest_sound_2.ogg")) &&
-      (FeetSound1 = Mix_LoadWAV("./audio/sounds/feet_sound_1.ogg")) &&
-      (FeetSound2 = Mix_LoadWAV("./audio/sounds/feet_sound_2.ogg")) &&
-      (RingSound1 = Mix_LoadWAV("./audio/sounds/ring_sound_1.ogg")) &&
-      (RingSound2 = Mix_LoadWAV("./audio/sounds/ring_sound_2.ogg")) &&
-      (TurnPage1 = Mix_LoadWAV("./audio/sounds/turn_page_1.ogg")) &&
-      (TurnPage2 = Mix_LoadWAV("./audio/sounds/turn_page_2.ogg"))) {
+  if ((EquipChest1 = loadWAV("audio/sounds/chest_equip_1.ogg")) &&
+      (EquipChest2 = loadWAV("audio/sounds/chest_equip_2.ogg")) &&
+      (DoorOpen1 = loadWAV("audio/sounds/door_open_1.ogg")) &&
+      (DoorOpen2 = loadWAV("audio/sounds/door_open_2.ogg")) &&
+      (EquipFeet1 = loadWAV("audio/sounds/feet_equip_1.ogg")) &&
+      (EquipFeet2 = loadWAV("audio/sounds/feet_equip_2.ogg")) &&
+      (EquipHead1 = loadWAV("audio/sounds/head_equip_1.ogg")) &&
+      (EquipHead2 = loadWAV("audio/sounds/head_equip_2.ogg")) &&
+      (Walk1 = loadWAV("audio/sounds/walk_1.ogg")) &&
+      (Walk2 = loadWAV("audio/sounds/walk_2.ogg")) &&
+      (MaceHit1 = loadWAV("audio/sounds/mace_hit_1.ogg")) &&
+      (MaceHit2 = loadWAV("audio/sounds/mace_hit_2.ogg")) &&
+      (NeckSound1 = loadWAV("audio/sounds/neck_sound_1.ogg")) &&
+      (NeckSound2 = loadWAV("audio/sounds/neck_sound_2.ogg")) &&
+      (PotionSound1 = loadWAV("audio/sounds/potion_sound_1.ogg")) &&
+      (PotionSound2 = loadWAV("audio/sounds/potion_sound_2.ogg")) &&
+      (ScrollSound1 = loadWAV("audio/sounds/scroll_sound_1.ogg")) &&
+      (ScrollSound2 = loadWAV("audio/sounds/scroll_sound_2.ogg")) &&
+      (SwordHit1 = loadWAV("audio/sounds/sword_hit_1.ogg")) &&
+      (SwordHit2 = loadWAV("audio/sounds/sword_hit_2.ogg")) &&
+      (LevelUp = loadWAV("audio/sounds/level_up.ogg")) &&
+      (Descend = loadWAV("audio/sounds/descend.ogg")) &&
+      (Drink1 = loadWAV("audio/sounds/drink_1.ogg")) &&
+      (Drink2 = loadWAV("audio/sounds/drink_2.ogg")) &&
+      (Miss1 = loadWAV("audio/sounds/miss_1.ogg")) &&
+      (Miss2 = loadWAV("audio/sounds/miss_2.ogg")) &&
+      (Drop1 = loadWAV("audio/sounds/drop_1.ogg")) &&
+      (Drop2 = loadWAV("audio/sounds/drop_2.ogg")) &&
+      (ProjectileHit1 = loadWAV("audio/sounds/projectile_hit_1.ogg")) &&
+      (ProjectileHit2 = loadWAV("audio/sounds/projectile_hit_2.ogg")) &&
+      (EquipWeapon1 = loadWAV("audio/sounds/weapon_equip_1.ogg")) &&
+      (EquipWeapon2 = loadWAV("audio/sounds/weapon_equip_2.ogg")) &&
+      (EquipShield1 = loadWAV("audio/sounds/shield_equip_1.ogg")) &&
+      (EquipShield2 = loadWAV("audio/sounds/shield_equip_2.ogg")) &&
+      (EquipRing1 = loadWAV("audio/sounds/ring_equip_1.ogg")) &&
+      (EquipRing2 = loadWAV("audio/sounds/ring_equip_2.ogg")) &&
+      (EquipNeck1 = loadWAV("audio/sounds/neck_equip_1.ogg")) &&
+      (EquipNeck2 = loadWAV("audio/sounds/neck_equip_2.ogg")) &&
+      (WeaponSound1 = loadWAV("audio/sounds/weapon_sound_1.ogg")) &&
+      (WeaponSound2 = loadWAV("audio/sounds/weapon_sound_2.ogg")) &&
+      (ShieldSound1 = loadWAV("audio/sounds/shield_sound_1.ogg")) &&
+      (ShieldSound2 = loadWAV("audio/sounds/shield_sound_2.ogg")) &&
+      (HeadSound1 = loadWAV("audio/sounds/head_sound_1.ogg")) &&
+      (HeadSound2 = loadWAV("audio/sounds/head_sound_2.ogg")) &&
+      (ChestSound1 = loadWAV("audio/sounds/chest_sound_1.ogg")) &&
+      (ChestSound2 = loadWAV("audio/sounds/chest_sound_2.ogg")) &&
+      (FeetSound1 = loadWAV("audio/sounds/feet_sound_1.ogg")) &&
+      (FeetSound2 = loadWAV("audio/sounds/feet_sound_2.ogg")) &&
+      (RingSound1 = loadWAV("audio/sounds/ring_sound_1.ogg")) &&
+      (RingSound2 = loadWAV("audio/sounds/ring_sound_2.ogg")) &&
+      (TurnPage1 = loadWAV("audio/sounds/turn_page_1.ogg")) &&
+      (TurnPage2 = loadWAV("audio/sounds/turn_page_2.ogg"))) {
     Return = true;
   }
   

@@ -28,6 +28,7 @@
 #include "COptions.h"
 #include "CSurface.h"
 #include "CText.h"
+#include "data/dirs.h"
 #include "Define.h"
 #include "EntityManager.h"
 #include "HealthComponent.h"
@@ -56,7 +57,7 @@ HudTargeting::~HudTargeting()
 
 bool HudTargeting::OnLoad()
 {
-  target_image_ = CSurface::OnLoad("gfx/UI/Target.png");
+  target_image_ = CSurface::OnLoad(data::FindFile("gfx/UI/Target.png").c_str());
   return true;
 }
 

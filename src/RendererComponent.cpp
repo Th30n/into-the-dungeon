@@ -26,6 +26,7 @@
 #include "CSurface.h"
 #include "CCamera.h"
 #include "ComponentFactory.h"
+#include "data/dirs.h"
 #include "iml/IMLNode.h"
 #include "iml/utils.h"
 #include "SpaceComponent.h"
@@ -59,7 +60,7 @@ void RendererComponent::start()
 
 void RendererComponent::loadIML(const IMLNode &node)
 {
-  gfx_filename_ = iml::getAttribute(node, "file");
+  gfx_filename_ = data::FindFile(iml::getAttribute(node, "file").c_str());
   width = atoi(iml::getAttribute(node, "width", "32").c_str());
   height = atoi(iml::getAttribute(node, "height", "32").c_str());
   x_offset = atoi(iml::getAttribute(node, "xOffset", "0").c_str());

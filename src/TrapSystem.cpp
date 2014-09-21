@@ -25,6 +25,7 @@
 #include <vector>
 
 #include "CollisionComponent.h"
+#include "data/dirs.h"
 #include "EntityManager.h"
 #include "ParticleComponent.h"
 #include "Rectangle.h"
@@ -113,7 +114,7 @@ static void createParticle(Vector2f pos)
   }
   SpaceComponent *part_space = new SpaceComponent();
   part_space->pos = pos;
-  RendererComponent *sprite = new RendererComponent("gfx/UI/TrapTrig.png");
+  RendererComponent *sprite = new RendererComponent(data::FindFile("gfx/UI/TrapTrig.png").c_str());
   sprite->width = 40;
   sprite->height = 16;
   sprite->x_offset = 0;

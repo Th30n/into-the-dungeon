@@ -27,6 +27,7 @@
 #include "CSurface.h"
 #include "CCamera.h"
 #include "CMusic.h"
+#include "data/dirs.h"
 #include "DOTComponent.h"
 #include "EntityFactory.h"
 #include "EntityManager.h"
@@ -44,7 +45,7 @@ bool CApp::OnInit()
     return false;
   }
   
-  if ((Surf_WIcon = SDL_LoadBMP("./gfx/ITD++.bmp")) == NULL)
+  if (!(Surf_WIcon = SDL_LoadBMP(data::FindFile("gfx/ITD++.bmp").c_str())))
   {
     return false;
   }
@@ -71,7 +72,7 @@ bool CApp::OnInit()
     Surf_Display = SDL_SetVideoMode(ScreenWidth, ScreenHeight, 32, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
   }
   
-  if ((Surf_LoadScreen = CSurface::OnLoad("./gfx/UI/MENU_BACKGROUND_800x600.png")) == NULL)
+  if (!(Surf_LoadScreen = CSurface::OnLoad(data::FindFile("gfx/UI/MENU_BACKGROUND_800x600.png").c_str())))
   {
     return false;
   }
@@ -90,7 +91,7 @@ bool CApp::OnInit()
     return false;
   }
   
-  if (!(ItemRenderSystem::surf_items = CSurface::OnLoad("./gfx/Items.png")))
+  if (!(ItemRenderSystem::surf_items = CSurface::OnLoad(data::FindFile("gfx/Items.png").c_str())))
   {
     return false;
   }
@@ -110,9 +111,9 @@ bool CApp::OnInit()
     setSurf_Text("NoSound");
   }
   
-  if (((Music = CMusic::OnLoad("./audio/BGM/ITDInGame.ogg")) == NULL) ||
-      ((MusicBoss = CMusic::OnLoad("./audio/BGM/ITDBossFight.ogg")) == NULL) ||
-        ((MusicIntro = CMusic::OnLoad("./audio/BGM/ITDIntro.ogg")) == NULL))
+  if (!(Music = CMusic::OnLoad(data::FindFile("audio/BGM/ITDInGame.ogg").c_str())) ||
+      !(MusicBoss = CMusic::OnLoad(data::FindFile("audio/BGM/ITDBossFight.ogg").c_str())) ||
+        !(MusicIntro = CMusic::OnLoad(data::FindFile("audio/BGM/ITDIntro.ogg").c_str())))
   {
     setSurf_Text("Unable to open music");
   }
@@ -124,7 +125,9 @@ bool CApp::OnInit()
   
   CMusic::SoundControl.Play(MusicIntro, -1);
   
-  if ((Surf_TextOverlay = CSurface::OnLoad("./gfx/UI/Text.png")) == NULL) return false;
+  if (!(Surf_TextOverlay = CSurface::OnLoad(data::FindFile("gfx/UI/Text.png").c_str()))) {
+    return false;
+  }
   
   //SDL_EnableKeyRepeat(1, SDL_DEFAULT_REPEAT_INTERVAL / 3);
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);

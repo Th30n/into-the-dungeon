@@ -26,6 +26,7 @@
 
 #include "AIComponent.h"
 #include "AnimationComponent.h"
+#include "data/dirs.h"
 #include "EntityManager.h"
 #include "EntityFactory.h"
 #include "HealthComponent.h"
@@ -242,7 +243,8 @@ GameObject AISystem::getAdjacentField(GameObject obj)
   GameObject field = em.createEntity();
   SpaceComponent *field_space = new SpaceComponent();
   field_space->pos = adjacent_fields[picker];
-  RendererComponent *field_image = new RendererComponent("gfx/UI/Target.png");
+  RendererComponent *field_image =
+      new RendererComponent(data::FindFile("gfx/UI/Target.png").c_str());
   field_image->width = 32;
   field_image->height = 32;
   field_image->start();

@@ -24,6 +24,7 @@
 
 #include <cstdlib>
 
+#include "data/dirs.h"
 #include "iml/IMLNode.h"
 #include "iml/IMLTag.h"
 #include "iml/utils.h"
@@ -46,7 +47,7 @@ COptions::~COptions()
 
 void COptions::LoadOptions()
 {
-  options_iml_ = iml::openIML("data/options.xml");
+  options_iml_ = iml::openIML(data::FindFile("data/options.xml").c_str());
   //options_iml_->print();
   IMLNode &screen = *options_iml_->findByName("screen");
   int val = atoi(iml::getAttribute(screen, "windowed", "1").c_str());
@@ -79,7 +80,7 @@ void COptions::setWindowed(bool value)
   }
   is_windowed_ = value;
   //options_iml_->print();
-  iml::saveIML(*options_iml_, "data/options.xml");
+  iml::saveIML(*options_iml_, data::FindFile("data/options.xml").c_str());
 }
 
 int COptions::getScreenWidth()
@@ -107,5 +108,5 @@ void COptions::setNewbieTips(bool value)
   }
   newbie_tips_on_ = value;
   //options_iml_->print();
-  iml::saveIML(*options_iml_, "data/options.xml");
+  iml::saveIML(*options_iml_, data::FindFile("data/options.xml").c_str());
 }

@@ -23,10 +23,11 @@
 
 #include <iostream>
 
-#include "StateMachine.h"
-#include "GameStates.h"
-#include "CText.h"
 #include "CSurface.h"
+#include "CText.h"
+#include "data/dirs.h"
+#include "GameStates.h"
+#include "StateMachine.h"
 
 Mix_Music *CApp::Music = NULL;
 Mix_Music *CApp::MusicBoss = NULL;
@@ -126,7 +127,7 @@ void CApp::exitWithError(std::string Error)
 
 int main(int argc, char *argv[])
 {
-  std::cout << argv[0] << std::endl;
+  data::SetExeName(argv[0]);
 
   CApp MyRoguelike;
   

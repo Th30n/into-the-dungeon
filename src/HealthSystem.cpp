@@ -27,6 +27,7 @@
 #include "CMusic.h"
 #include "CSurface.h"
 #include "DamageIndicatorComponent.h"
+#include "data/dirs.h"
 #include "Define.h"
 #include "EntityManager.h"
 #include "HealthComponent.h"
@@ -303,7 +304,7 @@ static void createParticleEffect(Vector2f pos)
   }
   SpaceComponent *space = new SpaceComponent();
   space->pos = pos;
-  RendererComponent *sprite = new RendererComponent("gfx/UI/LevelUp.png");
+  RendererComponent *sprite = new RendererComponent(data::FindFile("gfx/UI/LevelUp.png").c_str());
   sprite->width = 114;
   sprite->height = 24;
   sprite->x_offset = -42;

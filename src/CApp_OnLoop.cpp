@@ -28,6 +28,7 @@
 #include "CFPS.h"
 #include "CCamera.h"
 #include "CMusic.h"
+#include "data/dirs.h"
 #include "DOTSystem.h"
 #include "EntityManager.h"
 #include "HealthSystem.h"
@@ -81,7 +82,7 @@ void CApp::OnLoop()
   projectileSystem.update();
   TrapSystem traps;
   traps.update();
-  HealthSystem hps("./gfx/UI/Text.png", "./gfx/Status.png");
+  HealthSystem hps(data::FindFile("gfx/UI/Text.png").c_str(), data::FindFile("gfx/Status.png"));
   hps.start();
   hps.update();
   turnSystem.update();

@@ -29,6 +29,7 @@
 #include "CSurface.h"
 #include "CCamera.h"
 #include "CTile.h"
+#include "data/dirs.h"
 #include "EntityManager.h"
 #include "HealthComponent.h"
 #include "HealthSystem.h"
@@ -128,7 +129,7 @@ void CApp::OnRender()
   irs.render(Surf_Display);
   RenderSystem rs;
   rs.render(Surf_Display);
-  HealthSystem hps("./gfx/UI/Text.png", "./gfx/Status.png");
+  HealthSystem hps(data::FindFile("gfx/UI/Text.png").c_str(), data::FindFile("gfx/Status.png").c_str());
   hps.start();
   hps.render(Surf_Display);
   CHud::HUD.OnRender(Surf_Display);

@@ -38,5 +38,5 @@ std::string getAttribute(const IMLNode &node, std::string key);
 std::string getAttribute(const IMLNode &node, std::string key, std::string def);
 std::vector<IMLNode*> getChildrenTags(const IMLNode &node);
 
-};
+} // namespace iml
 #endif

@@ -23,6 +23,7 @@
 #include "CText.h"
 #include "CApp.h"
 #include "CSurface.h"
+#include "data/dirs.h"
 #include "IAction.h"
 #include "Button.h"
 #include "Rectangle.h"
@@ -138,16 +139,16 @@ void OptionsMenu::initGUI()
   toggle_tutorial_action_  = new ToggleTutorialAction();
   
   Rectangle rect(756, 402, 16, 16);
-  Button *button = new Button(rect, CSurface::OnLoad("./gfx/UI/options/checkbox.png"));
-  button->setHighlightImage(CSurface::OnLoad("./gfx/UI/options/checkbox_2.png"));
+  Button *button = new Button(rect, CSurface::OnLoad(data::FindFile("gfx/UI/options/checkbox.png").c_str()));
+  button->setHighlightImage(CSurface::OnLoad(data::FindFile("gfx/UI/options/checkbox_2.png").c_str()));
   button->setAction(toggle_fullscreen_action_);
   button->setId(HIGHLIGHT_FULLSCREEN);
   buttons_.push_back(button);
   
   rect.setX(727);
   rect.setY(442);
-  button = new Button(rect, CSurface::OnLoad("./gfx/UI/options/checkbox.png"));
-  button->setHighlightImage(CSurface::OnLoad("./gfx/UI/options/checkbox_2.png"));
+  button = new Button(rect, CSurface::OnLoad(data::FindFile("gfx/UI/options/checkbox.png").c_str()));
+  button->setHighlightImage(CSurface::OnLoad(data::FindFile("gfx/UI/options/checkbox_2.png").c_str()));
   button->setAction(toggle_tutorial_action_);
   button->setId(HIGHLIGHT_TUTORIAL);
   buttons_.push_back(button);
@@ -158,16 +159,16 @@ void OptionsMenu::initGUI()
 void OptionsMenu::initializeSurfaces()
 {
   if (background_ == NULL)
-    background_ = CSurface::OnLoad("./gfx/UI/MENU_BACKGROUND_800x600.png");
+    background_ = CSurface::OnLoad(data::FindFile("gfx/UI/MENU_BACKGROUND_800x600.png").c_str());
   if (logo_ == NULL)
-    logo_ = CSurface::OnLoad("./gfx/UI/ITD++_MENU_LOGO.png");
+    logo_ = CSurface::OnLoad(data::FindFile("gfx/UI/ITD++_MENU_LOGO.png").c_str());
   if (fullscreen_option_ == NULL)
-    fullscreen_option_ = CSurface::OnLoad("./gfx/UI/options/fullscreen.png");
+    fullscreen_option_ = CSurface::OnLoad(data::FindFile("gfx/UI/options/fullscreen.png").c_str());
   if (tutorial_option_ == NULL)
-    tutorial_option_ = CSurface::OnLoad("./gfx/UI/options/tutorial.png");
+    tutorial_option_ = CSurface::OnLoad(data::FindFile("gfx/UI/options/tutorial.png").c_str());
 
   if (checkmark_ == NULL)
-    checkmark_ = CSurface::OnLoad("./gfx/UI/options/check.png");
+    checkmark_ = CSurface::OnLoad(data::FindFile("gfx/UI/options/check.png").c_str());
 }
   
 void OptionsMenu::Enter(CApp* app)

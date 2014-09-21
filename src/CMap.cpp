@@ -20,8 +20,12 @@
  * Author(s): Teon Banek <intothedungeon@gmail.com>
  */
 #include "CMap.h"
+
+#include <string>
+
 #include "CSurface.h"
 #include "COptions.h"
+#include "data/dirs.h"
 
 CMap::CMap() : surf_tileset(0), surf_fog(0), surf_mini_tileset(0), fow_on(true)
 {
@@ -486,9 +490,10 @@ void CMap::NextLevel()
 bool CMap::BossLevel()
 {
   FILE *fBossLevel;
+  std::string path = data::FindFile("data/boss1.map");
   
-  if ((fBossLevel = fopen("./data/boss1.map", "r")) == NULL) {
-    fprintf(stderr, "BossLevel(): Unable to open data/boss1.map\n");
+  if (!path.empty() && (fBossLevel = fopen(path.c_str(), "r")) == NULL) {
+    fprintf(stderr, "BossLevel(): Unable to open %s\n", path.c_str());
     return false;
   }
   

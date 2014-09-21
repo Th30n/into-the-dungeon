@@ -18,7 +18,7 @@ set(
     StatsComponent.cpp TrapComponent.cpp TrapSystem.cpp TurnComponent.cpp
     TurnSystem.cpp Vector2f.cpp Visibility.cpp WeaponComponent.cpp
     WeaponSystem.cpp iml/IMLComment.cpp iml/IMLNode.cpp iml/IMLParser.cpp
-    iml/IMLTag.cpp iml/IMLValue.cpp iml/utils.cpp
+    iml/IMLTag.cpp iml/IMLValue.cpp iml/utils.cpp data/dirs.cpp
 )
 
 include_directories(${SDL_INCLUDE_DIR} ${SDL_IMAGE_INCLUDE_DIRS}

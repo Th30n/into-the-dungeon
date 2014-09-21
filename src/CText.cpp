@@ -24,6 +24,7 @@
 #include "CFPS.h"
 #include "CText.h"
 #include "CSurface.h"
+#include "data/dirs.h"
 
 CText CText::TextControl;
 
@@ -42,17 +43,17 @@ CText::CText()
 
 bool CText::OnLoad()
 {
-  bmp_font_small_ = CSurface::OnLoad("./gfx/UI/font_small.png");
+  bmp_font_small_ = CSurface::OnLoad(data::FindFile("gfx/UI/font_small.png").c_str());
   if (!bmp_font_small_) {
     return false;
   }
   
-  bmp_font_medium_bold_ = CSurface::OnLoad("./gfx/UI/font_medium_bold.png");
+  bmp_font_medium_bold_ = CSurface::OnLoad(data::FindFile("gfx/UI/font_medium_bold.png").c_str());
   if (!bmp_font_medium_bold_) {
     return false;
   }
   
-  window_tiles_ = CSurface::OnLoad("./gfx/UI/ITD_windows.png");
+  window_tiles_ = CSurface::OnLoad(data::FindFile("gfx/UI/ITD_windows.png").c_str());
   if (!window_tiles_) {
     return false;
   }

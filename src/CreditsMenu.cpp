@@ -23,6 +23,7 @@
 #include "CText.h"
 #include "CApp.h"
 #include "CSurface.h"
+#include "data/dirs.h"
 #include "StateMachine.h"
 
 CreditsMenu* CreditsMenu::Instance()
@@ -55,9 +56,9 @@ void CreditsMenu::deleteSurfaces()
 void CreditsMenu::initializeSurfaces()
 {
   if (background_ == NULL)
-    background_ = CSurface::OnLoad("./gfx/UI/MENU_BACKGROUND_800x600.png");
+    background_ = CSurface::OnLoad(data::FindFile("gfx/UI/MENU_BACKGROUND_800x600.png").c_str());
   if (logo_ == NULL)
-    logo_ = CSurface::OnLoad("./gfx/UI/ITD++_MENU_LOGO.png");
+    logo_ = CSurface::OnLoad(data::FindFile("gfx/UI/ITD++_MENU_LOGO.png").c_str());
 }
   
 void CreditsMenu::Enter(CApp* app)

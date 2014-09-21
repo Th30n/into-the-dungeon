@@ -26,6 +26,7 @@
 #include "COptions.h"
 #include "CSurface.h"
 #include "CText.h"
+#include "data/dirs.h"
 #include "Define.h"
 #include "EntityManager.h"
 #include "InventoryComponent.h"
@@ -68,11 +69,11 @@ HudInventory::~HudInventory()
 
 bool HudInventory::OnLoad()
 {
-  if (!(surf_inventory_ = CSurface::OnLoad("./gfx/UI/Inventory.png"))) {
+  if (!(surf_inventory_ = CSurface::OnLoad(data::FindFile("gfx/UI/Inventory.png").c_str()))) {
     return false;
   }
 
-  if (!(surf_item_details_ = CSurface::OnLoad("./gfx/UI/ItemDetails.png"))) {
+  if (!(surf_item_details_ = CSurface::OnLoad(data::FindFile("gfx/UI/ItemDetails.png").c_str()))) {
     return false;
   }
   
@@ -83,7 +84,7 @@ bool HudInventory::OnLoad()
   }
   CSurface::Transparent(surf_new_inventory_, 255, 0, 255);
 
-  if (!(surf_spell_book_ = CSurface::OnLoad("./gfx/UI/Spellbook.png"))) {
+  if (!(surf_spell_book_ = CSurface::OnLoad(data::FindFile("gfx/UI/Spellbook.png").c_str()))) {
     return false;
   }
   if ((surf_spell_list_ = SDL_CreateRGBSurface(SDL_SWSURFACE, surf_spell_book_->w, surf_spell_book_->h, surf_spell_book_->format->BitsPerPixel, 0, 0, 0, 0)) == NULL)

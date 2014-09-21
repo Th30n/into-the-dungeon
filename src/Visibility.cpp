@@ -25,6 +25,7 @@
 #include "CCamera.h"
 #include "CSurface.h"
 #include "CTile.h"
+#include "data/dirs.h"
 #include "SpaceComponent.h"
 
 static void calculatePoints(int x1, int y1, int x2, int y2,
@@ -55,7 +56,7 @@ void Visibility::drawRay(int x1, int y1, int x2, int y2, SDL_Surface *dest)
   std::vector<Vector2f> points;
   calculatePoints(x1 / TILE_SIZE, y1 / TILE_SIZE, x2 / TILE_SIZE, y2 / TILE_SIZE, points);
 
-  SDL_Surface *point = CSurface::OnLoad("./gfx/UI/Target.png");
+  SDL_Surface *point = CSurface::OnLoad(data::FindFile("gfx/UI/Target.png").c_str());
   for (unsigned i = 0; i < points.size(); ++i) {
     CSurface::OnDraw(dest, point,
         points[i].x * TILE_SIZE - CCamera::camera_control.GetX(),
