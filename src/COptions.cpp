@@ -23,6 +23,7 @@
 #include "COptions.h"
 
 #include <cstdlib>
+#include <string>
 
 #include "data/dirs.h"
 #include "iml/IMLNode.h"
@@ -80,7 +81,8 @@ void COptions::setWindowed(bool value)
   }
   is_windowed_ = value;
   //options_iml_->print();
-  iml::saveIML(*options_iml_, data::FindFile("data/options.xml").c_str());
+  std::string options_file = data::FindFile("data/options.xml");
+  iml::saveIML(*options_iml_, options_file.c_str());
 }
 
 int COptions::getScreenWidth()

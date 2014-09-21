@@ -127,8 +127,6 @@ void CApp::exitWithError(std::string Error)
 
 int main(int argc, char *argv[])
 {
-  data::SetExeName(argv[0]);
-
   CApp MyRoguelike;
   
   return MyRoguelike.OnExecute();

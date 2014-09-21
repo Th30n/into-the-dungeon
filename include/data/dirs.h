@@ -26,8 +26,6 @@
 namespace data
 {
 
-void SetExeName(const char *exe_name);
-
 std::string FindFile(const char *filename);
 
 } // namespace data
