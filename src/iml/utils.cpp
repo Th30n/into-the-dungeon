@@ -19,15 +19,15 @@
  *
  * Author(s): Teon Banek <intothedungeon@gmail.com>
  */
-#include "utils.h"
+#include "iml/utils.h"
 
 #include <cstdio>
 #include <cstdlib>
 #include <fstream>
 
-#include "IMLNode.h"
-#include "IMLParser.h"
-#include "IMLTag.h"
+#include "iml/IMLNode.h"
+#include "iml/IMLParser.h"
+#include "iml/IMLTag.h"
 
 namespace iml {
 

@@ -20,6 +20,9 @@
  * Author(s): Teon Banek <intothedungeon@gmail.com>
  */
 #include "CApp.h"
+
+#include <iostream>
+
 #include "StateMachine.h"
 #include "GameStates.h"
 #include "CText.h"
@@ -123,6 +126,8 @@ void CApp::exitWithError(std::string Error)
 
 int main(int argc, char *argv[])
 {
+  std::cout << argv[0] << std::endl;
+
   CApp MyRoguelike;
   
   return MyRoguelike.OnExecute();
