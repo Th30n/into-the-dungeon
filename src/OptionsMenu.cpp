@@ -99,9 +99,11 @@ OptionsMenu::~OptionsMenu()
 void OptionsMenu::deleteGUI()
 {
   std::list<Button*>::iterator it;
-  for(std::list<Button*>::iterator it = buttons_.begin(); it != buttons_.end(); it++) {
+  for(it = buttons_.begin(); it != buttons_.end(); it++) {
     Button *b = *it;
-    if (b == NULL) continue;
+    if (b == NULL) {
+      continue;
+    }
     delete b;
   }
   buttons_.clear();
@@ -139,16 +141,20 @@ void OptionsMenu::initGUI()
   toggle_tutorial_action_  = new ToggleTutorialAction();
   
   Rectangle rect(756, 402, 16, 16);
-  Button *button = new Button(rect, CSurface::OnLoad(data::FindFile("gfx/UI/options/checkbox.png").c_str()));
-  button->setHighlightImage(CSurface::OnLoad(data::FindFile("gfx/UI/options/checkbox_2.png").c_str()));
+  Button *button = new Button(rect,
+      CSurface::OnLoad(data::FindFile("gfx/UI/options/checkbox.png").c_str()));
+  button->setHighlightImage(
+      CSurface::OnLoad(data::FindFile("gfx/UI/options/checkbox_2.png").c_str()));
   button->setAction(toggle_fullscreen_action_);
   button->setId(HIGHLIGHT_FULLSCREEN);
   buttons_.push_back(button);
   
   rect.setX(727);
   rect.setY(442);
-  button = new Button(rect, CSurface::OnLoad(data::FindFile("gfx/UI/options/checkbox.png").c_str()));
-  button->setHighlightImage(CSurface::OnLoad(data::FindFile("gfx/UI/options/checkbox_2.png").c_str()));
+  button = new Button(rect,
+      CSurface::OnLoad(data::FindFile("gfx/UI/options/checkbox.png").c_str()));
+  button->setHighlightImage(
+      CSurface::OnLoad(data::FindFile("gfx/UI/options/checkbox_2.png").c_str()));
   button->setAction(toggle_tutorial_action_);
   button->setId(HIGHLIGHT_TUTORIAL);
   buttons_.push_back(button);
@@ -158,17 +164,27 @@ void OptionsMenu::initGUI()
 
 void OptionsMenu::initializeSurfaces()
 {
-  if (background_ == NULL)
-    background_ = CSurface::OnLoad(data::FindFile("gfx/UI/MENU_BACKGROUND_800x600.png").c_str());
-  if (logo_ == NULL)
-    logo_ = CSurface::OnLoad(data::FindFile("gfx/UI/ITD++_MENU_LOGO.png").c_str());
-  if (fullscreen_option_ == NULL)
-    fullscreen_option_ = CSurface::OnLoad(data::FindFile("gfx/UI/options/fullscreen.png").c_str());
-  if (tutorial_option_ == NULL)
-    tutorial_option_ = CSurface::OnLoad(data::FindFile("gfx/UI/options/tutorial.png").c_str());
+  if (!background_) {
+    background_ = CSurface::OnLoad(
+        data::FindFile("gfx/UI/MENU_BACKGROUND_800x600.png").c_str());
+  }
+  if (!logo_) {
+    logo_ =
+        CSurface::OnLoad(data::FindFile("gfx/UI/ITD++_MENU_LOGO.png").c_str());
+  }
+  if (!fullscreen_option_) {
+    fullscreen_option_ = CSurface::OnLoad(
+        data::FindFile("gfx/UI/options/fullscreen.png").c_str());
+  }
+  if (!tutorial_option_) {
+    tutorial_option_ =
+        CSurface::OnLoad(data::FindFile("gfx/UI/options/tutorial.png").c_str());
+  }
 
-  if (checkmark_ == NULL)
-    checkmark_ = CSurface::OnLoad(data::FindFile("gfx/UI/options/check.png").c_str());
+  if (!checkmark_) {
+    checkmark_ =
+        CSurface::OnLoad(data::FindFile("gfx/UI/options/check.png").c_str());
+  }
 }
   
 void OptionsMenu::Enter(CApp* app)
@@ -204,17 +220,22 @@ void OptionsMenu::OnRender(CApp* app)
   CSurface::OnDraw(app->getDisplay(), fullscreen_option_, 609, 397);
   CSurface::OnDraw(app->getDisplay(), tutorial_option_, 609, 437);
 
-  for(std::list<Button*>::iterator it = buttons_.begin(); it != buttons_.end(); it++) {
+  std::list<Button*>::iterator it;
+  for(it = buttons_.begin(); it != buttons_.end(); it++) {
     Button *b = *it;
-    if (b == NULL) continue;
+    if (b == NULL) {
+      continue;
+    }
     b->paint(app->getDisplay());
   }
   
-  if (COptions::options.getWindowed() == false)
+  if (!COptions::options.getWindowed()) {
     CSurface::OnDraw(app->getDisplay(), checkmark_, 756, 398);
+  }
       
-  if (COptions::options.getNewbieTips() == true)
+  if (COptions::options.getNewbieTips()) {
     CSurface::OnDraw(app->getDisplay(), checkmark_, 727, 438);
+  }
       
   SDL_Flip(app->getDisplay());
 }
@@ -252,12 +273,16 @@ void OptionsMenu::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
   }
 }
 
-void OptionsMenu::OnMouseMove(int mx, int my, int relx, int rely, bool Left, bool Right, bool Middle)
+void OptionsMenu::OnMouseMove(int mx, int my, int relx, int rely,
+    bool Left, bool Right, bool Middle)
 {
   highlight_ = HIGHLIGHT_NONE;
-  for(std::list<Button*>::iterator it = buttons_.begin(); it != buttons_.end(); it++) {
+  std::list<Button*>::iterator it;
+  for(it = buttons_.begin(); it != buttons_.end(); it++) {
     Button *b = *it;
-    if (b == NULL) continue;
+    if (b == NULL) {
+      continue;
+    }
     b->mouseMoved(mx, my);
   }
 }
@@ -265,7 +290,8 @@ void OptionsMenu::OnMouseMove(int mx, int my, int relx, int rely, bool Left, boo
 void OptionsMenu::OnLButtonUp(int mx, int my)
 {
   highlight_ = HIGHLIGHT_NONE;
-  for(std::list<Button*>::iterator it = buttons_.begin(); it != buttons_.end(); it++) {
+  std::list<Button*>::iterator it;
+  for(it = buttons_.begin(); it != buttons_.end(); it++) {
     Button *b = *it;
     if (b == NULL) continue;
     b->mouseReleased(mx, my);
@@ -277,7 +303,9 @@ void OptionsMenu::updateSelection()
   std::list<Button*>::iterator it;
   for(it = buttons_.begin(); it != buttons_.end(); it++) {
     Button *b = *it;
-    if (b == NULL) continue;
+    if (b == NULL) {
+      continue;
+    }
     b->keySelected(highlight_);
   }
 }

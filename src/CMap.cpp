@@ -278,11 +278,11 @@ void CMap::MiniMapOnRender(SDL_Surface *display, int player_x, int player_y)
 
 CTile *CMap::GetTile(int x, int y)
 {
-  unsigned int id = 0;
+  unsigned id = 0;
   id = x / TILE_SIZE;
   id = id + (MAP_WIDTH * (y / TILE_SIZE));
 
-  if (id < 0 || id >= tile_list_.size()) {
+  if (id >= tile_list_.size()) {
     return NULL;
   }
   

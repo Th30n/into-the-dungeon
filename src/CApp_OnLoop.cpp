@@ -46,14 +46,6 @@ void CApp::OnLoop()
   EntityManager &em = EntityManager::instance();
   StatsComponent *stats = em.getComponentForEntity<StatsComponent>(player);
   int prevXP = stats->xp;
-  //
-  //if (LMB.Pressed) {
-  //  SDL_GetMouseState(&LMB.X, &LMB.Y);
-  //  MovePlayerWithMouse(LMB.X - Player.space->getPosX() +
-  //            CCamera::camera_control.GetX() - TILE_SIZE / 2,
-  //            LMB.Y - Player.space->getPosY() +
-  //            CCamera::camera_control.GetY() - TILE_SIZE / 2);
-  //}
 
   CArea::area_control.OnLoop(-CCamera::camera_control.GetX(),
                 -CCamera::camera_control.GetY());
@@ -82,7 +74,8 @@ void CApp::OnLoop()
   projectileSystem.update();
   TrapSystem traps;
   traps.update();
-  HealthSystem hps(data::FindFile("gfx/UI/Text.png").c_str(), data::FindFile("gfx/Status.png"));
+  HealthSystem hps(data::FindFile("gfx/UI/Text.png").c_str(),
+      data::FindFile("gfx/Status.png"));
   hps.start();
   hps.update();
   turnSystem.update();

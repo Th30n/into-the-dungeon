@@ -57,10 +57,14 @@ void NewGameMenu::deleteSurfaces()
 
 void NewGameMenu::initializeSurfaces()
 {
-  if (background_ == NULL)
-    background_ = CSurface::OnLoad(data::FindFile("gfx/UI/MENU_BACKGROUND_800x600.png").c_str());
-  if (logo_ == NULL)
-    logo_ = CSurface::OnLoad(data::FindFile("gfx/UI/ITD++_MENU_LOGO.png").c_str());
+  if (!background_) {
+    background_ = CSurface::OnLoad(
+        data::FindFile("gfx/UI/MENU_BACKGROUND_800x600.png").c_str());
+  }
+  if (!logo_) {
+    logo_ =
+        CSurface::OnLoad(data::FindFile("gfx/UI/ITD++_MENU_LOGO.png").c_str());
+  }
 }
   
 void NewGameMenu::Enter(CApp* app)
@@ -92,8 +96,10 @@ void NewGameMenu::OnRender(CApp* app)
   CSurface::OnDraw(app->getDisplay(), logo_, 0, 0);
   Menu::displayVersion(app->getDisplay());
   
-  CText::TextControl.displayBMPText(app->getDisplay(), 200, 150, "Enter character name: ", 219, 55, 38, 90, 47, 21, FONT_MEDIUM_BOLD, 0);
-  CText::TextControl.displayBMPText(app->getDisplay(), 250, 200, name_, 219, 55, 38, 90, 47, 21, FONT_MEDIUM_BOLD, 0);
+  CText::TextControl.displayBMPText(app->getDisplay(), 200, 150,
+      "Enter character name: ", 219, 55, 38, 90, 47, 21, FONT_MEDIUM_BOLD, 0);
+  CText::TextControl.displayBMPText(app->getDisplay(), 250, 200, name_,
+      219, 55, 38, 90, 47, 21, FONT_MEDIUM_BOLD, 0);
     
   SDL_Flip(app->getDisplay());
 }
@@ -115,17 +121,23 @@ void NewGameMenu::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
     }
     case SDLK_BACKSPACE:
     {
-      if (name_.length() != 0) name_.erase(name_.length() - 1);
+      if (name_.length() != 0) {
+        name_.erase(name_.length() - 1);
+      }
       break;
     }
     default:
     {
-      if (name_.length() <= MAX_NAME)
-      {
-        if (unicode == (Uint16)' ') name_ += unicode;
-        else if (unicode >= (Uint16)'0' && unicode <= (Uint16)'9') name_ += unicode;
-        else if (unicode >= (Uint16)'A' && unicode <= (Uint16)'Z') name_ += unicode;
-        else if (unicode >= (Uint16)'a' && unicode <= (Uint16)'z') name_ += unicode;
+      if (name_.length() <= MAX_NAME) {
+        if (unicode == (Uint16)' ') {
+          name_ += unicode;
+        } else if (unicode >= (Uint16)'0' && unicode <= (Uint16)'9') {
+          name_ += unicode;
+        } else if (unicode >= (Uint16)'A' && unicode <= (Uint16)'Z') {
+          name_ += unicode;
+        } else if (unicode >= (Uint16)'a' && unicode <= (Uint16)'z') {
+          name_ += unicode;
+        }
       }
       break;
     }

@@ -28,7 +28,7 @@
 
 #include "GameObject.h"
 
-class Overlay;
+struct Overlay;
 
 /**
  * Controls changing variables in HealthComponent of an object.

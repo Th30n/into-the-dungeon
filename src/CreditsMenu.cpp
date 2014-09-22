@@ -56,9 +56,12 @@ void CreditsMenu::deleteSurfaces()
 void CreditsMenu::initializeSurfaces()
 {
   if (background_ == NULL)
-    background_ = CSurface::OnLoad(data::FindFile("gfx/UI/MENU_BACKGROUND_800x600.png").c_str());
-  if (logo_ == NULL)
-    logo_ = CSurface::OnLoad(data::FindFile("gfx/UI/ITD++_MENU_LOGO.png").c_str());
+    background_ = CSurface::OnLoad(
+        data::FindFile("gfx/UI/MENU_BACKGROUND_800x600.png").c_str());
+  if (logo_ == NULL) {
+    logo_ =
+        CSurface::OnLoad(data::FindFile("gfx/UI/ITD++_MENU_LOGO.png").c_str());
+  }
 }
   
 void CreditsMenu::Enter(CApp* app)
@@ -90,18 +93,19 @@ void CreditsMenu::OnRender(CApp* app)
   CSurface::OnDraw(app->getDisplay(), logo_, 0, 0);
   Menu::displayVersion(app->getDisplay());
     
-  std::string CreditsText = "  Programming & Design  \n\n  Teon '7h30n' Banek\n\n\n";
+  std::string CreditsText =
+      "  Programming & Design  \n\n  Teon '7h30n' Banek\n\n\n";
   CreditsText += "  Sound & Music Design\n\n  Luka 'Foox' Fucek\n\n\n";
   CreditsText += "  Graphic Design\n\n  Psiweapon\n";
-  CText::TextControl.displayBMPText(app->getDisplay(), 480, 250, CreditsText, 219, 55, 38, 90, 47, 21, FONT_MEDIUM_BOLD, 0);
+  CText::TextControl.displayBMPText(app->getDisplay(), 480, 250,
+      CreditsText, 219, 55, 38, 90, 47, 21, FONT_MEDIUM_BOLD, 0);
   
   SDL_Flip(app->getDisplay());
 }
 
 void CreditsMenu::OnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
 {
-  switch (sym)
-  {
+  switch (sym) {
     case SDLK_ESCAPE:
     {
       goBack();

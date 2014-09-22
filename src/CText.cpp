@@ -43,17 +43,20 @@ CText::CText()
 
 bool CText::OnLoad()
 {
-  bmp_font_small_ = CSurface::OnLoad(data::FindFile("gfx/UI/font_small.png").c_str());
+  bmp_font_small_ =
+      CSurface::OnLoad(data::FindFile("gfx/UI/font_small.png").c_str());
   if (!bmp_font_small_) {
     return false;
   }
   
-  bmp_font_medium_bold_ = CSurface::OnLoad(data::FindFile("gfx/UI/font_medium_bold.png").c_str());
+  bmp_font_medium_bold_ =
+      CSurface::OnLoad(data::FindFile("gfx/UI/font_medium_bold.png").c_str());
   if (!bmp_font_medium_bold_) {
     return false;
   }
   
-  window_tiles_ = CSurface::OnLoad(data::FindFile("gfx/UI/ITD_windows.png").c_str());
+  window_tiles_ =
+      CSurface::OnLoad(data::FindFile("gfx/UI/ITD_windows.png").c_str());
   if (!window_tiles_) {
     return false;
   }
@@ -63,8 +66,6 @@ bool CText::OnLoad()
   buildBMPFont(bmp_font_medium_bold_, &bmp_space_medium_bold_,
       &bmp_newline_medium_bold_, bmp_chars_medium_bold_);
   
-  //CSurface::Transparent(bmp_font_small_, 0, 0, 0);
-  //CSurface::Transparent(bmp_font_medium_bold_, 255, 255, 255);
   return true;
 }
 

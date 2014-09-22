@@ -40,13 +40,11 @@ bool CApp::OnInit()
 {
   COptions::options.LoadOptions();
   
-  if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
-  {
+  if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
     return false;
   }
   
-  if (!(Surf_WIcon = SDL_LoadBMP(data::FindFile("gfx/ITD++.bmp").c_str())))
-  {
+  if (!(Surf_WIcon = SDL_LoadBMP(data::FindFile("gfx/ITD++.bmp").c_str()))) {
     return false;
   }
   
@@ -55,81 +53,70 @@ bool CApp::OnInit()
   int ScreenHeight = COptions::options.getScreenHeight();
   
   Uint32 flags = SDL_HWSURFACE | SDL_DOUBLEBUF;
-  if ((Surf_Display = SDL_SetVideoMode(ScreenWidth, ScreenHeight, 32, flags)) == NULL)
-  {
+  if (!(Surf_Display = SDL_SetVideoMode(ScreenWidth, ScreenHeight, 32, flags))) {
     return false;
   }
   
-  if (CText::TextControl.OnLoad() == false)
-  {
+  if (!CText::TextControl.OnLoad()) {
     return false;
   }
   
   SDL_WM_SetCaption("Into The Dungeon++, v0.9", "ITD++");
   
-  if (COptions::options.getWindowed() == false)
-  {
-    Surf_Display = SDL_SetVideoMode(ScreenWidth, ScreenHeight, 32, SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
+  if (!COptions::options.getWindowed()) {
+    Surf_Display = SDL_SetVideoMode(ScreenWidth, ScreenHeight, 32,
+        SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN);
   }
   
-  if (!(Surf_LoadScreen = CSurface::OnLoad(data::FindFile("gfx/UI/MENU_BACKGROUND_800x600.png").c_str())))
-  {
+  Surf_LoadScreen = CSurface::OnLoad(
+      data::FindFile("gfx/UI/MENU_BACKGROUND_800x600.png").c_str());
+  if (!Surf_LoadScreen) {
     return false;
   }
   RenderLoading();
   
-  Surf_Background = SDL_CreateRGBSurface(SDL_SWSURFACE, ScreenWidth, ScreenHeight, 32, 0, 0, 0, 0);
-  /*
-  if ((Surf_Background = CSurface::OnLoad("./gfx/Background.png")) == NULL)
-  {
-    return false;
-  }
-  */
+  Surf_Background = SDL_CreateRGBSurface(SDL_SWSURFACE,
+      ScreenWidth, ScreenHeight, 32, 0, 0, 0, 0);
   
-  if (CArea::area_control.OnLoad() == false)
-  {
+  if (!CArea::area_control.OnLoad()) {
     return false;
   }
   
-  if (!(ItemRenderSystem::surf_items = CSurface::OnLoad(data::FindFile("gfx/Items.png").c_str())))
-  {
+  ItemRenderSystem::surf_items =
+      CSurface::OnLoad(data::FindFile("gfx/Items.png").c_str());
+  if (!ItemRenderSystem::surf_items) {
     return false;
   }
   
-  if (CHud::HUD.OnLoad() == false)
-  {
+  if (!CHud::HUD.OnLoad()) {
     return false;
   }
 
   player = LevelLoader::startNewGame();
-
-  //setSurf_Text("Game Loaded");
   
   /*Initialize audio*/
-  if (Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096) < 0)
-  {
+  if (Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 4096) < 0) {
     setSurf_Text("NoSound");
   }
   
-  if (!(Music = CMusic::OnLoad(data::FindFile("audio/BGM/ITDInGame.ogg").c_str())) ||
-      !(MusicBoss = CMusic::OnLoad(data::FindFile("audio/BGM/ITDBossFight.ogg").c_str())) ||
-        !(MusicIntro = CMusic::OnLoad(data::FindFile("audio/BGM/ITDIntro.ogg").c_str())))
-  {
+  Music = CMusic::OnLoad(data::FindFile("audio/BGM/ITDInGame.ogg").c_str());
+  MusicBoss = CMusic::OnLoad(data::FindFile("audio/BGM/ITDBossFight.ogg").c_str());
+  MusicIntro = CMusic::OnLoad(data::FindFile("audio/BGM/ITDIntro.ogg").c_str());
+  if (!Music || !MusicBoss || !MusicIntro) {
     setSurf_Text("Unable to open music");
   }
   
-  if (!CMusic::SoundControl.LoadSounds())
-  {
+  if (!CMusic::SoundControl.LoadSounds()) {
     setSurf_Text("Unable to open sounds");
   }   
   
   CMusic::SoundControl.Play(MusicIntro, -1);
   
-  if (!(Surf_TextOverlay = CSurface::OnLoad(data::FindFile("gfx/UI/Text.png").c_str()))) {
+  Surf_TextOverlay = CSurface::OnLoad(data::FindFile("gfx/UI/Text.png").c_str());
+  if (!Surf_TextOverlay) {
     return false;
   }
   
-  //SDL_EnableKeyRepeat(1, SDL_DEFAULT_REPEAT_INTERVAL / 3);
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
   SDL_EnableUNICODE(SDL_ENABLE);
   

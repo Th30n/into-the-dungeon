@@ -54,7 +54,8 @@ void HighscoreMenu::deleteSurfaces()
 void HighscoreMenu::initializeSurfaces()
 {
   if (background_ == NULL)
-    background_ = CSurface::OnLoad(data::FindFile("gfx/UI/MENU_BACKGROUND_800x600.png").c_str());
+    background_ = CSurface::OnLoad(
+        data::FindFile("gfx/UI/MENU_BACKGROUND_800x600.png").c_str());
 }
   
 void HighscoreMenu::Enter(CApp* app)

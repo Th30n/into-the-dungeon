@@ -77,38 +77,40 @@ bool CHud::OnLoad()
 {
   hud_inventory_.OnLoad();
   hud_targeting_.OnLoad();
-  if (!(Surf_Interface = CSurface::OnLoad(data::FindFile("gfx/UI/HUD.png").c_str())))
-  {
+  Surf_Interface = CSurface::OnLoad(data::FindFile("gfx/UI/HUD.png").c_str());
+  if (!Surf_Interface) {
     return false;
   }
-  if (!(Surf_HPGlobe = CSurface::OnLoad(data::FindFile("gfx/UI/health.png").c_str())))
-  {
+  Surf_HPGlobe = CSurface::OnLoad(data::FindFile("gfx/UI/health.png").c_str());
+  if (!Surf_HPGlobe) {
     return false;
   }
   
-  if (!(Surf_WinScreen = CSurface::OnLoad(data::FindFile("gfx/UI/WinScreen.png").c_str())))
-  {
+  Surf_WinScreen =
+      CSurface::OnLoad(data::FindFile("gfx/UI/WinScreen.png").c_str());
+  if (!Surf_WinScreen) {
     return false;
   }
-  if (!(Surf_DeathScreen = CSurface::OnLoad(data::FindFile("gfx/UI/DeathScreen.png").c_str())))
-  {
+  Surf_DeathScreen =
+      CSurface::OnLoad(data::FindFile("gfx/UI/DeathScreen.png").c_str());
+  if (!Surf_DeathScreen) {
     return false;
   }
-  if (!(Surf_FoV = CSurface::OnLoad(data::FindFile("gfx/UI/FoV.png").c_str())))
-  {
+  if (!(Surf_FoV = CSurface::OnLoad(data::FindFile("gfx/UI/FoV.png").c_str()))) {
     return false;
   }
-  if (!(Surf_HelpScreen = CSurface::OnLoad(data::FindFile("gfx/UI/HelpScreen.png").c_str())))
-  {
+  Surf_HelpScreen =
+      CSurface::OnLoad(data::FindFile("gfx/UI/HelpScreen.png").c_str());
+  if (!Surf_HelpScreen) {
     return false;
   }
-  if (!(Surf_Candle = CSurface::OnLoad(data::FindFile("gfx/UI/Candle.png").c_str())))
-  {
+  Surf_Candle = CSurface::OnLoad(data::FindFile("gfx/UI/Candle.png").c_str());
+  if (!Surf_Candle) {
     return false;
   }
 
-  if ((Surf_Stats = SDL_CreateRGBSurface(SDL_SWSURFACE, 200, 200, 32, 0, 0, 0, 0)) == NULL)
-  {
+  Surf_Stats = SDL_CreateRGBSurface(SDL_SWSURFACE, 200, 200, 32, 0, 0, 0, 0);
+  if (!Surf_Stats) {
     return false;
   }
   CSurface::Transparent(Surf_Stats, 255, 0, 255);
@@ -135,8 +137,6 @@ void CHud::start(GameObject player)
 
 void CHud::OnCleanup()
 {
-  //if (Surf_Health) SDL_FreeSurface(Surf_Health);
-  //if (Surf_DLevel) SDL_FreeSurface(Surf_DLevel);
   if (Surf_Interface) SDL_FreeSurface(Surf_Interface);
   if (Surf_HPGlobe) SDL_FreeSurface(Surf_HPGlobe);
   if (Surf_WinScreen) SDL_FreeSurface(Surf_WinScreen);
@@ -267,7 +267,7 @@ void CHud::updateStats()
       + CText::TextControl.ConvertInt(dungeon_level);
   
   //Draw Name
-  std::string Name = "Name here";//CEntity::EntityList[0]->Name;
+  std::string Name = "Name here";
 
   //Draw Level
   std::string Level = "Level: " +
@@ -424,7 +424,6 @@ void CHud::FoWCalculation()
     FOW_ALL, FOW_ALL, FOW_ALL, FOW_CSW, FOW_SSS, FOW_JSW, FOW_NON, FOW_JSE, FOW_SSS, FOW_CSE, FOW_ALL, FOW_ALL, FOW_ALL,
     FOW_ALL, FOW_ALL, FOW_ALL, FOW_ALL, FOW_ALL, FOW_CSW, FOW_SSS, FOW_CSE, FOW_ALL, FOW_ALL, FOW_ALL, FOW_ALL, FOW_ALL };
   
-  //int Range = CEntity::EntityList[0]->VisionRange;
   int Range = 6;
   int X = player_space_->pos.x;
   int Y = player_space_->pos.y;
@@ -476,6 +475,7 @@ void CHud::drawHealth(SDL_Surface *display)
           CText::TextControl.ConvertInt(player_health_->max_health);
   X = HealthPosX;
   Y = HealthPosY + COptions::options.getScreenHeight() - WHEIGHT;
-  CText::TextControl.displayBMPText(display, X, Y, health_text, 255, 255, 255, 0, 0, 0, FONT_SMALL, 0);
+  CText::TextControl.displayBMPText(
+      display, X, Y, health_text, 255, 255, 255, 0, 0, 0, FONT_SMALL, 0);
   
 }

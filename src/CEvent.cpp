@@ -118,7 +118,8 @@ void CEvent::OnEvent(SDL_Event *event)
       break;
     }
     case SDL_JOYBALLMOTION: {
-      OnJoyBall(event->jball.which, event->jball.ball, event->jball.xrel, event->jball.yrel);
+      OnJoyBall(event->jball.which, event->jball.ball,
+          event->jball.xrel, event->jball.yrel);
       break;
     }
     case SDL_JOYHATMOTION: {
@@ -150,7 +151,8 @@ void CEvent::OnEvent(SDL_Event *event)
       break;
     }
     default: {
-      OnUser(event->user.type, event->user.code, event->user.data1, event->user.data2);
+      OnUser(event->user.type, event->user.code,
+          event->user.data1, event->user.data2);
       break;
     }
   }
@@ -186,7 +188,8 @@ void CEvent::OnMouseBlur()
   //pure virtual
 }
 
-void CEvent::OnMouseMove(int mX, int mY, int relX, int relY, bool Left, bool Right, bool Middle)
+void CEvent::OnMouseMove(int mX, int mY, int relX, int relY,
+    bool Left, bool Right, bool Middle)
 {
   //pure virtual
 }

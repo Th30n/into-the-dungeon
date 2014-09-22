@@ -54,9 +54,11 @@ bool Visibility::InLOS(int x1, int y1, int x2, int y2)
 void Visibility::drawRay(int x1, int y1, int x2, int y2, SDL_Surface *dest)
 {
   std::vector<Vector2f> points;
-  calculatePoints(x1 / TILE_SIZE, y1 / TILE_SIZE, x2 / TILE_SIZE, y2 / TILE_SIZE, points);
+  calculatePoints(x1 / TILE_SIZE, y1 / TILE_SIZE,
+      x2 / TILE_SIZE, y2 / TILE_SIZE, points);
 
-  SDL_Surface *point = CSurface::OnLoad(data::FindFile("gfx/UI/Target.png").c_str());
+  SDL_Surface *point =
+      CSurface::OnLoad(data::FindFile("gfx/UI/Target.png").c_str());
   for (unsigned i = 0; i < points.size(); ++i) {
     CSurface::OnDraw(dest, point,
         points[i].x * TILE_SIZE - CCamera::camera_control.GetX(),
@@ -69,39 +71,39 @@ static void calculatePoints(int x1, int y1, int x2, int y2,
     std::vector<Vector2f> &points)
 {
   signed char ix;
-    signed char iy;
-  
-    // if x1 == x2 or y1 == y2, then it does not matter what we set here
-    int delta_x = (x2 > x1 ? (ix = 1, x2 - x1) : (ix = -1, x1 - x2)) << 1;
-    int delta_y = (y2 > y1 ? (iy = 1, y2 - y1) : (iy = -1, y1 - y2)) << 1;
- 
-    if (delta_x >= delta_y) {
-        // error may go below zero
-        int error = delta_y - (delta_x >> 1);
-        while (x1 != x2) {
-            if (error >= 0) {
-                //if (error || (ix > 0)) {
-                    y1 += iy;
-                    error -= delta_x;
-                //}
-            }
-            x1 += ix;
-            error += delta_y;
+  signed char iy;
+
+  // if x1 == x2 or y1 == y2, then it does not matter what we set here
+  int delta_x = (x2 > x1 ? (ix = 1, x2 - x1) : (ix = -1, x1 - x2)) << 1;
+  int delta_y = (y2 > y1 ? (iy = 1, y2 - y1) : (iy = -1, y1 - y2)) << 1;
+
+  if (delta_x >= delta_y) {
+    // error may go below zero
+    int error = delta_y - (delta_x >> 1);
+    while (x1 != x2) {
+      if (error >= 0) {
+          //if (error || (ix > 0)) {
+              y1 += iy;
+              error -= delta_x;
+          //}
+      }
+      x1 += ix;
+      error += delta_y;
       points.push_back(Vector2f(x1, y1));
-        }
-    } else {
-        // error may go below zero
-        int error = delta_x - (delta_y >> 1);
-        while (y1 != y2) {
-            if (error >= 0) {
-                //if (error || (iy > 0)) {
-                    x1 += ix;
-                    error -= delta_y;
-                //}
-            }
-            y1 += iy;
-            error += delta_x;
-      points.push_back(Vector2f(x1, y1));
-        }
     }
+  } else {
+    // error may go below zero
+    int error = delta_x - (delta_y >> 1);
+    while (y1 != y2) {
+      if (error >= 0) {
+          //if (error || (iy > 0)) {
+              x1 += ix;
+              error -= delta_y;
+          //}
+      }
+      y1 += iy;
+      error += delta_x;
+      points.push_back(Vector2f(x1, y1));
+    }
+  }
 }

@@ -265,8 +265,8 @@ void MainMenu::initGUI()
   Button *button = new Button(rect,
       CSurface::OnLoad(data::FindFile("gfx/UI/new_game_button.png").c_str()));
   Rectangle r(484, 373, 311, 57);
-  button->setHighlightImage(
-      CSurface::OnLoad(data::FindFile("gfx/UI/ITD++_MENU_SELECTOR_BIG.png").c_str()), r);
+  button->setHighlightImage(CSurface::OnLoad(
+      data::FindFile("gfx/UI/ITD++_MENU_SELECTOR_BIG.png").c_str()), r);
   button->setAction(new_game_action_);
   button->setId(BUTTON_NEW_GAME);
   buttons_.push_back(button);
@@ -275,9 +275,10 @@ void MainMenu::initGUI()
   rect.setY(437);
   r.setX(436);
   r.setY(429);
-  button = new Button(rect, CSurface::OnLoad(data::FindFile("gfx/UI/load_game_button.png").c_str()));
-  button->setHighlightImage(
-      CSurface::OnLoad(data::FindFile("gfx/UI/ITD++_MENU_SELECTOR_BIG.png").c_str()), r);
+  button = new Button(rect, CSurface::OnLoad(
+      data::FindFile("gfx/UI/load_game_button.png").c_str()));
+  button->setHighlightImage(CSurface::OnLoad(
+      data::FindFile("gfx/UI/ITD++_MENU_SELECTOR_BIG.png").c_str()), r);
   //button->setAction(load_game_action_);
   button->setId(BUTTON_LOAD_GAME);
   buttons_.push_back(button);
@@ -286,9 +287,10 @@ void MainMenu::initGUI()
   rect.setY(493);
   r.setX(388);
   r.setY(485);
-  button = new Button(rect, CSurface::OnLoad(data::FindFile("gfx/UI/highscore_button.png").c_str()));
-  button->setHighlightImage(
-      CSurface::OnLoad(data::FindFile("gfx/UI/ITD++_MENU_SELECTOR_BIG.png").c_str()), r); 
+  button = new Button(rect, CSurface::OnLoad(
+      data::FindFile("gfx/UI/highscore_button.png").c_str()));
+  button->setHighlightImage(CSurface::OnLoad(
+      data::FindFile("gfx/UI/ITD++_MENU_SELECTOR_BIG.png").c_str()), r); 
   //button->setAction(highscore_action_);
   button->setId(BUTTON_HIGHSCORE);
   buttons_.push_back(button);
@@ -297,9 +299,10 @@ void MainMenu::initGUI()
   rect.setY(549);
   r.setX(340);
   r.setY(541);
-  button = new Button(rect, CSurface::OnLoad(data::FindFile("gfx/UI/exit_game_button.png").c_str()));
-  button->setHighlightImage(
-      CSurface::OnLoad(data::FindFile("gfx/UI/ITD++_MENU_SELECTOR_BIG.png").c_str()), r);
+  button = new Button(rect, CSurface::OnLoad(
+      data::FindFile("gfx/UI/exit_game_button.png").c_str()));
+  button->setHighlightImage(CSurface::OnLoad(
+      data::FindFile("gfx/UI/ITD++_MENU_SELECTOR_BIG.png").c_str()), r);
   button->setAction(exit_game_action_);
   button->setId(BUTTON_EXIT_GAME);
   buttons_.push_back(button);
@@ -312,9 +315,10 @@ void MainMenu::initGUI()
   r.setHeight(41);
   r.setX(726);
   r.setY(514);
-  button = new Button(rect, CSurface::OnLoad(data::FindFile("gfx/UI/options_button.png").c_str()));
-  button->setHighlightImage(
-      CSurface::OnLoad(data::FindFile("gfx/UI/ITD++_MENU_SELECTOR_SMALL.png").c_str()), r);
+  button = new Button(rect, CSurface::OnLoad(
+      data::FindFile("gfx/UI/options_button.png").c_str()));
+  button->setHighlightImage(CSurface::OnLoad(
+      data::FindFile("gfx/UI/ITD++_MENU_SELECTOR_SMALL.png").c_str()), r);
   button->setAction(options_action_);
   button->setId(BUTTON_OPTIONS);
   buttons_.push_back(button);
@@ -323,9 +327,10 @@ void MainMenu::initGUI()
   rect.setY(558);
   r.setX(700);
   r.setY(554);
-  button = new Button(rect, CSurface::OnLoad(data::FindFile("gfx/UI/credits_button.png").c_str()));
-  button->setHighlightImage(
-      CSurface::OnLoad(data::FindFile("gfx/UI/ITD++_MENU_SELECTOR_SMALL.png").c_str()), r);
+  button = new Button(rect, CSurface::OnLoad(
+      data::FindFile("gfx/UI/credits_button.png").c_str()));
+  button->setHighlightImage(CSurface::OnLoad(
+      data::FindFile("gfx/UI/ITD++_MENU_SELECTOR_SMALL.png").c_str()), r);
   button->setAction(credits_action_);
   button->setId(BUTTON_CREDITS);
   buttons_.push_back(button);
@@ -335,10 +340,14 @@ void MainMenu::initGUI()
 
 void MainMenu::initializeSurfaces()
 {
-  if (background_ == NULL)
-    background_ = CSurface::OnLoad(data::FindFile("gfx/UI/MENU_BACKGROUND_800x600.png").c_str());
-  if (logo_ == NULL)
-    logo_ = CSurface::OnLoad(data::FindFile("gfx/UI/ITD++_MENU_LOGO.png").c_str());
+  if (!background_) {
+    background_ = CSurface::OnLoad(
+        data::FindFile("gfx/UI/MENU_BACKGROUND_800x600.png").c_str());
+  }
+  if (!logo_) {
+    logo_ =
+        CSurface::OnLoad(data::FindFile("gfx/UI/ITD++_MENU_LOGO.png").c_str());
+  }
 }
   
 void MainMenu::Enter(CApp* app)

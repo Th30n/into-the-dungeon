@@ -46,8 +46,8 @@ class HudInventory {
     void render(SDL_Surface *display, int x, int y);
     bool onKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode);
     // Update methods when inventory is changed (e.g. item picked up).
-    void updateInventory(int highlight);
-    void updateScrollBook(int highlight = -1);
+    void updateInventory(unsigned highlight);
+    void updateScrollBook(unsigned highlight);
     // Activate mode for selecting an item which the spell will affect.
     void activateTargeting(std::string &spell, GameObject item);
   

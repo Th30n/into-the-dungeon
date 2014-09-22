@@ -304,7 +304,8 @@ static void createParticleEffect(Vector2f pos)
   }
   SpaceComponent *space = new SpaceComponent();
   space->pos = pos;
-  RendererComponent *sprite = new RendererComponent(data::FindFile("gfx/UI/LevelUp.png").c_str());
+  RendererComponent *sprite =
+      new RendererComponent(data::FindFile("gfx/UI/LevelUp.png").c_str());
   sprite->width = 114;
   sprite->height = 24;
   sprite->x_offset = -42;

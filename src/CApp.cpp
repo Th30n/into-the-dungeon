@@ -109,7 +109,8 @@ void CApp::setSurf_Text(const char *newText)
   int height = 0;
   CText::TextControl.getTextDimensions(newText, FONT_SMALL, &width, &height);
   Surf_Text = SDL_CreateRGBSurface(SDL_SWSURFACE, width, height, 32, 0, 0, 0, 0);
-  CText::TextControl.displayBMPText(Surf_Text, 0, 0, newText, 255, 255, 255, 0, 0, 0, FONT_SMALL, 0);
+  CText::TextControl.displayBMPText(
+      Surf_Text, 0, 0, newText, 255, 255, 255, 0, 0, 0, FONT_SMALL, 0);
 }
 
 void CApp::RenderLoading()

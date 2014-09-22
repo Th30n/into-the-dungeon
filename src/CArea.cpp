@@ -35,28 +35,25 @@ bool CArea::OnLoad()
 {
   map_list.clear();
   
-  if (!(surf_tileset = CSurface::OnLoad(data::FindFile("gfx/Tileset.png").c_str())))
-  {
+  surf_tileset = CSurface::OnLoad(data::FindFile("gfx/Tileset.png").c_str());
+  if (!surf_tileset) {
     return false;
   }
-  if (!(surf_fog_ = CSurface::OnLoad(data::FindFile("gfx/Fog.png").c_str())))
-  {
+  if (!(surf_fog_ = CSurface::OnLoad(data::FindFile("gfx/Fog.png").c_str()))) {
     return false;
   }
-  if (!(surf_mini_tileset_ = CSurface::OnLoad(data::FindFile("gfx/MiniTileset.png").c_str())))
-  {
+  surf_mini_tileset_ =
+      CSurface::OnLoad(data::FindFile("gfx/MiniTileset.png").c_str());
+  if (!surf_mini_tileset_) {
     return false;
   }
   area_size_ = 1;
   
-  for (int x = 0; x < area_size_; x++)
-  {
-    for (int y = 0; y < area_size_; y++)
-    {
+  for (int x = 0; x < area_size_; x++) {
+    for (int y = 0; y < area_size_; y++) {
       CMap map;
     
-      if (map.OnLoad() == false)
-      {
+      if (!map.OnLoad()) {
         return false;
       }
       map.surf_tileset = surf_tileset;
@@ -75,11 +72,9 @@ void CArea::OnRender(SDL_Surface *surf_display, int camera_x, int camera_y)
 
 void CArea::MiniMapOnRender(SDL_Surface *surf_display, int x, int y)
 {
-  for (int i = 0; i < 4; i++)
-  {
-    unsigned int ID = ((i / 2) * area_size_) + (i % 2);
-    if (ID < 0 || ID >= map_list.size())
-    {
+  for (int i = 0; i < 4; i++) {
+    unsigned ID = ((i / 2) * area_size_) + (i % 2);
+    if (ID >= map_list.size()) {
       continue;
     }
     map_list[ID].MiniMapOnRender(surf_display, x, y);
@@ -93,16 +88,13 @@ void CArea::OnLoop(int camera_x, int camera_y)
 
 void CArea::OnCleanup()
 {
-  if (surf_tileset)
-  {
+  if (surf_tileset) {
     SDL_FreeSurface(surf_tileset);
   }
-  if (surf_fog_)
-  {
+  if (surf_fog_) {
     SDL_FreeSurface(surf_fog_);
   }
-  if (surf_mini_tileset_)
-  {
+  if (surf_mini_tileset_) {
     SDL_FreeSurface(surf_mini_tileset_);
   }
   map_list.clear();
@@ -112,10 +104,9 @@ CMap *CArea::GetMap(int x, int y)
 {
   int map_width  = MAP_WIDTH * TILE_SIZE;
   int map_height = MAP_HEIGHT * TILE_SIZE;
-  unsigned int ID = x / map_width;
+  unsigned ID = x / map_width;
   ID = ID + ((y / map_height) * area_size_);
-  if (ID < 0 || ID >= map_list.size())
-  {
+  if (ID >= map_list.size()) {
     return NULL;
   }
   return &map_list[ID];
@@ -128,7 +119,9 @@ CTile *CArea::GetTile(int x, int y)
   
   CMap *map = GetMap(x, y);
   
-  if (map == NULL) return NULL;
+  if (map == NULL) {
+    return NULL;
+  }
   
   x = x % map_width;
   y = y % map_height;

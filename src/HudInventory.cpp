@@ -40,11 +40,10 @@
 HudInventory::HudInventory(CHud &hud)
   : owner_(hud), player_(0), is_active_(false), is_scroll_book_on_(false),
     is_item_details_on_(false), is_scroll_details_on_(false), spell_item_(0),
-    is_targeting_item_(false), is_targeted_item_(false),
-    surf_inventory_(0), surf_new_inventory_(0), surf_item_details_(0),
-    surf_spell_book_(0), surf_spell_list_(0),
-    player_inventory_(0), player_turn_(0), inventory_page_(0), spell_book_page_(0),
-    which_item_(0), which_scroll_(0)
+    is_targeting_item_(false), is_targeted_item_(false), surf_inventory_(0),
+    surf_new_inventory_(0), surf_item_details_(0), surf_spell_book_(0),
+    surf_spell_list_(0), player_inventory_(0), player_turn_(0),
+    inventory_page_(0), spell_book_page_(0), which_item_(0), which_scroll_(0)
 {
 }
 
@@ -69,26 +68,35 @@ HudInventory::~HudInventory()
 
 bool HudInventory::OnLoad()
 {
-  if (!(surf_inventory_ = CSurface::OnLoad(data::FindFile("gfx/UI/Inventory.png").c_str()))) {
+  surf_inventory_ =
+      CSurface::OnLoad(data::FindFile("gfx/UI/Inventory.png").c_str());
+  if (!surf_inventory_) {
     return false;
   }
 
-  if (!(surf_item_details_ = CSurface::OnLoad(data::FindFile("gfx/UI/ItemDetails.png").c_str()))) {
+  surf_item_details_ =
+      CSurface::OnLoad(data::FindFile("gfx/UI/ItemDetails.png").c_str());
+  if (!surf_item_details_) {
     return false;
   }
   
-  if (!(surf_new_inventory_ = SDL_CreateRGBSurface(SDL_SWSURFACE,
+  surf_new_inventory_ = SDL_CreateRGBSurface(SDL_SWSURFACE,
       surf_inventory_->w, surf_inventory_->h,
-      surf_inventory_->format->BitsPerPixel, 0, 0, 0, 0))) {
+      surf_inventory_->format->BitsPerPixel, 0, 0, 0, 0);
+  if (!surf_new_inventory_) {
     return false;
   }
   CSurface::Transparent(surf_new_inventory_, 255, 0, 255);
 
-  if (!(surf_spell_book_ = CSurface::OnLoad(data::FindFile("gfx/UI/Spellbook.png").c_str()))) {
+  surf_spell_book_ =
+      CSurface::OnLoad(data::FindFile("gfx/UI/Spellbook.png").c_str());
+  if (!surf_spell_book_) {
     return false;
   }
-  if ((surf_spell_list_ = SDL_CreateRGBSurface(SDL_SWSURFACE, surf_spell_book_->w, surf_spell_book_->h, surf_spell_book_->format->BitsPerPixel, 0, 0, 0, 0)) == NULL)
-  {
+  surf_spell_list_ = SDL_CreateRGBSurface(SDL_SWSURFACE,
+      surf_spell_book_->w, surf_spell_book_->h,
+      surf_spell_book_->format->BitsPerPixel, 0, 0, 0, 0);
+  if (!surf_spell_list_) {
     return false;
   }
   CSurface::Transparent(surf_spell_list_, 255, 0, 255);
@@ -274,7 +282,7 @@ bool HudInventory::onKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
   return false;
 }
 
-void HudInventory::updateInventory(int highlight)
+void HudInventory::updateInventory(unsigned highlight)
 {
   ItemRenderSystem item_renderer;
   int Y = 35;
@@ -380,7 +388,7 @@ void HudInventory::updateInventory(int highlight)
   }
 }
 
-void HudInventory::updateScrollBook(int highlight)
+void HudInventory::updateScrollBook(unsigned highlight)
 {
   ItemRenderSystem item_renderer;
   int Y = 35;
@@ -456,7 +464,7 @@ void HudInventory::toggleScrollBook()
 {
   is_scroll_book_on_ = !is_scroll_book_on_;
   if (is_scroll_book_on_) {
-    updateScrollBook();
+    updateScrollBook(-1);
   }
   is_scroll_details_on_ = false;
 }
@@ -501,7 +509,7 @@ void HudInventory::toggleScrollDetails(unsigned item_no)
 void HudInventory::drawItemDetails(SDL_Surface *display, int tx, int ty)
 {
   std::vector<unsigned> &inventory = player_inventory_->items;
-  if (which_item_ < 0 || which_item_ >= inventory.size()) {
+  if (which_item_ >= inventory.size()) {
     is_item_details_on_ = false;
     return;
   }
@@ -540,7 +548,7 @@ void HudInventory::drawItemDetails(SDL_Surface *display, int tx, int ty)
 void HudInventory::drawScrollDetails(SDL_Surface *display, int tx, int ty)
 {
   std::vector<unsigned> &inventory = player_inventory_->scrolls;
-  if (which_scroll_ < 0 || which_scroll_ >= inventory.size()) {
+  if (which_scroll_ >= inventory.size()) {
     is_scroll_details_on_ = false;
     return;
   }
@@ -625,7 +633,7 @@ void HudInventory::applyScrollOnItem()
     ItemUsage::removeFromInventory(player_inventory_->scrolls, spell_item_);
     EntityManager::instance().removeEntity(spell_item_);
     updateInventory(which_item_);
-    updateScrollBook();
+    updateScrollBook(-1);
     owner_.updateStats();
   }
   is_targeting_item_ = false;
