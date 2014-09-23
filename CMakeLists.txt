@@ -39,10 +39,10 @@ else()
   set(DATA_DIR "share/IntoTheDungeon++/")
 endif()
 
-install(DIRECTORY gfx/ DESTINATION ${DATA_DIR}gfx
+install(DIRECTORY share/gfx/ DESTINATION ${DATA_DIR}gfx
   PATTERN Thumbs.db EXCLUDE)
-install(DIRECTORY audio/ DESTINATION ${DATA_DIR}audio)
-install(DIRECTORY data/ DESTINATION ${DATA_DIR}data
+install(DIRECTORY share/audio/ DESTINATION ${DATA_DIR}audio)
+install(DIRECTORY share/data/ DESTINATION ${DATA_DIR}data
   PATTERN highscore.dat EXCLUDE)
 # Save should be created from the game
 # install(DIRECTORY DESTINATION ${USER_DATA_DIR}save)

@@ -73,6 +73,7 @@ std::string CreateUserDir(const std::string &dirname)
   std::string fullpath = user_data_dirs.front() + "/" + dirname;
   // Create the root dir first and then the given dir
   if (createDir(user_data_dirs.front()) && createDir(fullpath)) {
+    std::cerr << "Unable to create dir " << fullpath << std::endl;
     return fullpath;
   } else {
     return "";
