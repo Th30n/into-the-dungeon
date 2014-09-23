@@ -26,7 +26,13 @@
 namespace data
 {
 
-std::string FindFile(const char *filename);
+// Searches for given filename in data directories and returns a full path
+// to filename, otherwise empty string.
+std::string FindFile(const std::string &filename);
+
+// Creates a directory inside user data directory hierarchy
+// and returns full path, otherwise empty string.
+std::string CreateUserDir(const std::string &dirname);
 
 } // namespace data
 

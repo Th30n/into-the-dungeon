@@ -44,9 +44,10 @@ static std::string exe_dir;
 static void buildDataDirs();
 static void buildUserDataDirs();
 static void setExeDir();
-static bool fileExists(const char *filepath);
+static bool fileExists(const std::string &filepath);
+static bool createDir(const std::string &path);
 
-std::string FindFile(const char *filename)
+std::string FindFile(const std::string &filename)
 {
   buildDataDirs();
   DirList::iterator it;
@@ -57,13 +58,25 @@ std::string FindFile(const char *filename)
   }
 
   for (it = data_dirs.begin(); it != data_dirs.end(); ++it) {
-    std::string path = *it + filename;
-    if (fileExists(path.c_str())) {
+    std::string path = *it + "/" + filename;
+    if (fileExists(path)) {
       return path;
     }
   }
   std::cerr << "Unable to find file " << filename << std::endl;
   return std::string();
+}
+
+std::string CreateUserDir(const std::string &dirname)
+{
+  buildUserDataDirs();
+  std::string fullpath = user_data_dirs.front() + "/" + dirname;
+  // Create the root dir first and then the given dir
+  if (createDir(user_data_dirs.front()) && createDir(fullpath)) {
+    return fullpath;
+  } else {
+    return "";
+  }
 }
 
 static void dumpDirs(DirList &dirs) {
@@ -86,14 +99,13 @@ static void buildDataDirs()
     data_dirs.push_back(itd_data_dir);
   }
   setExeDir();
-  data_dirs.push_back("./");
+  data_dirs.push_back(".");
   data_dirs.push_back(exe_dir);
-  data_dirs.push_back(exe_dir + "../");
+  data_dirs.push_back(exe_dir + "/..");
 #ifdef __unix__
-  data_dirs.push_back(exe_dir + "../share/IntoTheDungeon++/");
+  data_dirs.push_back(exe_dir + "/../share/IntoTheDungeon++");
 #endif
   dumpDirs(data_dirs);
-  buildUserDataDirs();
 }
 
 static void buildUserDataDirs()
@@ -111,12 +123,11 @@ static void buildUserDataDirs()
   if (!xdg_data_home) {
     char *home = getenv("HOME");
     user_data_dirs.push_back(
-        std::string(home) + "/.local/share/IntoTheDungeon++/");
+        std::string(home) + "/.local/share/IntoTheDungeon++");
   } else {
-    user_data_dirs.push_back(std::string(xdg_data_home) + "/IntoTheDungeon++/");
+    user_data_dirs.push_back(std::string(xdg_data_home) + "/IntoTheDungeon++");
   }
-#endif
-
+#endif // __unix__
   dumpDirs(user_data_dirs);
 }
 
@@ -133,27 +144,54 @@ static void setExeDir()
   exe_dir = buf;
   size_t last_sep = exe_dir.find_last_of('/');
   if (last_sep != std::string::npos) {
-    exe_dir.erase(last_sep + 1);
+    exe_dir.erase(last_sep);
   } else {
-    exe_dir = "./";
+    exe_dir = ".";
   }
 }
 
-static bool fileExists(const char *filepath)
+static bool fileExists(const std::string &filepath)
 {
   struct stat buf;
-  int res = stat(filepath, &buf);
+  int res = stat(filepath.c_str(), &buf);
   if (res == -1) {
-      if (errno == EACCES) {
-          std::cerr << "data::fileExists: Permission denied " << filepath
-            << std::endl;
-      }
-      return false;
+    if (errno == EACCES) {
+        std::cerr << "data::fileExists(): Permission denied " << filepath
+          << std::endl;
+    }
+    return false;
   }
   if (S_ISREG(buf.st_mode)) {
     return true;
   }
   return false;
+}
+
+static bool isDirectory(const std::string &path)
+{
+  struct stat buf;
+  int res = stat(path.c_str(), &buf);
+  if (res == -1) {
+    perror("data::isDirectory");
+    return false;
+  }
+  if (S_ISDIR(buf.st_mode)) {
+    return true;
+  }
+  return false;
+}
+
+static bool createDir(const std::string &path)
+{
+  int status = mkdir(path.c_str(), S_IRWXU);
+  if (status == -1) {
+    if (errno == EEXIST && isDirectory(path)) {
+      return true;
+    }
+    perror("data::createDir()");
+    return false;
+  }
+  return true;
 }
 #endif // __unix__
 
