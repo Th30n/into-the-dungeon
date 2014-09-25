@@ -26,7 +26,7 @@ include_directories(${SDL_INCLUDE_DIR} ${SDL_IMAGE_INCLUDE_DIRS}
 
 set(ALL_LIBRARIES ${SDL_LIBRARY} ${SDL_IMAGE_LIBRARIES} ${SDL_MIXER_LIBRARIES})
 
-add_executable(ITD++ ${ITD++_SOURCES})
-target_link_libraries(ITD++ ${ALL_LIBRARIES})
+add_executable(itd++ ${ITD++_SOURCES})
+target_link_libraries(itd++ ${ALL_LIBRARIES})
 
-install(TARGETS ITD++ DESTINATION bin)
+install(TARGETS itd++ DESTINATION ${BIN_DIR})

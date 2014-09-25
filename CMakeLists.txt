@@ -18,9 +18,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 # Disable absolute path install destinations
 set(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION ON)
 
-include_directories("include")
-add_subdirectory(src)
-
 # Install paths
 # Default prefix is /usr/local or C:\Program Files based on OS.
 # To change prefix use 'make DESTDIR=prefix_before_default'
@@ -48,6 +45,9 @@ install(DIRECTORY share/data/ DESTINATION ${DATA_DIR}data
 # install(DIRECTORY DESTINATION ${USER_DATA_DIR}save)
 
 include(InstallRequiredSystemLibraries)
+
+include_directories("include")
+add_subdirectory(src)
 
 # CPack settings
 set(CPACK_PACKAGE_NAME IntoTheDungeon++)
