@@ -31,6 +31,9 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #endif
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 namespace data
 {
@@ -140,6 +143,7 @@ static void setExeDir()
   ssize_t size = readlink("/proc/self/exe", buf, BUFSIZE);
   if (size == -1) {
     perror("data::setExeDir()");
+    exe_dir = ".";
     return;
   }
   exe_dir = buf;
@@ -196,4 +200,43 @@ static bool createDir(const std::string &path)
 }
 #endif // __unix__
 
+#if _WIN32
+static void setExeDir()
+{
+  DWORD BUFSIZE = 256;
+  LPTSTR buf = new CHAR[BUFSIZE + 1];
+  DWORD size = GetModuleFileName(NULL, buf, BUFSIZE);
+  // This probably means the buffer was too small
+  if (size == BUFSIZE) {
+    DWORD err = GetLastError();
+    // Windows coders are weird: WindowsXP might set ERROR_SUCCESS
+    if (err == ERROR_INSUFFICIENT_BUFFER || err == ERROR_SUCCESS) {
+      std::cerr << "data::setExeDir(): insufficient buffer"<< std::endl;
+      exe_dir = ".";
+    }
+  } else if (size == 0) {
+    std::cerr << "data::setExeDir(): failed " << GetLastError() << std::endl;
+    exe_dir = ".";
+  } else {
+    exe_dir = buf;
+    size_t last_sep = exe_dir.find_last_of('\\');
+    if (last_sep != std::string::npos) {
+      exe_dir.erase(last_sep);
+    } else {
+      exe_dir = ".";
+    }
+  }
+  delete[] buf;
+}
+
+static bool fileExists(const std::string &filepath)
+{
+  return false;
+}
+
+static bool createDir(const std::string &path)
+{
+  return false;
+}
+#endif // _WIN32
 } // namespace data
