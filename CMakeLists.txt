@@ -29,6 +29,15 @@ if(${WIN32})
   set(BIN_DIR "bin/")
   set(DATA_DIR "")
   set(USER_DATA_DIR ${DATA_DIR})
+  # For Windows users dll files need to be installed with the executable
+  find_file(SDL_DLL NAMES SDL.dll PATHS ${SDL_LIBRARY} NO_DEFAULT_PATH
+    DOC "Path to SDL.dll which will be installed")
+  find_file(SDL_IMAGE_DLL NAMES SDL_image.dll PATHS ${SDL_IMAGE_LIBRARIES}
+    DOC "Path to SDL_image.dll which will be installed")
+  find_file(SDL_MIXER_DLL NAMES SDL_mixer.dll PATHS ${SDL_MIXER_LIBRARIES}
+    DOC "Path to SDL_mixer.dll which will be installed")
+  install(FILES ${SDL_DLL} ${SDL_IMAGE_DLL} ${SDL_MIXER_DLL}
+    DESTINATION ${BIN_DIR})
 else()
   # /usr/local/bin
   set(BIN_DIR "bin/")
