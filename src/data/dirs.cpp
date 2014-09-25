@@ -231,12 +231,38 @@ static void setExeDir()
 
 static bool fileExists(const std::string &filepath)
 {
+  DWORD res = GetFileAttributes(filepath.c_str());
+  if (res == INVALID_FILE_ATTRIBUTES) {
+    std::cerr << "data::fileExists(): failed " << GetLastError() << std::endl;
+    return false;
+  }
+  if (res & FILE_ATTRIBUTE_DIRECTORY) {
+    return false;
+  }
+  return true;
+}
+
+static bool isDirectory(const std::string &path)
+{
+  DWORD res = GetFileAttributes(path.c_str());
+  if (res != INVALID_FILE_ATTRIBUTES && res & FILE_ATTRIBUTE_DIRECTORY) {
+    return true;
+  }
   return false;
 }
 
 static bool createDir(const std::string &path)
 {
-  return false;
+  BOOL res = CreateDirectory(path.c_str(), NULL);
+  if (res == 0) {
+    DWORD err = GetLastError();
+    if (err == ERROR_ALREADY_EXISTS && isDirectory(path)) {
+      return true;
+    }
+    std::cerr << "data::createDir(): failed " << GetLastError() << std::endl;
+    return false;
+  }
+  return true;
 }
 #endif // _WIN32
 } // namespace data
