@@ -25,9 +25,9 @@ set(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION ON)
 # set(CMAKE_INSTALL_PREFIX ${ITD++_SOURCE_DIR}/IntoTheDungeon++)
 
 if(${WIN32})
-  # C:\Program Files\IntoTheDungeon++
-  set(BIN_DIR "IntoTheDungeon++/bin/")
-  set(DATA_DIR "IntoTheDungeon++/")
+  # C:\Program Files\${PROJECT_NAME}
+  set(BIN_DIR "bin/")
+  set(DATA_DIR "")
   set(USER_DATA_DIR ${DATA_DIR})
 else()
   # /usr/local/bin
@@ -53,7 +53,7 @@ add_subdirectory(src)
 set(CPACK_PACKAGE_NAME IntoTheDungeon++)
 set(CPACK_PACKAGE_VENDOR "Teon Banek")
 set(CPACK_DESCRIPTION_SUMMARY "Simple graphical roguelike.")
-set(CPACK_PACKAGE_ICON ${ITD++_SOURCE_DIR}/gfx/ITD++.bmp)
+#set(CPACK_PACKAGE_ICON ${ITD++_SOURCE_DIR}/share/gfx/ITD++.bmp)
 set(CPACK_RESOURCE_FILE_LICENSE ${ITD++_SOURCE_DIR}/COPYING.txt)
 set(CPACK_RESOURCE_FILE_README ${ITD++_SOURCE_DIR}/README.txt)
 set(CPACK_PACKAGE_VERSION_MAJOR ${ITD++_VERSION_MAJOR})
