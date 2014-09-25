@@ -233,7 +233,7 @@ static bool fileExists(const std::string &filepath)
 {
   DWORD res = GetFileAttributes(filepath.c_str());
   if (res == INVALID_FILE_ATTRIBUTES) {
-    std::cerr << "data::fileExists(): failed " << GetLastError() << std::endl;
+    //std::cerr << "data::fileExists(): failed " << GetLastError() << std::endl;
     return false;
   }
   if (res & FILE_ATTRIBUTE_DIRECTORY) {
