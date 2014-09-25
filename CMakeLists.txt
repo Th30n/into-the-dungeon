@@ -29,6 +29,23 @@ if(${WIN32})
   set(BIN_DIR "bin/")
   set(DATA_DIR "")
   set(USER_DATA_DIR ${DATA_DIR})
+  # For Windows users dll files need to be installed with the executable
+  set(SDL_DLL "" CACHE FILEPATH "Path to SDL.dll which will be installed.")
+  if(NOT EXISTS ${SDL_DLL})
+    message(FATAL_ERROR "SDL_DLL must point to SDL.dll file.")
+  endif()
+  set(SDL_IMAGE_DLL "" CACHE FILEPATH
+    "Path to SDL_image.dll which will be installed.")
+  if(NOT EXISTS ${SDL_IMAGE_DLL})
+    message(FATAL_ERROR "SDL_IMAGE_DLL must point to SDL_image.dll file.")
+  endif()
+  set(SDL_MIXER_DLL CACHE FILEPATH
+    "Path to SDL_mixer.dll which will be installed")
+  if(NOT EXISTS ${SDL_MIXER_DLL})
+    message(FATAL_ERROR "SDL_MIXER_DLL must point to SDL_mixer.dll file.")
+  endif()
+  install(FILES ${SDL_DLL} ${SDL_IMAGE_DLL} ${SDL_MIXER_DLL}
+    DESTINATION ${BIN_DIR})
 else()
   # /usr/local/bin
   set(BIN_DIR "bin/")
