@@ -1,0 +1,32 @@
+#define VOS_NT_WINDOWS32    0x00040004L
+#define VFT_APP             0x00000001L
+
+//Icon resource file
+MY_ICON ICON "..\\share\\gfx\\ITD++.ico"
+
+//Exe Details
+1 VERSIONINFO
+FILEVERSION 0,9,1,2014
+PRODUCTVERSION 0,9,1,2014
+FILETYPE VFT_APP
+{
+  BLOCK "StringFileInfo"
+	 {
+		 BLOCK "040904E4"
+		 {
+			 VALUE "CompanyName", "Studio 7"
+			 VALUE "FileVersion", "Beta v0.9.1"
+			 VALUE "FileDescription", "ITD++ Launcher"
+			 //VALUE "InternalName", "write version info here"
+			 VALUE "LegalCopyright", "2011-2014 Studio 7"
+			 //VALUE "LegalTrademarks", "write version info here"
+			 VALUE "OriginalFilename", "itd++.exe"
+			 VALUE "ProductName", "Into The Dungeon++"
+			 VALUE "ProductVersion", "Beta v0.9.1"
+		 }
+	 }
+  BLOCK "VarFileInfo"
+	 {
+		 VALUE "Translation", 0x0409, 1252 //language codes
+	 }
+}

@@ -33,7 +33,9 @@ if(${WIN32})
   # 1: Use MFC in a Static Library
   # 2: Use MFC in a Shared DLL
   set(CMAKE_MFC_FLAG 2)
-  add_executable(itd++ WIN32 ${ITD++_SOURCES})
+  set(RES_DIR ${ITD++_SOURCE_DIR}/res)
+  include_directories(${RES_DIR})
+  add_executable(itd++ WIN32 ${ITD++_SOURCES} ${RES_DIR}/icon.rc)
 else()
   add_executable(itd++ ${ITD++_SOURCES})
 endif()
