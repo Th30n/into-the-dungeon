@@ -26,7 +26,17 @@ include_directories(${SDL_INCLUDE_DIR} ${SDL_IMAGE_INCLUDE_DIRS}
 
 set(ALL_LIBRARIES ${SDL_LIBRARY} ${SDL_IMAGE_LIBRARIES} ${SDL_MIXER_LIBRARIES})
 
-add_executable(itd++ ${ITD++_SOURCES})
+if(${WIN32})
+  # Use of CMAKE_MFC_FLAG
+  # Values:
+  # 0: Use Standard Windows Libraries
+  # 1: Use MFC in a Static Library
+  # 2: Use MFC in a Shared DLL
+  set(CMAKE_MFC_FLAG 2)
+  add_executable(itd++ WIN32 ${ITD++_SOURCES})
+else()
+  add_executable(itd++ ${ITD++_SOURCES})
+endif()
 target_link_libraries(itd++ ${ALL_LIBRARIES})
 
 install(TARGETS itd++ DESTINATION ${BIN_DIR})
