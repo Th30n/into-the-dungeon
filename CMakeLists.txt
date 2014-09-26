@@ -68,7 +68,10 @@ set(CPACK_RESOURCE_FILE_README ${ITD++_SOURCE_DIR}/README.txt)
 set(CPACK_PACKAGE_VERSION_MAJOR ${ITD++_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${ITD++_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${ITD++_VERSION_PATCH})
-
+set(CPACK_PACKAGE_EXECUTABLES itd++;IntoTheDungeon++)
+set(CPACK_CREATE_DESKTOP_LINKS itd++)
+# CPack settings for NSIS installation on Windows
+set(CPACK_NSIS_MODIFY_PATH ON)
 # CPack settings for source package
 set(CPACK_SOURCE_IGNORE_FILES .git* Thumbs.db build .swp$ save highscore.dat)
 include(CPack)
