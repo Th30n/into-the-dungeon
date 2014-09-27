@@ -26,7 +26,7 @@ set(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION ON)
 
 if(${WIN32})
   # C:\Program Files\${PROJECT_NAME}
-  set(BIN_DIR "bin/")
+  set(BIN_DIR "bin")
   set(DATA_DIR "")
   set(USER_DATA_DIR ${DATA_DIR})
   # For Windows users dll files need to be installed with the executable
@@ -40,15 +40,25 @@ if(${WIN32})
   install(FILES ${ALL_DLLS} DESTINATION ${BIN_DIR})
 else()
   # /usr/local/bin
-  set(BIN_DIR "bin/")
+  set(BIN_DIR "bin")
   # /usr/local/share/IntoTheDungeon++
-  set(DATA_DIR "share/IntoTheDungeon++/")
+  set(DATA_DIR "share/IntoTheDungeon++")
+  # Install icons and .desktop files
+  # After installing icons gtk-update-icon-cache needs to be called
+  set(ICON_DIR "share/icons/hicolor")
+  set(DESKTOP_DIR "share/applications")
+  install(FILES share/icons/itd++-32.png DESTINATION ${ICON_DIR}/32x32/apps
+    PERMISSIONS WORLD_READ OWNER_WRITE RENAME itd++.png)
+  install(FILES share/icons/itd++-48.png DESTINATION ${ICON_DIR}/48x48/apps
+    PERMISSIONS WORLD_READ OWNER_WRITE RENAME itd++.png)
+  install(FILES share/icons/into-the-dungeon.desktop
+    DESTINATION ${DESKTOP_DIR} PERMISSIONS WORLD_READ OWNER_WRITE)
 endif()
 
-install(DIRECTORY share/gfx/ DESTINATION ${DATA_DIR}gfx
+install(DIRECTORY share/gfx/ DESTINATION ${DATA_DIR}/gfx
   PATTERN Thumbs.db EXCLUDE)
-install(DIRECTORY share/audio/ DESTINATION ${DATA_DIR}audio)
-install(DIRECTORY share/data/ DESTINATION ${DATA_DIR}data
+install(DIRECTORY share/audio/ DESTINATION ${DATA_DIR}/audio)
+install(DIRECTORY share/data/ DESTINATION ${DATA_DIR}/data
   PATTERN highscore.dat EXCLUDE)
 # Save should be created from the game
 # install(DIRECTORY DESTINATION ${USER_DATA_DIR}save)
