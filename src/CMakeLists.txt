@@ -26,7 +26,7 @@ include_directories(${SDL_INCLUDE_DIR} ${SDL_IMAGE_INCLUDE_DIRS}
 
 set(ALL_LIBRARIES ${SDL_LIBRARY} ${SDL_IMAGE_LIBRARIES} ${SDL_MIXER_LIBRARIES})
 
-if(${WIN32})
+if(WIN32)
   # Use of CMAKE_MFC_FLAG
   # Values:
   # 0: Use Standard Windows Libraries

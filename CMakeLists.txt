@@ -24,7 +24,7 @@ set(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION ON)
 
 # set(CMAKE_INSTALL_PREFIX ${ITD++_SOURCE_DIR}/IntoTheDungeon++)
 
-if(${WIN32})
+if(WIN32)
   # C:\Program Files\${PROJECT_NAME}
   set(BIN_DIR "bin")
   set(DATA_DIR "")
@@ -38,7 +38,7 @@ if(${WIN32})
   endif()
   file(GLOB ALL_DLLS ${DLL_DIR}/*.dll)
   install(FILES ${ALL_DLLS} DESTINATION ${BIN_DIR})
-else()
+elseif(UNIX)
   # /usr/local/bin
   set(BIN_DIR "bin")
   # /usr/local/share/IntoTheDungeon++
@@ -48,11 +48,11 @@ else()
   set(ICON_DIR "share/icons/hicolor")
   set(DESKTOP_DIR "share/applications")
   install(FILES share/icons/itd++-32.png DESTINATION ${ICON_DIR}/32x32/apps
-    PERMISSIONS WORLD_READ OWNER_WRITE RENAME itd++.png)
+    PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ RENAME itd++.png)
   install(FILES share/icons/itd++-48.png DESTINATION ${ICON_DIR}/48x48/apps
-    PERMISSIONS WORLD_READ OWNER_WRITE RENAME itd++.png)
-  install(FILES share/icons/into-the-dungeon.desktop
-    DESTINATION ${DESKTOP_DIR} PERMISSIONS WORLD_READ OWNER_WRITE)
+    PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ RENAME itd++.png)
+  install(FILES share/icons/into-the-dungeon.desktop DESTINATION ${DESKTOP_DIR}
+    PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
 endif()
 
 install(DIRECTORY share/gfx/ DESTINATION ${DATA_DIR}/gfx
@@ -85,3 +85,18 @@ set(CPACK_NSIS_MUI_ICON ${ITD++_SOURCE_DIR}/share/gfx/ITD++.ico)
 # CPack settings for source package
 set(CPACK_SOURCE_IGNORE_FILES .git* Thumbs.db build .swp$ save highscore.dat)
 include(CPack)
+
+if(UNIX)
+  # Check if possible to build Arch packages for AUR
+  execute_process(COMMAND which makepkg RESULT_VARIABLE MAKEPKG_EXISTS
+    OUTPUT_QUIET ERROR_QUIET)
+  if(MAKEPKG_EXISTS EQUAL 0)
+    option(PACK_SOURCE_ARCH "Create source packaging for ArchLinux AUR" ON)
+    if (PACK_SOURCE_ARCH)
+      add_custom_target(package_arch COMMAND sh -c
+        ". ${ITD++_SOURCE_DIR}/utils/package_arch.sh \
+        ${CPACK_PACKAGE_VERSION} ${CPACK_SOURCE_PACKAGE_FILE_NAME} \
+        ${ITD++_SOURCE_DIR}/utils/abs/into-the-dungeon")
+    endif()
+  endif()
+endif()
