@@ -2,7 +2,7 @@
 #define VFT_APP             0x00000001L
 
 //Icon resource file
-MY_ICON ICON "..\\share\\gfx\\ITD++.ico"
+MY_ICON ICON "itd++.ico"
 
 //Exe Details
 1 VERSIONINFO
