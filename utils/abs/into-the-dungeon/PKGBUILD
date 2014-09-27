@@ -1,23 +1,14 @@
 # Maintainer: Teon Banek <intothedungeon at gmail dot com>
-pkgname="into-the-dungeon"
+pkgname="into-the-dungeon++"
 pkgrel=1
 pkgdesc="Simple graphical roguelike."
 arch=('i686' 'x86_64')
 url="http://studio7.guru-gaming.org"
 license=('GPL3')
-groups=()
 depends=('hicolor-icon-theme' 'sdl_image' 'sdl_mixer')
 makedepends=('cmake>=3')
-checkdepends=()
-optdepends=()
-provides=()
-conflicts=()
-replaces=()
-backup=()
-options=()
 install=into-the-dungeon.install
-changelog=
-noextract=()
+changelog=ChangeLog
 
 build() {
   cd "IntoTheDungeon++-$pkgver-Source"
