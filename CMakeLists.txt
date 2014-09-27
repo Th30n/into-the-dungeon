@@ -8,9 +8,9 @@ find_package(SDL REQUIRED)
 find_package(SDL_image REQUIRED)
 find_package(SDL_mixer REQUIRED)
 
-set (ITD++_VERSION_MAJOR 0)
-set (ITD++_VERSION_MINOR 9)
-set (ITD++_VERSION_PATCH 1)
+set(ITD++_VERSION_MAJOR 0)
+set(ITD++_VERSION_MINOR 9)
+set(ITD++_VERSION_PATCH 1)
 
 # Always check for warnings
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
@@ -27,7 +27,7 @@ set(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION ON)
 if(WIN32)
   # C:\Program Files\${PROJECT_NAME}
   set(BIN_DIR "bin")
-  set(DATA_DIR "")
+  set(DATA_DIR ".")
   set(USER_DATA_DIR ${DATA_DIR})
   # For Windows users dll files need to be installed with the executable
   set(DLL_DIR "" CACHE PATH "Directory with all the dll files that need to be
@@ -79,9 +79,13 @@ set(CPACK_PACKAGE_VERSION_MINOR ${ITD++_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${ITD++_VERSION_PATCH})
 set(CPACK_PACKAGE_EXECUTABLES "itd++;Into The Dungeon++")
 set(CPACK_CREATE_DESKTOP_LINKS itd++)
-# CPack settings for NSIS installation on Windows
-set(CPACK_NSIS_MODIFY_PATH ON)
-set(CPACK_NSIS_MUI_ICON ${ITD++_SOURCE_DIR}/share/res/itd++.ico)
+# CPack settings for installation on Windows
+if(WIN32)
+  set(CPACK_PACKAGE_NAME "Into The Dungeon++")
+  set(CPACK_NSIS_MODIFY_PATH ON)
+  set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
+  set(CPACK_NSIS_MUI_ICON ${ITD++_SOURCE_DIR}/share/res/itd++.ico)
+endif()
 # CPack settings for source package
 set(CPACK_SOURCE_IGNORE_FILES .git* Thumbs.db build .swp$ save highscore.dat)
 include(CPack)
