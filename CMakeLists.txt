@@ -22,7 +22,7 @@ set(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION ON)
 # Default prefix is /usr/local or C:\Program Files based on OS.
 # To change prefix use 'make DESTDIR=prefix_before_default'
 
-# set(CMAKE_INSTALL_PREFIX ${ITD++_SOURCE_DIR}/IntoTheDungeon++)
+# set(CMAKE_INSTALL_PREFIX ${ITD++_SOURCE_DIR}/into-the-dungeon++)
 
 if(WIN32)
   # C:\Program Files\${PROJECT_NAME}
@@ -41,8 +41,8 @@ if(WIN32)
 elseif(UNIX)
   # /usr/local/bin
   set(BIN_DIR "bin")
-  # /usr/local/share/IntoTheDungeon++
-  set(DATA_DIR "share/IntoTheDungeon++")
+  # /usr/local/share/into-the-dungeon++
+  set(DATA_DIR "share/into-the-dungeon++")
   # Install icons and .desktop files
   # After installing icons gtk-update-icon-cache needs to be called
   set(ICON_DIR "share/icons/hicolor")
@@ -69,7 +69,7 @@ include_directories("include")
 add_subdirectory(src)
 
 # CPack settings
-set(CPACK_PACKAGE_NAME IntoTheDungeon++)
+set(CPACK_PACKAGE_NAME into-the-dungeon++)
 set(CPACK_PACKAGE_VENDOR "Teon Banek")
 set(CPACK_DESCRIPTION_SUMMARY "Simple graphical roguelike.")
 set(CPACK_RESOURCE_FILE_LICENSE ${ITD++_SOURCE_DIR}/COPYING.txt)
@@ -77,7 +77,7 @@ set(CPACK_RESOURCE_FILE_README ${ITD++_SOURCE_DIR}/README.txt)
 set(CPACK_PACKAGE_VERSION_MAJOR ${ITD++_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${ITD++_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${ITD++_VERSION_PATCH})
-set(CPACK_PACKAGE_EXECUTABLES itd++;IntoTheDungeon++)
+set(CPACK_PACKAGE_EXECUTABLES "itd++;Into The Dungeon++")
 set(CPACK_CREATE_DESKTOP_LINKS itd++)
 # CPack settings for NSIS installation on Windows
 set(CPACK_NSIS_MODIFY_PATH ON)
@@ -96,7 +96,7 @@ if(UNIX)
       add_custom_target(package_arch COMMAND sh -c
         ". ${ITD++_SOURCE_DIR}/utils/package_arch.sh \
         ${CPACK_PACKAGE_VERSION} ${CPACK_SOURCE_PACKAGE_FILE_NAME} \
-        ${ITD++_SOURCE_DIR}/utils/abs/into-the-dungeon \
+        ${ITD++_SOURCE_DIR}/utils/abs/into-the-dungeon++ \
         ${ITD++_SOURCE_DIR}/Version.txt")
     endif()
   endif()

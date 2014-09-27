@@ -107,7 +107,7 @@ static void buildDataDirs()
   data_dirs.push_back(exe_dir);
   data_dirs.push_back(exe_dir + "/..");
 #ifdef __unix__
-  data_dirs.push_back(exe_dir + "/../share/IntoTheDungeon++");
+  data_dirs.push_back(exe_dir + "/../share/into-the-dungeon++");
 #endif
   dumpDirs(data_dirs);
 }
@@ -127,9 +127,9 @@ static void buildUserDataDirs()
   if (!xdg_data_home) {
     char *home = getenv("HOME");
     user_data_dirs.push_back(
-        std::string(home) + "/.local/share/IntoTheDungeon++");
+        std::string(home) + "/.local/share/into-the-dungeon++");
   } else {
-    user_data_dirs.push_back(std::string(xdg_data_home) + "/IntoTheDungeon++");
+    user_data_dirs.push_back(std::string(xdg_data_home) + "/into-the-dungeon++");
   }
 #endif // __unix__
   dumpDirs(user_data_dirs);

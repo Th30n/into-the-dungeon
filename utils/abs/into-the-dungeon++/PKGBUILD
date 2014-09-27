@@ -11,12 +11,12 @@ install=into-the-dungeon.install
 changelog=ChangeLog
 
 build() {
-  cd "IntoTheDungeon++-$pkgver-Source"
+  cd "$pkgname-$pkgver-Source"
   cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr .
   make
 }
 
 package() {
-  cd "IntoTheDungeon++-$pkgver-Source"
+  cd "$pkgname-$pkgver-Source"
   make DESTDIR="$pkgdir/" install
 }
