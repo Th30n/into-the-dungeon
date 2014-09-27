@@ -81,7 +81,7 @@ set(CPACK_PACKAGE_EXECUTABLES "itd++;Into The Dungeon++")
 set(CPACK_CREATE_DESKTOP_LINKS itd++)
 # CPack settings for NSIS installation on Windows
 set(CPACK_NSIS_MODIFY_PATH ON)
-set(CPACK_NSIS_MUI_ICON ${ITD++_SOURCE_DIR}/share/gfx/ITD++.ico)
+set(CPACK_NSIS_MUI_ICON ${ITD++_SOURCE_DIR}/share/res/itd++.ico)
 # CPack settings for source package
 set(CPACK_SOURCE_IGNORE_FILES .git* Thumbs.db build .swp$ save highscore.dat)
 include(CPack)
