@@ -459,8 +459,8 @@ void CHud::drawHealth(SDL_Surface *display)
   int X = HUD_X;
   int Y = HUD_Y + COptions::options.getScreenHeight() - WHEIGHT;
   CSurface::OnDraw(display, Surf_Interface, X, Y);
-  float HPPercentage = 0;
-  HPPercentage = (float)player_health_->health / player_health_->max_health;
+  float HPPercentage =
+    static_cast<float>(player_health_->health) / player_health_->max_health;
   int GlobeHeight = 64 * HPPercentage;
   int GlobeY = 64 - 64 * HPPercentage;
   X = HUD_X + HUD_HEALTH_OFFSET_X;
