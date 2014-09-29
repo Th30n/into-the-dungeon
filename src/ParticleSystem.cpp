@@ -21,6 +21,7 @@
  */
 #include "ParticleSystem.h"
 
+#include <algorithm>
 #include <vector>
 
 #include <SDL.h>
@@ -30,18 +31,17 @@
 #include "ParticleComponent.h"
 #include "SpaceComponent.h"
 
-void ParticleSystem::update()
+static void removeParticle(GameObject obj)
 {
   EntityManager &em = EntityManager::instance();
-  std::vector<GameObject> particles;
-  em.getEntitiesWithComponent<ParticleComponent>(particles);
-  std::vector<GameObject>::iterator it = particles.begin();
-  for (; it != particles.end(); ++it) {
-    updateParticle(*it);
+  ParticleComponent *part = em.getComponentForEntity<ParticleComponent>(obj);
+  if (part->attack_fun) {
+    part->attack_fun(part->attacker, part->target);
   }
+  EntityManager::instance().removeEntity(obj);
 }
 
-void ParticleSystem::updateParticle(GameObject obj)
+static void updateParticle(GameObject obj)
 {
   EntityManager &em = EntityManager::instance();
   ParticleComponent *part = em.getComponentForEntity<ParticleComponent>(obj);
@@ -55,12 +55,10 @@ void ParticleSystem::updateParticle(GameObject obj)
   }
 }
 
-void ParticleSystem::removeParticle(GameObject obj)
+void ParticleSystem::update() const
 {
   EntityManager &em = EntityManager::instance();
-  ParticleComponent *part = em.getComponentForEntity<ParticleComponent>(obj);
-  if (part->attack_fun) {
-    part->attack_fun(part->attacker, part->target);
-  }
-  EntityManager::instance().removeEntity(obj);
+  std::vector<GameObject> particles;
+  em.getEntitiesWithComponent<ParticleComponent>(particles);
+  std::for_each(particles.begin(), particles.end(), updateParticle);
 }

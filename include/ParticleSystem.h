@@ -32,11 +32,7 @@
  */
 class ParticleSystem {
   public:
-    void update();
-  
-  private:
-    void updateParticle(GameObject obj);
-    void removeParticle(GameObject obj);
+    void update() const;
 };
 
 #endif
