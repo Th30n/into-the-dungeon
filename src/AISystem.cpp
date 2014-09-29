@@ -23,6 +23,7 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <limits>
 #include <vector>
 
 #include "AIComponent.h"
@@ -56,8 +57,10 @@ static GameObject getNearestTarget(GameObject obj)
   std::vector<GameObject> entities;
   em.getEntitiesWithComponent<HealthComponent>(entities);
   std::vector<GameObject>::iterator it = entities.begin();
-  float min_dist = 100.0f;
+  float min_dist = std::numeric_limits<float>::max();
   std::vector<GameObject> targets;
+  // Find only nearest targetable game objects (unsorted ordering)
+  // and fill 'targets' with them.
   for (; it != entities.end(); ++it) {
     if (obj == *it) {
       continue;

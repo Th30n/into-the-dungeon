@@ -34,17 +34,5 @@ class AnimationComponent;
 class AnimationSystem {
   public:
     void update() const;
-  private:
-    enum Facing {
-      FACING_UP,
-      FACING_DOWN,
-      FACING_LEFT,
-      FACING_RIGHT
-    };
-
-    void animate(GameObject object) const;
-    Facing getFacing(Vector2f dir) const;
-    void changeFacing(AnimationComponent *ac, Facing facing) const;
-    void attackAnimation(AnimationComponent *ac) const;
 };
 #endif
