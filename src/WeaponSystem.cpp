@@ -48,6 +48,17 @@ static GameObject createProjectile(const Sfx &sfx,
     GameObject attacker, GameObject target);
 static void addTurnComponent(GameObject source, GameObject target);
 
+static void startAttackAnimation(GameObject attacker, GameObject target)
+{
+  EntityManager &em = EntityManager::instance();
+  AnimationComponent *ac =
+      em.getComponentForEntity<AnimationComponent>(attacker);
+  if (ac && !ac->attacking) {
+    ac->start_time = SDL_GetTicks();
+    ac->attacking = true;
+  }
+}
+
 void WeaponSystem::update() {
   EntityManager &em = EntityManager::instance();
   std::vector<GameObject> entities;
@@ -78,17 +89,6 @@ int WeaponSystem::getStatBonus(StatsComponent *stats, WeaponComponent *weapon)
   }
   int bonus = stats->attack * weapon->stats_multipliers.attack;
   return bonus;
-}
-
-void WeaponSystem::startAttackAnimation(GameObject attacker, GameObject target)
-{
-  EntityManager &em = EntityManager::instance();
-  AnimationComponent *ac =
-      em.getComponentForEntity<AnimationComponent>(attacker);
-  if (ac && !ac->attacking) {
-    ac->start_time = SDL_GetTicks();
-    ac->attacking = true;
-  }
 }
 
 void dealDamage(GameObject attacker, GameObject target)

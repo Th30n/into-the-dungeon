@@ -21,6 +21,8 @@
  */
 #include "RenderSystem.h"
 
+#include <algorithm>
+#include <functional>
 #include <vector>
 
 #include "AnimationComponent.h"
@@ -34,20 +36,8 @@
 #include "RendererComponent.h"
 #include "SpaceComponent.h"
 
-void RenderSystem::render(SDL_Surface *display) const
+static void drawObject(SDL_Surface *display, GameObject go)
 {
-  EntityManager &em = EntityManager::instance();
-  std::vector<GameObject> entities;
-  em.getEntitiesWithComponent<RendererComponent>(entities);
-  std::vector<GameObject>::iterator it = entities.begin();
-  for (; it != entities.end(); ++it) {
-    drawObject(display, it->getId());
-  }
-}
-
-void RenderSystem::drawObject(SDL_Surface *display, int object_id) const
-{
-  GameObject go(object_id);
   EntityManager &em = EntityManager::instance();
   RendererComponent *rc = em.getComponentForEntity<RendererComponent>(go);
   int disp_x = rc->x;
@@ -78,4 +68,13 @@ void RenderSystem::drawObject(SDL_Surface *display, int object_id) const
   CSurface::OnDraw(display, rc->image,
       disp_x + rc->x_offset, disp_y + rc->y_offset,
       img_x, img_y, rc->width, rc->height); 
+}
+
+void RenderSystem::render(SDL_Surface *display) const
+{
+  EntityManager &em = EntityManager::instance();
+  std::vector<GameObject> entities;
+  em.getEntitiesWithComponent<RendererComponent>(entities);
+  std::for_each(entities.begin(), entities.end(),
+      std::bind1st(std::ptr_fun(drawObject), display));
 }

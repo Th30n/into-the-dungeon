@@ -36,7 +36,5 @@ class WeaponSystem {
     void update();
     // Returns the calculated bonus of stats based on weapon stat multipliers.
     static int getStatBonus(StatsComponent *stats, WeaponComponent *weapon);
-  private:
-    void startAttackAnimation(GameObject attacker, GameObject target);
 };
 #endif

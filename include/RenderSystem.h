@@ -31,8 +31,6 @@
 class RenderSystem {
   public:
     void render(SDL_Surface *display) const;
-  private:
-    void drawObject(SDL_Surface *display, int object_id) const;
 };
 
 #endif

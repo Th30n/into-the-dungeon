@@ -21,6 +21,7 @@
  */
 #include "TrapSystem.h"
 
+#include <algorithm>
 #include <cstdio>
 #include <vector>
 
@@ -35,74 +36,6 @@
 #include "TrapComponent.h"
 #include "TurnComponent.h"
 #include "Vector2f.h"
-
-void TrapSystem::update()
-{
-  EntityManager &em = EntityManager::instance();
-  std::vector<GameObject> traps;
-  em.getEntitiesWithComponent<TrapComponent>(traps);
-  std::vector<GameObject>::iterator it = traps.begin();
-  for (; it != traps.end(); ++it) {
-    updateTrap(*it);
-  }
-}
-
-void TrapSystem::updateTrap(GameObject obj)
-{
-  EntityManager &em = EntityManager::instance();
-  TrapComponent *trap = em.getComponentForEntity<TrapComponent>(obj);
-  if (trap->is_triggered || trap->is_destroyed) {
-    // If the trap was already triggered or destroyed.
-    return;
-  }
-  SpaceComponent *trap_space = em.getComponentForEntity<SpaceComponent>(obj);
-  if (!trap_space || !trap_space->is_active) {
-    // If trap isn't on map.
-    return ;
-  }
-  std::vector<GameObject> entities;
-  em.getEntitiesWithComponent<CollisionComponent>(entities);
-  std::vector<GameObject>::iterator it = entities.begin();
-  for (; it != entities.end(); ++it) {
-    if (triggersTrap(*it, obj)) {
-      trap->is_triggered = true;
-      trap->is_visible = true;
-      spawnEffect(obj, *it);
-    }
-  }
-}
-
-bool TrapSystem::triggersTrap(GameObject entity, GameObject trap)
-{
-  EntityManager &em = EntityManager::instance();
-  SpaceComponent *entity_space =
-      em.getComponentForEntity<SpaceComponent>(entity);
-  if (!entity_space) {
-    return false;
-  }
-  TurnComponent *entity_turn = em.getComponentForEntity<TurnComponent>(entity);
-  TrapComponent *tc = em.getComponentForEntity<TrapComponent>(trap);
-  if (tc->team == entity_turn->team) {
-    return false;
-  }
-  SpaceComponent *trap_space = em.getComponentForEntity<SpaceComponent>(trap);
-  Rectangle trap_rect(trap_space->pos.x, trap_space->pos.y,
-      trap_space->width, trap_space->height);
-  Rectangle entity_rect(entity_space->pos.x, entity_space->pos.y,
-      entity_space->width, entity_space->height);
-  return trap_rect.intersects(entity_rect);
-}
-
-static void createParticle(Vector2f pos);
-
-void TrapSystem::spawnEffect(GameObject trap, GameObject target)
-{
-  EntityManager &em = EntityManager::instance();
-  TrapComponent *tc = em.getComponentForEntity<TrapComponent>(trap);
-  SpellEffects::apply(trap, target, tc->spell);
-  SpaceComponent *sc = em.getComponentForEntity<SpaceComponent>(trap);
-  createParticle(sc->pos);
-}
 
 static void createParticle(Vector2f pos)
 {
@@ -128,5 +61,67 @@ static void createParticle(Vector2f pos)
   em.addComponentToEntity(part_space, part_obj);
   em.addComponentToEntity(sprite, part_obj);
   em.addComponentToEntity(part, part_obj);
-  return;
+}
+
+static void spawnEffect(GameObject trap, GameObject target)
+{
+  EntityManager &em = EntityManager::instance();
+  TrapComponent *tc = em.getComponentForEntity<TrapComponent>(trap);
+  SpellEffects::apply(trap, target, tc->spell);
+  SpaceComponent *sc = em.getComponentForEntity<SpaceComponent>(trap);
+  createParticle(sc->pos);
+}
+
+static bool triggersTrap(GameObject entity, GameObject trap)
+{
+  EntityManager &em = EntityManager::instance();
+  SpaceComponent *entity_space =
+      em.getComponentForEntity<SpaceComponent>(entity);
+  if (!entity_space) {
+    return false;
+  }
+  TurnComponent *entity_turn = em.getComponentForEntity<TurnComponent>(entity);
+  TrapComponent *tc = em.getComponentForEntity<TrapComponent>(trap);
+  if (tc->team == entity_turn->team) {
+    return false;
+  }
+  SpaceComponent *trap_space = em.getComponentForEntity<SpaceComponent>(trap);
+  Rectangle trap_rect(trap_space->pos.x, trap_space->pos.y,
+      trap_space->width, trap_space->height);
+  Rectangle entity_rect(entity_space->pos.x, entity_space->pos.y,
+      entity_space->width, entity_space->height);
+  return trap_rect.intersects(entity_rect);
+}
+
+static void updateTrap(GameObject obj)
+{
+  EntityManager &em = EntityManager::instance();
+  TrapComponent *trap = em.getComponentForEntity<TrapComponent>(obj);
+  if (trap->is_triggered || trap->is_destroyed) {
+    // If the trap was already triggered or destroyed.
+    return;
+  }
+  SpaceComponent *trap_space = em.getComponentForEntity<SpaceComponent>(obj);
+  if (!trap_space || !trap_space->is_active) {
+    // If trap isn't on map.
+    return ;
+  }
+  std::vector<GameObject> entities;
+  em.getEntitiesWithComponent<CollisionComponent>(entities);
+  std::vector<GameObject>::iterator it = entities.begin();
+  for (; it != entities.end(); ++it) {
+    if (triggersTrap(*it, obj)) {
+      trap->is_triggered = true;
+      trap->is_visible = true;
+      spawnEffect(obj, *it);
+    }
+  }
+}
+
+void TrapSystem::update()
+{
+  EntityManager &em = EntityManager::instance();
+  std::vector<GameObject> traps;
+  em.getEntitiesWithComponent<TrapComponent>(traps);
+  std::for_each(traps.begin(), traps.end(), updateTrap);
 }

@@ -32,10 +32,5 @@
 class TrapSystem {
   public:
     void update();
-  
-  private:
-    void updateTrap(GameObject obj);
-    bool triggersTrap(GameObject entity, GameObject trap);
-    void spawnEffect(GameObject trap, GameObject target);
 };
 #endif
