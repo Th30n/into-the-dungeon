@@ -21,6 +21,7 @@
  */
 #include "DOTSystem.h"
 
+#include <algorithm>
 #include <vector>
 
 #include "DOTComponent.h"
@@ -29,18 +30,7 @@
 #include "SpellEffects.h"
 #include "TurnComponent.h"
 
-void DOTSystem::update()
-{
-  EntityManager &em = EntityManager::instance();
-  std::vector<GameObject> dots;
-  em.getEntitiesWithComponent<DOTComponent>(dots);
-  std::vector<GameObject>::iterator it = dots.begin();
-  for (; it != dots.end(); ++it) {
-    updateDOT(*it);
-  }
-}
-
-void DOTSystem::updateDOT(GameObject obj)
+static void updateDOT(GameObject obj)
 {
   EntityManager &em = EntityManager::instance();
   DOTComponent *dot = em.getComponentForEntity<DOTComponent>(obj);
@@ -69,4 +59,12 @@ void DOTSystem::updateDOT(GameObject obj)
     SpellEffects::apply(dot->source, dot->target, dot->spell);
   }
   turn->turn_taken = true;
+}
+
+void DOTSystem::update()
+{
+  EntityManager &em = EntityManager::instance();
+  std::vector<GameObject> dots;
+  em.getEntitiesWithComponent<DOTComponent>(dots);
+  std::for_each(dots.begin(), dots.end(), updateDOT);
 }

@@ -30,8 +30,5 @@
 class DOTSystem {
   public:
     void update();
-  
-  private:
-    void updateDOT(GameObject obj);
 };
 #endif
