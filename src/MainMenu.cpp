@@ -208,7 +208,7 @@ MainMenu::~MainMenu()
 void MainMenu::deleteGUI()
 {
   std::list<Button*>::iterator it;
-  for(it = buttons_.begin(); it != buttons_.end(); it++) {
+  for (it = buttons_.begin(); it != buttons_.end(); it++) {
     Button *b = *it;
     if (b == NULL) continue;
     delete b;
@@ -381,7 +381,7 @@ void MainMenu::OnRender(CApp* app)
   CSurface::OnDraw(app->getDisplay(), logo_, 0, 0);
   
   std::list<Button*>::iterator it;
-  for(it = buttons_.begin(); it != buttons_.end(); it++) {
+  for (it = buttons_.begin(); it != buttons_.end(); it++) {
     Button *b = *it;
     if (b == NULL) continue;
     b->paint(app->getDisplay());
@@ -448,7 +448,7 @@ void MainMenu::OnMouseMove(int mx, int my, int relx, int rely,
 {
   selection_ = BUTTON_NONE;
   std::list<Button*>::iterator it;
-  for(it = buttons_.begin(); it != buttons_.end(); it++) {
+  for (it = buttons_.begin(); it != buttons_.end(); it++) {
     Button *b = *it;
     if (b == NULL) continue;
     b->mouseMoved(mx, my);
@@ -459,7 +459,7 @@ void MainMenu::OnLButtonUp(int mx, int my)
 {
   selection_ = BUTTON_NONE;
   std::list<Button*>::iterator it;
-  for(it = buttons_.begin(); it != buttons_.end(); it++) {
+  for (it = buttons_.begin(); it != buttons_.end(); it++) {
     Button *b = *it;
     if (b == NULL) continue;
     b->mouseReleased(mx, my);
@@ -469,7 +469,7 @@ void MainMenu::OnLButtonUp(int mx, int my)
 void MainMenu::updateSelection()
 {
   std::list<Button*>::iterator it;
-  for(it = buttons_.begin(); it != buttons_.end(); it++) {
+  for (it = buttons_.begin(); it != buttons_.end(); it++) {
     Button *b = *it;
     if (b == NULL) continue;
     b->keySelected(selection_);
@@ -479,7 +479,7 @@ void MainMenu::updateSelection()
 void MainMenu::doSelected()
 {
   std::list<Button*>::iterator it;
-  for(it = buttons_.begin(); it != buttons_.end(); it++) {
+  for (it = buttons_.begin(); it != buttons_.end(); it++) {
     Button *b = *it;
     if (b == NULL) continue;
     if (b->getId() == selection_) {

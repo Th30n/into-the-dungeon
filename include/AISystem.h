@@ -38,22 +38,6 @@ class AISystem {
   public:
     AISystem(GameObject player);
     void update();
-  private:
-    void decide(GameObject obj);
-    GameObject getValidTarget(GameObject obj);
-    bool canSee(GameObject obj, GameObject target);
-    bool canCastSpell(GameObject obj);
-    void castSpell(GameObject obj, GameObject target);
-    GameObject targetSpell(GameObject obj, GameObject target,
-        std::string spell_name);
-    GameObject getAdjacentField(GameObject obj);
-    bool inAttackRange(GameObject obj, GameObject target);
-    void attack(GameObject obj, GameObject target);
-    void moveToPos(GameObject obj, Vector2f pos);
-    void moveRandom(GameObject obj);
-
-    GameObject player_;
-
 };
 #endif
 

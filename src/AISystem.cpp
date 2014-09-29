@@ -21,6 +21,7 @@
  */
 #include "AISystem.h"
 
+#include <algorithm>
 #include <cstdlib>
 #include <vector>
 
@@ -41,29 +42,234 @@
 #include "Visibility.h"
 #include "WeaponComponent.h"
 
+static GameObject player_(0);
+
 AISystem::AISystem(GameObject player)
-  : player_(player)
 {
+  player_ = player;
 }
 
-void AISystem::update()
+static GameObject getNearestTarget(GameObject obj)
 {
   EntityManager &em = EntityManager::instance();
+  SpaceComponent *sp = em.getComponentForEntity<SpaceComponent>(obj);
   std::vector<GameObject> entities;
-  em.getEntitiesWithComponent<AIComponent>(entities);
+  em.getEntitiesWithComponent<HealthComponent>(entities);
   std::vector<GameObject>::iterator it = entities.begin();
+  float min_dist = 100.0f;
+  std::vector<GameObject> targets;
   for (; it != entities.end(); ++it) {
-    TurnComponent *tc = em.getComponentForEntity<TurnComponent>(*it);
-    if (tc && !tc->turn_taken) {
-      decide(*it);
-      tc->turn_taken = true;
+    if (obj == *it) {
+      continue;
     }
+    HealthComponent *thp = em.getComponentForEntity<HealthComponent>(*it);
+    if (thp->is_dead) {
+      continue;
+    }
+    SpaceComponent *tsp = em.getComponentForEntity<SpaceComponent>(*it);
+    if (tsp) {
+      float d = tsp->pos.manhattanDistance(sp->pos);
+      if (d < min_dist) {
+        targets.clear();
+        targets.push_back(*it);
+        min_dist = d;
+      } else if (d == min_dist) {
+        targets.push_back(*it);
+      }
+    }
+  }
+  return targets[rand() % targets.size()];
+}
+
+static GameObject getValidTarget(GameObject obj)
+{
+  EntityManager &em = EntityManager::instance();
+  HealthComponent *hp = em.getComponentForEntity<HealthComponent>(obj);
+  if (hp->ailments & STATUS_CONFUSED) {
+    return getNearestTarget(obj);
+  }
+  return player_;
+}
+
+static void moveRandom(GameObject obj)
+{
+  EntityManager &em = EntityManager::instance();
+  MovementComponent *mov = em.getComponentForEntity<MovementComponent>(obj);
+  if (!mov) {
+    return;
+  }
+  int dir = rand() % 4;
+  switch (dir) {
+    case 0:
+      mov->waypoint.y -= 1;
+      break;
+    case 1:
+      mov->waypoint.y += 1;
+      break;
+    case 2:
+      mov->waypoint.x -= 1;
+      break;
+    case 3:
+      mov->waypoint.x += 1;
+      break;
+    default:
+      break;
   }
 }
 
-void AISystem::decide(GameObject obj)
+static void moveToPos(GameObject obj, Vector2f pos)
 {
   EntityManager &em = EntityManager::instance();
+  SpaceComponent *aispace = em.getComponentForEntity<SpaceComponent>(obj);
+  Vector2f dir = pos - aispace->pos;
+  MovementComponent *mov = em.getComponentForEntity<MovementComponent>(obj);
+  if (dir.x > 0) {
+    mov->waypoint.x += 1;
+  } else if (dir.x < 0) {
+    mov->waypoint.x -= 1;
+  } else if (dir.y > 0) {
+    mov->waypoint.y += 1;
+  } else if (dir.y < 0) {
+    mov->waypoint.y -= 1;
+  }
+}
+
+static void attack(GameObject obj, GameObject target)
+{
+  EntityManager &em = EntityManager::instance();
+  WeaponComponent *wep = em.getComponentForEntity<WeaponComponent>(obj);
+  wep->target_id = target.getId();
+}
+
+static float getManhattanDistance(GameObject o1, GameObject o2)
+{
+  EntityManager &em = EntityManager::instance();
+  SpaceComponent *sp1 = em.getComponentForEntity<SpaceComponent>(o1);
+  SpaceComponent *sp2 = em.getComponentForEntity<SpaceComponent>(o2);
+  return sp1->pos.manhattanDistance(sp2->pos);
+}
+
+static bool inAttackRange(GameObject obj, GameObject target)
+{
+  EntityManager &em = EntityManager::instance();
+  WeaponComponent *wep = em.getComponentForEntity<WeaponComponent>(obj);
+  float dist = getManhattanDistance(obj, target);
+  if (dist <= wep->max_range && dist >= wep->min_range) {
+    return true;
+  }
+  return false;
+}
+
+static GameObject getAdjacentField(GameObject obj)
+{
+  EntityManager &em = EntityManager::instance();
+  SpaceComponent *tsp = em.getComponentForEntity<SpaceComponent>(obj);
+  int min_x = tsp->pos.x - 1;
+  int max_x = tsp->pos.x + tsp->width;
+  int min_y = tsp->pos.y - 1;
+  int max_y = tsp->pos.y + tsp->height;
+  std::vector<Vector2f> adjacent_fields;
+  for (int x = min_x; x <= max_x; ++x) {
+    for (int y = min_y; y <= max_y; ++y) {
+      Rectangle r(tsp->pos.x, tsp->pos.y, tsp->width, tsp->height);
+      if (r.intersects(x, y)) {
+        continue;
+      } else {
+        adjacent_fields.push_back(Vector2f(x, y));
+      }
+    }
+  }
+  int picker = rand() % adjacent_fields.size();
+  GameObject field = em.createEntity();
+  SpaceComponent *field_space = new SpaceComponent();
+  field_space->pos = adjacent_fields[picker];
+  RendererComponent *field_image =
+      new RendererComponent(data::FindFile("gfx/UI/Target.png").c_str());
+  field_image->width = 32;
+  field_image->height = 32;
+  field_image->start();
+  em.addComponentToEntity(field_space, field);
+  em.addComponentToEntity(field_image, field);
+  return field;
+}
+
+static GameObject targetSpell(GameObject obj, GameObject target,
+    std::string spell_name)
+{
+  GameObject spell_obj = EntityFactory::instance().createSpell(spell_name);
+  if (spell_obj.getId() == 0) {
+    return 0;
+  }
+  EntityManager &em = EntityManager::instance();
+  SpellComponent *spell = em.getComponentForEntity<SpellComponent>(spell_obj);
+  GameObject spell_target(0);
+  if (spell->targeting == "user") {
+    spell_target = obj;
+  } else if (spell->targeting == "target") {
+    spell_target = target;
+  } else if (spell->targeting == "targetField") {
+    spell_target = getAdjacentField(target);
+  } else if (spell->targeting == "adjacentField") {
+    spell_target = getAdjacentField(obj);
+  }
+  em.removeEntity(spell_obj);
+  return spell_target;
+}
+
+static void castSpell(GameObject obj, GameObject target)
+{
+  EntityManager &em = EntityManager::instance();
+  StatsComponent *aistats = em.getComponentForEntity<StatsComponent>(obj);
+  int picker = rand() % aistats->skills.size();
+  GameObject spell_target = targetSpell(obj, target, aistats->skills[picker]);
+  SpellEffects::apply(obj, spell_target, aistats->skills[picker]);
+}
+
+static bool canCastSpell(GameObject obj)
+{
+  EntityManager &em = EntityManager::instance();
+  StatsComponent *aistats = em.getComponentForEntity<StatsComponent>(obj);
+  AIComponent *ai = em.getComponentForEntity<AIComponent>(obj);
+  if (aistats && !aistats->skills.empty()) {
+    int chance = rand() % 100;
+    if (chance < ai->cast_rate) {
+      return true;
+    }
+  }
+  return false;
+}
+
+static bool canSee(GameObject obj, GameObject target)
+{
+  EntityManager &em = EntityManager::instance();
+  SpaceComponent *aisp = em.getComponentForEntity<SpaceComponent>(obj);
+  SpaceComponent *tsp = em.getComponentForEntity<SpaceComponent>(target);
+  Vector2f dir = tsp->pos - aisp->pos;
+  float cos_angle = aisp->look_dir.normalized() * dir.normalized();
+  if (cos_angle < 0.0f) {
+    // view angle is 180 deg
+    return false;
+  }
+  StatsComponent *aistats = em.getComponentForEntity<StatsComponent>(obj);
+  int dist = getManhattanDistance(obj, target);
+  if (dist > aistats->vision_range) {
+    return false;
+  }
+  HealthComponent *hp = em.getComponentForEntity<HealthComponent>(target);
+  if (hp->ailments & STATUS_INVISIBLE) {
+    return false;
+  }
+  return Visibility::InLOS(aisp->pos, tsp->pos);
+}
+
+static void decide(GameObject obj)
+{
+  EntityManager &em = EntityManager::instance();
+  TurnComponent *tc = em.getComponentForEntity<TurnComponent>(obj);
+  if (!tc || tc->turn_taken) {
+    return;
+  }
+  tc->turn_taken = true;
   HealthComponent *health = em.getComponentForEntity<HealthComponent>(obj);
   if (health && health->is_dead) {
     return;
@@ -101,215 +307,10 @@ void AISystem::decide(GameObject obj)
   }
 }
 
-static GameObject getNearestTarget(GameObject obj)
+void AISystem::update()
 {
   EntityManager &em = EntityManager::instance();
-  SpaceComponent *sp = em.getComponentForEntity<SpaceComponent>(obj);
   std::vector<GameObject> entities;
-  em.getEntitiesWithComponent<HealthComponent>(entities);
-  std::vector<GameObject>::iterator it = entities.begin();
-  float min_dist = 100.0f;
-  std::vector<GameObject> targets;
-  for (; it != entities.end(); ++it) {
-    if (obj == *it) {
-      continue;
-    }
-    HealthComponent *thp = em.getComponentForEntity<HealthComponent>(*it);
-    if (thp->is_dead) {
-      continue;
-    }
-    SpaceComponent *tsp = em.getComponentForEntity<SpaceComponent>(*it);
-    if (tsp) {
-      float d = tsp->pos.manhattanDistance(sp->pos);
-      if (d < min_dist) {
-        targets.clear();
-        targets.push_back(*it);
-        min_dist = d;
-      } else if (d == min_dist) {
-        targets.push_back(*it);
-      }
-    }
-  }
-  return targets[rand() % targets.size()];
-}
-
-GameObject AISystem::getValidTarget(GameObject obj)
-{
-  EntityManager &em = EntityManager::instance();
-  HealthComponent *hp = em.getComponentForEntity<HealthComponent>(obj);
-  if (hp->ailments & STATUS_CONFUSED) {
-    return getNearestTarget(obj);
-  }
-  return player_;
-}
-
-static float getManhattanDistance(GameObject o1, GameObject o2)
-{
-  EntityManager &em = EntityManager::instance();
-  SpaceComponent *sp1 = em.getComponentForEntity<SpaceComponent>(o1);
-  SpaceComponent *sp2 = em.getComponentForEntity<SpaceComponent>(o2);
-  return sp1->pos.manhattanDistance(sp2->pos);
-}
-
-bool AISystem::canSee(GameObject obj, GameObject target)
-{
-  EntityManager &em = EntityManager::instance();
-  SpaceComponent *aisp = em.getComponentForEntity<SpaceComponent>(obj);
-  SpaceComponent *tsp = em.getComponentForEntity<SpaceComponent>(target);
-  Vector2f dir = tsp->pos - aisp->pos;
-  float cos_angle = aisp->look_dir.normalized() * dir.normalized();
-  if (cos_angle < 0.0f) {
-    // view angle is 180 deg
-    return false;
-  }
-  StatsComponent *aistats = em.getComponentForEntity<StatsComponent>(obj);
-  int dist = getManhattanDistance(obj, target);
-  if (dist > aistats->vision_range) {
-    return false;
-  }
-  HealthComponent *hp = em.getComponentForEntity<HealthComponent>(target);
-  if (hp->ailments & STATUS_INVISIBLE) {
-    return false;
-  }
-  return Visibility::InLOS(aisp->pos, tsp->pos);
-}
-
-bool AISystem::canCastSpell(GameObject obj)
-{
-  EntityManager &em = EntityManager::instance();
-  StatsComponent *aistats = em.getComponentForEntity<StatsComponent>(obj);
-  AIComponent *ai = em.getComponentForEntity<AIComponent>(obj);
-  if (aistats && !aistats->skills.empty()) {
-    int chance = rand() % 100;
-    if (chance < ai->cast_rate) {
-      return true;
-    }
-  }
-  return false;
-}
-
-void AISystem::castSpell(GameObject obj, GameObject target)
-{
-  EntityManager &em = EntityManager::instance();
-  StatsComponent *aistats = em.getComponentForEntity<StatsComponent>(obj);
-  int picker = rand() % aistats->skills.size();
-  GameObject spell_target = targetSpell(obj, target, aistats->skills[picker]);
-  SpellEffects::apply(obj, spell_target, aistats->skills[picker]);
-}
-
-GameObject AISystem::targetSpell(GameObject obj, GameObject target,
-    std::string spell_name)
-{
-  GameObject spell_obj = EntityFactory::instance().createSpell(spell_name);
-  if (spell_obj.getId() == 0) {
-    return 0;
-  }
-  EntityManager &em = EntityManager::instance();
-  SpellComponent *spell = em.getComponentForEntity<SpellComponent>(spell_obj);
-  GameObject spell_target(0);
-  if (spell->targeting == "user") {
-    spell_target = obj;
-  } else if (spell->targeting == "target") {
-    spell_target = target;
-  } else if (spell->targeting == "targetField") {
-    spell_target = getAdjacentField(target);
-  } else if (spell->targeting == "adjacentField") {
-    spell_target = getAdjacentField(obj);
-  }
-  em.removeEntity(spell_obj);
-  return spell_target;
-}
-
-GameObject AISystem::getAdjacentField(GameObject obj)
-{
-  EntityManager &em = EntityManager::instance();
-  SpaceComponent *tsp = em.getComponentForEntity<SpaceComponent>(obj);
-  int min_x = tsp->pos.x - 1;
-  int max_x = tsp->pos.x + tsp->width;
-  int min_y = tsp->pos.y - 1;
-  int max_y = tsp->pos.y + tsp->height;
-  std::vector<Vector2f> adjacent_fields;
-  for (int x = min_x; x <= max_x; ++x) {
-    for (int y = min_y; y <= max_y; ++y) {
-      Rectangle r(tsp->pos.x, tsp->pos.y, tsp->width, tsp->height);
-      if (r.intersects(x, y)) {
-        continue;
-      } else {
-        adjacent_fields.push_back(Vector2f(x, y));
-      }
-    }
-  }
-  int picker = rand() % adjacent_fields.size();
-  GameObject field = em.createEntity();
-  SpaceComponent *field_space = new SpaceComponent();
-  field_space->pos = adjacent_fields[picker];
-  RendererComponent *field_image =
-      new RendererComponent(data::FindFile("gfx/UI/Target.png").c_str());
-  field_image->width = 32;
-  field_image->height = 32;
-  field_image->start();
-  em.addComponentToEntity(field_space, field);
-  em.addComponentToEntity(field_image, field);
-  return field;
-}
-
-bool AISystem::inAttackRange(GameObject obj, GameObject target)
-{
-  EntityManager &em = EntityManager::instance();
-  WeaponComponent *wep = em.getComponentForEntity<WeaponComponent>(obj);
-  float dist = getManhattanDistance(obj, target);
-  if (dist <= wep->max_range && dist >= wep->min_range) {
-    return true;
-  }
-  return false;
-}
-
-void AISystem::attack(GameObject obj, GameObject target)
-{
-  EntityManager &em = EntityManager::instance();
-  WeaponComponent *wep = em.getComponentForEntity<WeaponComponent>(obj);
-  wep->target_id = target.getId();
-}
-
-void AISystem::moveToPos(GameObject obj, Vector2f pos)
-{
-  EntityManager &em = EntityManager::instance();
-  SpaceComponent *aispace = em.getComponentForEntity<SpaceComponent>(obj);
-  Vector2f dir = pos - aispace->pos;
-  MovementComponent *mov = em.getComponentForEntity<MovementComponent>(obj);
-  if (dir.x > 0) {
-    mov->waypoint.x += 1;
-  } else if (dir.x < 0) {
-    mov->waypoint.x -= 1;
-  } else if (dir.y > 0) {
-    mov->waypoint.y += 1;
-  } else if (dir.y < 0) {
-    mov->waypoint.y -= 1;
-  }
-}
-
-void AISystem::moveRandom(GameObject obj)
-{
-  EntityManager &em = EntityManager::instance();
-  MovementComponent *mov = em.getComponentForEntity<MovementComponent>(obj);
-  if (!mov) {
-    return;
-  }
-  int dir = rand() % 4;
-  switch (dir) {
-    case 0:
-      mov->waypoint.y -= 1;
-      break;
-    case 1:
-      mov->waypoint.y += 1;
-      break;
-    case 2:
-      mov->waypoint.x -= 1;
-      break;
-    case 3:
-      mov->waypoint.x += 1;
-      break;
-    default:
-      break;
-  }
+  em.getEntitiesWithComponent<AIComponent>(entities);
+  std::for_each(entities.begin(), entities.end(), decide);
 }

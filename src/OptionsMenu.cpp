@@ -99,7 +99,7 @@ OptionsMenu::~OptionsMenu()
 void OptionsMenu::deleteGUI()
 {
   std::list<Button*>::iterator it;
-  for(it = buttons_.begin(); it != buttons_.end(); it++) {
+  for (it = buttons_.begin(); it != buttons_.end(); it++) {
     Button *b = *it;
     if (b == NULL) {
       continue;
@@ -221,7 +221,7 @@ void OptionsMenu::OnRender(CApp* app)
   CSurface::OnDraw(app->getDisplay(), tutorial_option_, 609, 437);
 
   std::list<Button*>::iterator it;
-  for(it = buttons_.begin(); it != buttons_.end(); it++) {
+  for (it = buttons_.begin(); it != buttons_.end(); it++) {
     Button *b = *it;
     if (b == NULL) {
       continue;
@@ -278,7 +278,7 @@ void OptionsMenu::OnMouseMove(int mx, int my, int relx, int rely,
 {
   highlight_ = HIGHLIGHT_NONE;
   std::list<Button*>::iterator it;
-  for(it = buttons_.begin(); it != buttons_.end(); it++) {
+  for (it = buttons_.begin(); it != buttons_.end(); it++) {
     Button *b = *it;
     if (b == NULL) {
       continue;
@@ -291,7 +291,7 @@ void OptionsMenu::OnLButtonUp(int mx, int my)
 {
   highlight_ = HIGHLIGHT_NONE;
   std::list<Button*>::iterator it;
-  for(it = buttons_.begin(); it != buttons_.end(); it++) {
+  for (it = buttons_.begin(); it != buttons_.end(); it++) {
     Button *b = *it;
     if (b == NULL) continue;
     b->mouseReleased(mx, my);
@@ -301,7 +301,7 @@ void OptionsMenu::OnLButtonUp(int mx, int my)
 void OptionsMenu::updateSelection()
 {
   std::list<Button*>::iterator it;
-  for(it = buttons_.begin(); it != buttons_.end(); it++) {
+  for (it = buttons_.begin(); it != buttons_.end(); it++) {
     Button *b = *it;
     if (b == NULL) {
       continue;
@@ -313,7 +313,7 @@ void OptionsMenu::updateSelection()
 void OptionsMenu::doSelected()
 {
   std::list<Button*>::iterator it;
-  for(it = buttons_.begin(); it != buttons_.end(); it++) {
+  for (it = buttons_.begin(); it != buttons_.end(); it++) {
     Button *b = *it;
     if (b == NULL) continue;
     if (b->getId() == highlight_) {
