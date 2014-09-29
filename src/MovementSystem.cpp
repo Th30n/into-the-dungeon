@@ -21,6 +21,7 @@
  */
 #include "MovementSystem.h"
 
+#include <algorithm>
 #include <cmath>
 #include <vector>
 
@@ -37,18 +38,72 @@
 #include "SpaceComponent.h"
 #include "Vector2f.h"
 
-void MovementSystem::update() const
+static bool collidesObject(GameObject o1, GameObject o2)
+{
+  if (o1 == o2) {
+    return false;
+  }
+  EntityManager &em = EntityManager::instance();
+  HealthComponent *hc2 = em.getComponentForEntity<HealthComponent>(o2);
+  if (hc2 && hc2->is_dead) {
+    return false;
+  }
+  SpaceComponent *sc1 = em.getComponentForEntity<SpaceComponent>(o1);
+  MovementComponent *mc1 = em.getComponentForEntity<MovementComponent>(o1);
+  SpaceComponent *sc2 = em.getComponentForEntity<SpaceComponent>(o2);
+  Rectangle r1(mc1->waypoint.x, mc1->waypoint.y, sc1->width, sc1->height);
+  Rectangle r2(sc2->pos.x, sc2->pos.y, sc2->width, sc2->height);
+  if (r1.intersects(r2)) {
+    return true;
+  }
+  MovementComponent *mc2 = em.getComponentForEntity<MovementComponent>(o2);
+  if (mc2) {
+    r2.setX(mc2->waypoint.x);
+    r2.setY(mc2->waypoint.y);
+    if (r1.intersects(r2)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+static GameObject getCollidedObject(GameObject object)
 {
   EntityManager &em = EntityManager::instance();
   std::vector<GameObject> entities;
-  em.getEntitiesWithComponent<MovementComponent>(entities);
+  em.getEntitiesWithComponent<CollisionComponent>(entities);
   std::vector<GameObject>::iterator it = entities.begin();
   for (; it != entities.end(); ++it) {
-    move(*it);
+    if (collidesObject(object, *it)) {
+      return *it;
+    }
   }
+  return 0;
 }
 
-void MovementSystem::move(GameObject object) const
+static bool collidesMap(const SpaceComponent *sc, const MovementComponent *mc)
+{
+  int start_x = mc->waypoint.x;
+  int start_y = mc->waypoint.y;
+  int end_x = start_x + sc->width;
+  int end_y = start_y + sc->height;
+
+  for (int i_y = start_y; i_y < end_y; i_y++) {
+    for (int i_x = start_x; i_x < end_x; i_x++) {
+      CTile *tile = CArea::area_control.GetTile(
+                  i_x * TILE_SIZE, i_y * TILE_SIZE);
+      if (tile && tile->isBlocking()) {
+        if (tile->isDoor()) {
+          tile->openDoor();
+        }
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+static void move(GameObject object)
 {
   EntityManager &em = EntityManager::instance();
   MovementComponent *mc = em.getComponentForEntity<MovementComponent>(object);
@@ -81,68 +136,10 @@ void MovementSystem::move(GameObject object) const
   sc->pos += dir * speed;
 }
 
-bool MovementSystem::collidesMap(
-    const SpaceComponent *sc, const MovementComponent *mc) const
-{
-  int start_x = mc->waypoint.x;
-  int start_y = mc->waypoint.y;
-  int end_x = start_x + sc->width;
-  int end_y = start_y + sc->height;
-
-  for (int i_y = start_y; i_y < end_y; i_y++) {
-    for (int i_x = start_x; i_x < end_x; i_x++) {
-      CTile *tile = CArea::area_control.GetTile(
-                  i_x * TILE_SIZE, i_y * TILE_SIZE);
-      if (tile && tile->isBlocking()) {
-        if (tile->isDoor()) {
-          tile->openDoor();
-        }
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
-GameObject MovementSystem::getCollidedObject(GameObject object) const
+void MovementSystem::update() const
 {
   EntityManager &em = EntityManager::instance();
   std::vector<GameObject> entities;
-  em.getEntitiesWithComponent<CollisionComponent>(entities);
-  std::vector<GameObject>::iterator it = entities.begin();
-  for (; it != entities.end(); ++it) {
-    if (collidesObject(object, *it)) {
-      return *it;
-    }
-  }
-  return 0;
-}
-
-bool MovementSystem::collidesObject(GameObject o1, GameObject o2) const
-{
-  if (o1 == o2) {
-    return false;
-  }
-  EntityManager &em = EntityManager::instance();
-  HealthComponent *hc2 = em.getComponentForEntity<HealthComponent>(o2);
-  if (hc2 && hc2->is_dead) {
-    return false;
-  }
-  SpaceComponent *sc1 = em.getComponentForEntity<SpaceComponent>(o1);
-  MovementComponent *mc1 = em.getComponentForEntity<MovementComponent>(o1);
-  SpaceComponent *sc2 = em.getComponentForEntity<SpaceComponent>(o2);
-  Rectangle r1(mc1->waypoint.x, mc1->waypoint.y, sc1->width, sc1->height);
-  Rectangle r2(sc2->pos.x, sc2->pos.y, sc2->width, sc2->height);
-  if (r1.intersects(r2)) {
-    return true;
-  }
-  MovementComponent *mc2 = em.getComponentForEntity<MovementComponent>(o2);
-  if (mc2) {
-    r2.setX(mc2->waypoint.x);
-    r2.setY(mc2->waypoint.y);
-    if (r1.intersects(r2)) {
-      return true;
-    }
-  }
-  return false;
+  em.getEntitiesWithComponent<MovementComponent>(entities);
+  std::for_each(entities.begin(), entities.end(), move);
 }

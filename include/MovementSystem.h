@@ -37,12 +37,6 @@ class SpaceComponent;
 class MovementSystem {
   public:
     void update() const;
-  private:
-    void move(GameObject object) const;
-    bool collidesMap(
-        const SpaceComponent *sc, const MovementComponent *mc) const;
-    GameObject getCollidedObject(GameObject object) const;
-    bool collidesObject(GameObject o1, GameObject o2) const;
 };
 
 #endif

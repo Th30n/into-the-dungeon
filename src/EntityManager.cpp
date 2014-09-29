@@ -98,15 +98,8 @@ unsigned EntityManager::generateEid()
     return lowest_unassigned_eid_++;
   } else {
     for (unsigned i = 1; i < std::numeric_limits<unsigned>::max(); i++) {
-      bool found = false;
-      EntityArray::iterator it = entities_.begin();
-      for (; it != entities_.end(); ++it) {
-        if (*it == i) {
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
+      EntityArrayIt it = std::find(entities_.begin(), entities_.end(), i);
+      if (it != entities_.end()) {
         return i;
       }
     }

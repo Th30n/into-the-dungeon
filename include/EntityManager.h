@@ -59,6 +59,7 @@ class EntityManager {
     typedef std::map<unsigned, IComponent*> ComponentEntityMap;
     typedef std::map<std::string, ComponentEntityMap> ComponentClassMap;
     typedef std::vector<unsigned> EntityArray;
+    typedef EntityArray::iterator EntityArrayIt;
 
     EntityManager();
     EntityManager(const EntityManager &em);
