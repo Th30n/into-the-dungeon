@@ -21,6 +21,8 @@
  */
 #include "CHud.h"
 
+#include <algorithm>
+
 #include "AnimationComponent.h"
 #include "CText.h"
 #include "CArea.h"
@@ -333,27 +335,7 @@ void CHud::updateSpellBook(int Highlight)
   return hud_inventory_.updateScrollBook(Highlight);
 }
 
-void CHud::drawPotionCount(SDL_Surface *display)
-{
-  int potion_counter = 0;
-  std::vector<unsigned> &items = player_inventory_->items;
-  for (unsigned i = 0; i < items.size(); ++i)
-  {
-    if (isPotion(items[i])) {
-      potion_counter++;
-    }
-  }
-  
-  int PosX = 110;
-  if (potion_counter > 9) PosX = 110;
-  int PosY = 557 + COptions::options.getScreenHeight() - WHEIGHT;
-  
-  CText::TextControl.displayBMPText(display, PosX, PosY,
-      CText::TextControl.ConvertInt(potion_counter),
-      255, 255, 255, -1, -1, -1, FONT_SMALL, 0);
-}
-
-bool CHud::isPotion(GameObject obj)
+static bool isPotion(GameObject obj)
 {
   EntityManager &em = EntityManager::instance();
   ItemComponent *item = em.getComponentForEntity<ItemComponent>(obj);
@@ -362,6 +344,20 @@ bool CHud::isPotion(GameObject obj)
   } else {
     return false;
   }
+}
+
+void CHud::drawPotionCount(SDL_Surface *display)
+{
+  std::vector<unsigned> &items = player_inventory_->items;
+  int potion_counter = std::count_if(items.begin(), items.end(), isPotion);
+  
+  int PosX = 110;
+  if (potion_counter > 9) PosX = 110;
+  int PosY = 557 + COptions::options.getScreenHeight() - WHEIGHT;
+  
+  CText::TextControl.displayBMPText(display, PosX, PosY,
+      CText::TextControl.ConvertInt(potion_counter),
+      255, 255, 255, -1, -1, -1, FONT_SMALL, 0);
 }
 
 void CHud::drawScrollCount(SDL_Surface *display)

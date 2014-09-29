@@ -106,7 +106,6 @@ class CHud {
     void drawHealth(SDL_Surface *display);
     void drawCandle(SDL_Surface *display);
     void drawPotionCount(SDL_Surface *display);
-    bool isPotion(GameObject obj);
     void drawScrollCount(SDL_Surface *display);
     void drawMiniMap(SDL_Surface *display);
     void drawCharacterSheet(SDL_Surface *display);
