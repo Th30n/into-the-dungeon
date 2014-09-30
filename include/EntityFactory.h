@@ -30,6 +30,7 @@
 
 class CEntity;
 class IMLNode;
+class IMLTag;
 class ItemComponent;
 class Rectangle;
 
@@ -77,7 +78,7 @@ class EntityFactory {
     IMLNode *items_iml_;
     IMLNode *traps_iml_;
     IMLNode *spells_iml_;
-    std::vector<IMLNode*> entity_list_;
-    std::vector<IMLNode*> item_list_;
+    std::vector<IMLTag*> entity_list_;
+    std::vector<IMLTag*> item_list_;
 };
 #endif

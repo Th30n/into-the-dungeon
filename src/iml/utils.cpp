@@ -31,40 +31,6 @@
 
 namespace iml {
 
-std::map<std::string, float> getMappedFloats(const IMLNode &node)
-{
-  std::map<std::string, float> map;
-  const std::list<IMLNode*> pairs = node.getChildren();
-  std::list<IMLNode*>::const_iterator it = pairs.begin();
-  for (; it != pairs.end(); ++it) {
-    IMLTag *tag = dynamic_cast<IMLTag*>(*it);
-    if (tag) {
-      std::string key = tag->getName();
-      std::list<IMLNode*> &vals = tag->getChildren();
-      float val = atof((*vals.begin())->getName().c_str());
-      map[key] = val;
-    }
-  }
-  return map;
-}
-
-std::map<std::string, int> getMappedInts(const IMLNode &node)
-{
-  std::map<std::string, int> map;
-  const std::list<IMLNode*> pairs = node.getChildren();
-  std::list<IMLNode*>::const_iterator it = pairs.begin();
-  for (; it != pairs.end(); ++it) {
-    IMLTag *tag = dynamic_cast<IMLTag*>(*it);
-    if (tag) {
-      std::string key = tag->getName();
-      std::list<IMLNode*> &vals = tag->getChildren();
-      int val = atoi((*vals.begin())->getName().c_str());
-      map[key] = val;
-    }
-  }
-  return map;
-}
-
 IMLNode *openIML(const char *path)
 {
   IMLParser parser;
@@ -102,9 +68,9 @@ std::string getAttribute(const IMLNode &node, std::string key, std::string def)
   }
 }
 
-std::vector<IMLNode*> getChildrenTags(const IMLNode &node)
+std::vector<IMLTag*> getChildrenTags(const IMLNode &node)
 {
-  std::vector<IMLNode*> tags;
+  std::vector<IMLTag*> tags;
   const std::list<IMLNode*> &children = node.getChildren();
   std::list<IMLNode*>::const_iterator it = children.begin();
   for (; it != children.end(); ++it) {

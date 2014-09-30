@@ -22,21 +22,44 @@
 #ifndef IML_UTILS_H
 #define IML_UTILS_H
 
+#include <list>
 #include <map>
 #include <string>
+#include <sstream>
+#include <utility>
 #include <vector>
 
-class IMLNode;
+#include "iml/IMLNode.h"
+#include "iml/IMLTag.h"
 
 namespace iml {
 
-std::map<std::string, float> getMappedFloats(const IMLNode &node);
-std::map<std::string, int> getMappedInts(const IMLNode &node);
+// Returns the value of given IMLTag node. If unable to create the value with
+// given type T the first element of std::pair is false and value is set
+// to initial value for type.
+template<typename T>
+std::pair<bool, T> GetTagValue(const IMLTag &tag)
+{
+  const std::list<IMLNode*> &vals = tag.getChildren();
+  if (!vals.empty()) {
+    std::string string_val = (*vals.begin())->getName();
+    std::istringstream sstream(string_val);
+    T val;
+    sstream >> val;
+    if (!sstream.fail()) {
+      return std::make_pair(true, val);
+    }
+  }
+  return std::make_pair(false, T());
+}
+
+// std::map<std::string, float> getMappedFloats(const IMLNode &node);
+// std::map<std::string, int> getMappedInts(const IMLNode &node);
 IMLNode *openIML(const char *path);
 void saveIML(const IMLNode &node, const char *path);
 std::string getAttribute(const IMLNode &node, std::string key);
 std::string getAttribute(const IMLNode &node, std::string key, std::string def);
-std::vector<IMLNode*> getChildrenTags(const IMLNode &node);
+std::vector<IMLTag*> getChildrenTags(const IMLNode &node);
 
 } // namespace iml
 #endif
