@@ -35,14 +35,14 @@ Effect::Effect()
 
 void Effect::loadIML(const IMLNode &node)
 {
-  type = iml::getAttribute(node, "type");
-  damage = atoi(iml::getAttribute(node, "damage", "0").c_str());
-  duration = atoi(iml::getAttribute(node, "duration", "0").c_str());
-  ailment = iml::getAttribute(node, "ailment");
-  chance = atoi(iml::getAttribute(node, "chance", "0").c_str());
-  spell = iml::getAttribute(node, "spell");
+  type = iml::GetAttribute<std::string>(node, "type");
+  damage = iml::GetAttribute(node, "damage", 0);
+  duration = iml::GetAttribute(node, "duration", 0);
+  ailment = iml::GetAttribute<std::string>(node, "ailment");
+  chance = iml::GetAttribute(node, "chance", 0);
+  spell = iml::GetAttribute<std::string>(node, "spell");
   stats.loadIML(node);
-  entity = iml::getAttribute(node, "entity");
+  entity = iml::GetAttribute<std::string>(node, "entity");
 }
 
 int SpellComponent::hreg = ComponentFactory::instance().registerCreator(
@@ -60,9 +60,9 @@ SpellComponent::SpellComponent()
 
 void SpellComponent::loadIML(const IMLNode &node)
 {
-  targeting = iml::getAttribute(node, "targeting");
-  name = iml::getAttribute(node, "name");
-  description = iml::getAttribute(node, "description");
+  targeting = iml::GetAttribute<std::string>(node, "targeting");
+  name = iml::GetAttribute<std::string>(node, "name");
+  description = iml::GetAttribute<std::string>(node, "description");
   std::list<IMLNode*> &effects_iml = node.findByName("effects")->getChildren();
   std::list<IMLNode*>::iterator it = effects_iml.begin();
   for (; it != effects_iml.end(); ++it) {
@@ -80,8 +80,8 @@ void SpellComponent::loadIML(const IMLNode &node)
   if (post) {
     post_sfx.loadIML(*post);
   }
-  aoe = iml::getAttribute(node, "aoe");
-  radius = atoi(iml::getAttribute(node, "radius", "0").c_str());
-  bounces = atoi(iml::getAttribute(node, "bounces", "0").c_str());
-  bounce_range = atoi(iml::getAttribute(node, "bounceRange", "0").c_str());
+  aoe = iml::GetAttribute<std::string>(node, "aoe");
+  radius = iml::GetAttribute(node, "radius", 0);
+  bounces = iml::GetAttribute(node, "bounces", 0);
+  bounce_range = iml::GetAttribute(node, "bounceRange", 0);
 }

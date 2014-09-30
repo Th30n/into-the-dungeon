@@ -42,5 +42,5 @@ TrapComponent::TrapComponent()
 
 void TrapComponent::loadIML(const IMLNode &node)
 {
-  spell = iml::getAttribute(node, "spell");
+  spell = iml::GetAttribute<std::string>(node, "spell");
 }

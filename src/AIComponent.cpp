@@ -43,7 +43,7 @@ AIComponent::AIComponent()
 
 void AIComponent::loadIML(const IMLNode &node)
 {
-  cast_rate = atoi(iml::getAttribute(node, "castRate", "0").c_str());
+  cast_rate = iml::GetAttribute(node, "castRate", 0);
 }
 
 void AIComponent::save(FILE *file)

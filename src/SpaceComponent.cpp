@@ -43,8 +43,8 @@ SpaceComponent::SpaceComponent()
 
 void SpaceComponent::loadIML(const IMLNode &node)
 {
-  width = atoi(iml::getAttribute(node, "width", "1").c_str());
-  height = atoi(iml::getAttribute(node, "height", "1").c_str());
+  width = iml::GetAttribute(node, "width", 1);
+  height = iml::GetAttribute(node, "height", 1);
 }
 
 void SpaceComponent::save(FILE *file)

@@ -47,27 +47,6 @@ void saveIML(const IMLNode &node, const char *path)
   node.writeToStream(file);
 }
 
-std::string getAttribute(const IMLNode &node, std::string key)
-{
-  return getAttribute(node, key, "");
-}
-
-std::string getAttribute(const IMLNode &node, std::string key, std::string def)
-{
-  const IMLTag *tag = dynamic_cast<const IMLTag*>(&node);
-  if (!tag) {
-    return def;
-  }
-  const AttributesMap &attrs = tag->getAttributes();
-  AttributesMap::const_iterator it;
-  it = attrs.find(key);
-  if (it != attrs.end()) {
-    return it->second;
-  } else {
-    return def;
-  }
-}
-
 std::vector<IMLTag*> getChildrenTags(const IMLNode &node)
 {
   std::vector<IMLTag*> tags;
@@ -82,4 +61,4 @@ std::vector<IMLTag*> getChildrenTags(const IMLNode &node)
   return tags;
 }
 
-};
+} // namespace iml

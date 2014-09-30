@@ -34,31 +34,53 @@
 
 namespace iml {
 
-// Returns the value of given IMLTag node. If unable to create the value with
-// given type T the first element of std::pair is false and value is set
-// to initial value for type.
+// Returns the value of given IMLNode node. If unable to get the value
+// or given node is not IMLTag node, returns the provided def_val.
 template<typename T>
-std::pair<bool, T> GetTagValue(const IMLTag &tag)
+T GetTagValue(const IMLNode &node, T def_val = T())
 {
-  const std::list<IMLNode*> &vals = tag.getChildren();
+  const IMLTag *tag = dynamic_cast<const IMLTag*>(&node);
+  if (!tag) {
+    return def_val;
+  }
+  const std::list<IMLNode*> &vals = tag->getChildren();
   if (!vals.empty()) {
     std::string string_val = (*vals.begin())->getName();
     std::istringstream sstream(string_val);
     T val;
     sstream >> val;
     if (!sstream.fail()) {
-      return std::make_pair(true, val);
+      return val;
     }
   }
-  return std::make_pair(false, T());
+  return def_val;
 }
 
-// std::map<std::string, float> getMappedFloats(const IMLNode &node);
-// std::map<std::string, int> getMappedInts(const IMLNode &node);
+// Returns the attribute value for given tag node with give key. If unable to
+// find attribute mapping or given node is not IMLTag node returns provided
+// default value.
+template <typename T>
+T GetAttribute(const IMLNode &node, const std::string &key, T def_val = T())
+{
+  const IMLTag *tag = dynamic_cast<const IMLTag*>(&node);
+  if (!tag) {
+    return def_val;
+  }
+  const AttributesMap &attrs = tag->getAttributes();
+  AttributesMap::const_iterator it = attrs.find(key);
+  if (it != attrs.end()) {
+    std::istringstream sstream(it->second);
+    T val;
+    sstream >> val;
+    if (!sstream.fail()) {
+      return val;
+    }
+  }
+  return def_val;
+}
+
 IMLNode *openIML(const char *path);
 void saveIML(const IMLNode &node, const char *path);
-std::string getAttribute(const IMLNode &node, std::string key);
-std::string getAttribute(const IMLNode &node, std::string key, std::string def);
 std::vector<IMLTag*> getChildrenTags(const IMLNode &node);
 
 } // namespace iml

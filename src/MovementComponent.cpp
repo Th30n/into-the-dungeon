@@ -42,7 +42,7 @@ MovementComponent::MovementComponent()
 
 void MovementComponent::loadIML(const IMLNode &node)
 {
-  speed = atof(iml::getAttribute(node, "speed", "0").c_str());
+  speed = iml::GetAttribute(node, "speed", 0.0f);
 }
 
 void MovementComponent::save(FILE *file)

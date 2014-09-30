@@ -43,13 +43,13 @@ WeaponComponent::WeaponComponent()
 
 void WeaponComponent::loadIML(const IMLNode &node)
 {
-  min_range = atoi(iml::getAttribute(node, "minRange", "0").c_str());
-  max_range = atoi(iml::getAttribute(node, "maxRange", "0").c_str());
-  min_damage = atoi(iml::getAttribute(node, "minDamage", "0").c_str());
-  max_damage = atoi(iml::getAttribute(node, "maxDamage", "0").c_str());
-  accuracy = atoi(iml::getAttribute(node, "accuracy", "0").c_str());
-  crit_chance = atoi(iml::getAttribute(node, "critChance", "0").c_str());
-  spell = iml::getAttribute(node, "spell");
+  min_range = iml::GetAttribute(node, "minRange", 0);
+  max_range = iml::GetAttribute(node, "maxRange", 0);
+  min_damage = iml::GetAttribute(node, "minDamage", 0);
+  max_damage = iml::GetAttribute(node, "maxDamage", 0);
+  accuracy = iml::GetAttribute(node, "accuracy", 0);
+  crit_chance = iml::GetAttribute(node, "critChance", 0);
+  spell = iml::GetAttribute<std::string>(node, "spell");
   IMLNode *stats = node.findByName("statsMultipliers");
   if (stats) {
     stats_multipliers.loadIML(*stats);

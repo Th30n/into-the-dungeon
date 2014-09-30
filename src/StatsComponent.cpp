@@ -43,13 +43,13 @@ StatsComponent::StatsComponent()
 
 void StatsComponent::loadIML(const IMLNode &node)
 {
-  level = atoi(iml::getAttribute(node, "level", "1").c_str());
-  xp = atoi(iml::getAttribute(node, "experience", "0").c_str());
-  vision_range = atoi(iml::getAttribute(node, "visionRange", "0").c_str());
+  level = iml::GetAttribute(node, "level", 1);
+  xp = iml::GetAttribute(node, "experience", 0);
+  vision_range = iml::GetAttribute(node, "visionRange", 0);
 
-  attack = atof(iml::getAttribute(node, "attack", "0").c_str());
-  armor = atof(iml::getAttribute(node, "armor", "0").c_str());
-  health = atof(iml::getAttribute(node, "health", "0").c_str());
+  attack = iml::GetAttribute(node, "attack", 0.0f);
+  armor = iml::GetAttribute(node, "armor", 0.0f);
+  health = iml::GetAttribute(node, "health", 0.0f);
 
   IMLNode *skills_node = node.findByName("skills");
   if (skills_node) {
@@ -57,7 +57,7 @@ void StatsComponent::loadIML(const IMLNode &node)
     std::list<IMLNode*>::iterator it = skills_iml.begin();
     for (; it != skills_iml.end(); ++it) {
       if ((*it)->getName() == "skill") {
-        skills.push_back(iml::getAttribute(**it, "name"));
+        skills.push_back(iml::GetAttribute<std::string>(**it, "name"));
       }
     }
   }

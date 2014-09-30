@@ -52,8 +52,8 @@ AnimationComponent::~AnimationComponent()
 
 void AnimationComponent::loadIML(const IMLNode &node)
 {
-  max_frames = atoi(iml::getAttribute(node, "frames", "0").c_str());
-  frame_rate = atoi(iml::getAttribute(node, "frameRate", "0").c_str());
+  max_frames = iml::GetAttribute(node, "frames", 0);
+  frame_rate = iml::GetAttribute(node, "frameRate", 0);
 }
 
 void AnimationComponent::save(FILE *file)

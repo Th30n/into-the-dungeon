@@ -41,5 +41,5 @@ TurnComponent::TurnComponent() : team(0), turn_taken(true)
 
 void TurnComponent::loadIML(const IMLNode &node)
 {
-  team = atoi(iml::getAttribute(node, "team", "0").c_str());
+  team = iml::GetAttribute(node, "team", 0);
 }

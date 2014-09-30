@@ -166,12 +166,12 @@ GameObject EntityFactory::createRandomItem(int min_level, int max_level) const
     ignore = false;
     picked = rand() % item_list_.size();
     // Ignore entities with ignore flag in xml.
-    if (iml::getAttribute(*item_list_[picked], "ignore", "0") == "1") {
+    if (iml::GetAttribute(*item_list_[picked], "ignore", 0) == 1) {
       ignore = true;
       continue;
     }
     IMLNode *item = item_list_[picked]->findByName("item");
-    obj_lvl = atoi(iml::getAttribute(*item, "level", "0").c_str());
+    obj_lvl = iml::GetAttribute(*item, "level", 0);
   } while (ignore || obj_lvl < min_level || obj_lvl > max_level);
 
   GameObject go = createItem(item_list_[picked]->getName());
@@ -200,12 +200,12 @@ GameObject EntityFactory::createRandomEntity(int min_level, int max_level) const
     ignore = false;
     picked = rand() % entity_list_.size();
     // Ignore entities with ignore flag in xml.
-    if (iml::getAttribute(*entity_list_[picked], "ignore", "0") == "1") {
+    if (iml::GetAttribute(*entity_list_[picked], "ignore", 0) == 1) {
       ignore = true;
       continue;
     }
     IMLNode *stats = entity_list_[picked]->findByName("stats");
-    obj_lvl = atoi(iml::getAttribute(*stats, "level", "0").c_str());
+    obj_lvl = iml::GetAttribute(*stats, "level", 0);
   } while (ignore || obj_lvl < min_level || obj_lvl > max_level);
   return createEntity(entity_list_[picked]->getName());
 }

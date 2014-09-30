@@ -60,9 +60,9 @@ HealthComponent::HealthComponent()
 
 void HealthComponent::loadIML(const IMLNode &node)
 {
-  max_health = atoi(iml::getAttribute(node, "max", "0").c_str());
+  max_health = iml::GetAttribute(node, "max", 0);
   health = max_health;
-  max_light = atoi(iml::getAttribute(node, "light", "0").c_str());
+  max_light = iml::GetAttribute(node, "light", 0);
   light = max_light;
   //stats_multipliers = getMapFromIML(*node.findByName("statsMultipliers"));
 }

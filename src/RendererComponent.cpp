@@ -60,10 +60,10 @@ void RendererComponent::start()
 
 void RendererComponent::loadIML(const IMLNode &node)
 {
-  gfx_filename_ = data::FindFile(iml::getAttribute(node, "file").c_str());
-  width = atoi(iml::getAttribute(node, "width", "32").c_str());
-  height = atoi(iml::getAttribute(node, "height", "32").c_str());
-  x_offset = atoi(iml::getAttribute(node, "xOffset", "0").c_str());
-  y_offset = atoi(iml::getAttribute(node, "yOffset", "0").c_str());
+  gfx_filename_ = data::FindFile(iml::GetAttribute<std::string>(node, "file"));
+  width = iml::GetAttribute(node, "width", 32);
+  height = iml::GetAttribute(node, "height", 32);
+  x_offset = iml::GetAttribute(node, "xOffset", 0);
+  y_offset = iml::GetAttribute(node, "yOffset", 0);
   start();
 }

@@ -51,16 +51,16 @@ void COptions::LoadOptions()
   options_iml_ = iml::openIML(data::FindFile("data/options.xml").c_str());
   //options_iml_->print();
   IMLNode &screen = *options_iml_->findByName("screen");
-  int val = atoi(iml::getAttribute(screen, "windowed", "1").c_str());
+  int val = iml::GetAttribute(screen, "windowed", 1);
   if (val == 0) {
     is_windowed_ = false;
   }
   
-  screen_width_ = atoi(iml::getAttribute(screen, "width", "800").c_str());
-  screen_height_ = atoi(iml::getAttribute(screen, "height", "600").c_str());
+  screen_width_ = iml::GetAttribute(screen, "width", 800);
+  screen_height_ = iml::GetAttribute(screen, "height", 600);
 
   IMLNode &gameplay = *options_iml_->findByName("gameplay");
-  val = atoi(iml::getAttribute(gameplay, "newGameTips", "0").c_str());
+  val = iml::GetAttribute(gameplay, "newGameTips", 0);
   if (val == 1) {
     newbie_tips_on_ = true;
   }

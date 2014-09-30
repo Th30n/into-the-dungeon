@@ -41,5 +41,5 @@ InventoryComponent::InventoryComponent() : max_size(10)
 
 void InventoryComponent::loadIML(const IMLNode &node)
 {
-  max_size = atoi(iml::getAttribute(node, "size", "0").c_str());
+  max_size = iml::GetAttribute(node, "size", 0);
 }

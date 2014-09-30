@@ -34,13 +34,13 @@ Sfx::Sfx()
 
 void Sfx::loadIML(const IMLNode &node)
 {
-  type = iml::getAttribute(node, "type");
-  sprite = iml::getAttribute(node, "sprite");
-  width = atoi(iml::getAttribute(node, "width", "0").c_str());
-  height = atoi(iml::getAttribute(node, "height", "0").c_str());
-  x_offset = atoi(iml::getAttribute(node, "xOffset", "0").c_str());
-  y_offset = atoi(iml::getAttribute(node, "yOffset", "0").c_str());
-  max_frames = atoi(iml::getAttribute(node, "frames", "0").c_str());
-  frame_rate = atoi(iml::getAttribute(node, "frameRate", "0").c_str());
-  speed = atof(iml::getAttribute(node, "speed", "1").c_str());
+  type = iml::GetAttribute<std::string>(node, "type");
+  sprite = iml::GetAttribute<std::string>(node, "sprite");
+  width = iml::GetAttribute(node, "width", 0);
+  height = iml::GetAttribute(node, "height", 0);
+  x_offset = iml::GetAttribute(node, "xOffset", 0);
+  y_offset = iml::GetAttribute(node, "yOffset", 0);
+  max_frames = iml::GetAttribute(node, "frames", 0);
+  frame_rate = iml::GetAttribute(node, "frameRate", 0);
+  speed = iml::GetAttribute(node, "speed", 1.0f);
 }
