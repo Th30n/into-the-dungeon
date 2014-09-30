@@ -492,7 +492,7 @@ bool CMap::BossLevel()
   FILE *fBossLevel;
   std::string path = data::FindFile("data/boss1.map");
   
-  if (!path.empty() && (fBossLevel = fopen(path.c_str(), "r")) == NULL) {
+  if (!path.empty() || !(fBossLevel = fopen(path.c_str(), "r"))) {
     fprintf(stderr, "BossLevel(): Unable to open %s\n", path.c_str());
     return false;
   }
