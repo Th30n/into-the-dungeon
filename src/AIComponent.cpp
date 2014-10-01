@@ -22,9 +22,11 @@
 #include "AIComponent.h"
 
 #include <cstdlib>
+#include <utility>
 
 #include "ComponentFactory.h"
 #include "iml/utils.h"
+#include "serialization/IMLArchive.h"
 
 int AIComponent::hreg = ComponentFactory::instance().registerCreator(
     "ai", AIComponent::creator);
@@ -44,6 +46,8 @@ AIComponent::AIComponent()
 void AIComponent::loadIML(const IMLNode &node)
 {
   cast_rate = iml::GetAttribute(node, "castRate", 0);
+  serialization::IMLArchive archive(std::cout);
+  archive << std::make_pair("ai", std::make_pair("castRate", cast_rate));
 }
 
 void AIComponent::save(FILE *file)
