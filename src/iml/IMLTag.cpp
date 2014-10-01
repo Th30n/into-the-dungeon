@@ -2,6 +2,11 @@
 
 #include <cstdio>
 
+IMLTag::IMLTag(std::string name, bool is_empty_tag)
+  : IMLNode(name), is_empty_tag_(is_empty_tag)
+{
+}
+
 IMLTag::IMLTag(std::string n, AttributesMap attributes, bool is_empty_tag)
   : IMLNode(n), attributes_(attributes), is_empty_tag_(is_empty_tag)
 {

@@ -43,11 +43,21 @@ AIComponent::AIComponent()
 {
 }
 
+template <typename T>
+std::string ToString(T &val)
+{
+  std::ostringstream oss;
+  oss << val;
+  return oss.str();
+}
+
 void AIComponent::loadIML(const IMLNode &node)
 {
   cast_rate = iml::GetAttribute(node, "castRate", 0);
   serialization::IMLArchive archive(std::cout);
-  archive << std::make_pair("ai", std::make_pair("castRate", cast_rate));
+  AttributesMap attrs;
+  attrs["castRate"] = ToString(cast_rate);
+  archive << std::make_pair("ai", attrs);
 }
 
 void AIComponent::save(FILE *file)
