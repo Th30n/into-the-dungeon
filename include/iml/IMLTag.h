@@ -13,6 +13,7 @@ typedef std::map<std::string, std::string> AttributesMap;
  */
 class IMLTag : public IMLNode {
   public:
+    IMLTag(std::string name, bool is_empty_tag);
     IMLTag(std::string n, AttributesMap attributes, bool is_empty_tag);
     virtual ~IMLTag() {}
     virtual void writeToStream(std::ostream &ostream) const;

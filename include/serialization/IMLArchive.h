@@ -25,29 +25,49 @@
 #include <iostream>
 #include <map>
 #include <ostream>
+#include <stack>
+#include <sstream>
 #include <string>
 #include <utility>
+
+#include "iml/IMLTag.h"
+#include "iml/IMLValue.h"
 
 namespace serialization
 {
 
 class IMLArchive {
   public:
-    IMLArchive(std::ostream &os) : os_(os) {}
+    IMLArchive(std::ostream &os) : os_(os)
+    {
+      node_stack_.push(new IMLTag("Document", false));
+    }
+    ~IMLArchive() { delete node_stack_.top(); }
 
     template<typename T>
     IMLArchive &operator<<(const T &t)
     {
-      os_ << t;
+      std::ostringstream oss;
+      oss << t;
+      IMLValue *val_node = new IMLValue(oss.str());
+      node_stack_.top()->addChild(val_node);
+      //val_node->writeToStream(os_);
       return *this;
     }
 
     template<typename T, typename U>
     IMLArchive &operator<<(const std::pair<T, U> &tag)
     {
-      *this << "Tag: " << tag.first;
-      *this << " Val: " << tag.second;
-      *this << " EndTag: " << tag.first;
+      std::ostringstream oss;
+      oss << tag.first;
+      IMLTag *tag_node = new IMLTag(oss.str(), false);
+      node_stack_.top()->addChild(tag_node);
+      node_stack_.push(tag_node);
+      *this << tag.second;
+      node_stack_.pop();
+      if (node_stack_.size() == 1) {
+        tag_node->writeToStream(os_);
+      }
       return *this;
     }
 
@@ -56,14 +76,16 @@ class IMLArchive {
     {
       typename std::map<std::string, T>::const_iterator it;
       for (it = attr.begin(); it != attr.end(); ++it) {
-        *this << "Attr: " << it->first;
-        *this << " Val: " << it->second;
+        std::ostringstream oss;
+        oss << it->second;
+        node_stack_.top()->getAttributes()[it->first] = oss.str();
       }
       return *this;
     }
 
   private:
     std::ostream &os_;
+    std::stack<IMLTag*> node_stack_;
 };
 
 } // namespace serialization
