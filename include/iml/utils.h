@@ -23,10 +23,8 @@
 #define IML_UTILS_H
 
 #include <list>
-#include <map>
 #include <string>
 #include <sstream>
-#include <utility>
 #include <vector>
 
 #include "iml/IMLNode.h"
@@ -79,9 +77,9 @@ T GetAttribute(const IMLNode &node, const std::string &key, T def_val = T())
   return def_val;
 }
 
-IMLNode *openIML(const char *path);
-void saveIML(const IMLNode &node, const char *path);
-std::vector<IMLTag*> getChildrenTags(const IMLNode &node);
+IMLNode *OpenIML(const char *path);
+void SaveIML(const IMLNode &node, const char *path);
+std::vector<IMLTag*> GetChildrenTags(const IMLNode &node);
 
 } // namespace iml
 #endif

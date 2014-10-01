@@ -226,18 +226,18 @@ GameObject EntityFactory::createRandomTrap(int min_level, int max_level) const
 
 void EntityFactory::loadGameData()
 {
-  entities_iml_ = iml::openIML(data::FindFile("data/entities.xml").c_str());
-  entity_list_ = iml::getChildrenTags(*entities_iml_->findByName("entities"));
+  entities_iml_ = iml::OpenIML(data::FindFile("data/entities.xml").c_str());
+  entity_list_ = iml::GetChildrenTags(*entities_iml_->findByName("entities"));
   //entities_iml_->print();
 
-  items_iml_ = iml::openIML(data::FindFile("data/items.xml").c_str());
-  item_list_ = iml::getChildrenTags(*items_iml_->findByName("items"));
+  items_iml_ = iml::OpenIML(data::FindFile("data/items.xml").c_str());
+  item_list_ = iml::GetChildrenTags(*items_iml_->findByName("items"));
   //items_iml_->print();
 
-  traps_iml_ = iml::openIML(data::FindFile("data/traps.xml").c_str());
+  traps_iml_ = iml::OpenIML(data::FindFile("data/traps.xml").c_str());
   //traps_iml_->print();
 
-  spells_iml_ = iml::openIML(data::FindFile("data/spells.xml").c_str());
+  spells_iml_ = iml::OpenIML(data::FindFile("data/spells.xml").c_str());
   //spells_iml_->print();
 }
 

@@ -22,16 +22,13 @@
 #include "iml/utils.h"
 
 #include <cstdio>
-#include <cstdlib>
 #include <fstream>
 
-#include "iml/IMLNode.h"
 #include "iml/IMLParser.h"
-#include "iml/IMLTag.h"
 
 namespace iml {
 
-IMLNode *openIML(const char *path)
+IMLNode *OpenIML(const char *path)
 {
   IMLParser parser;
   std::ifstream file(path);
@@ -41,13 +38,13 @@ IMLNode *openIML(const char *path)
   return parser.getRoot();
 }
 
-void saveIML(const IMLNode &node, const char *path)
+void SaveIML(const IMLNode &node, const char *path)
 {
   std::ofstream file(path);
   node.writeToStream(file);
 }
 
-std::vector<IMLTag*> getChildrenTags(const IMLNode &node)
+std::vector<IMLTag*> GetChildrenTags(const IMLNode &node)
 {
   std::vector<IMLTag*> tags;
   const std::list<IMLNode*> &children = node.getChildren();

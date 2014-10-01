@@ -48,7 +48,7 @@ COptions::~COptions()
 
 void COptions::LoadOptions()
 {
-  options_iml_ = iml::openIML(data::FindFile("data/options.xml").c_str());
+  options_iml_ = iml::OpenIML(data::FindFile("data/options.xml").c_str());
   //options_iml_->print();
   IMLNode &screen = *options_iml_->findByName("screen");
   int val = iml::GetAttribute(screen, "windowed", 1);
@@ -82,7 +82,7 @@ void COptions::setWindowed(bool value)
   is_windowed_ = value;
   //options_iml_->print();
   std::string options_file = data::FindFile("data/options.xml");
-  iml::saveIML(*options_iml_, options_file.c_str());
+  iml::SaveIML(*options_iml_, options_file.c_str());
 }
 
 int COptions::getScreenWidth()
@@ -110,5 +110,5 @@ void COptions::setNewbieTips(bool value)
   }
   newbie_tips_on_ = value;
   //options_iml_->print();
-  iml::saveIML(*options_iml_, data::FindFile("data/options.xml").c_str());
+  iml::SaveIML(*options_iml_, data::FindFile("data/options.xml").c_str());
 }
