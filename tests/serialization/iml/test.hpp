@@ -56,45 +56,44 @@ bool operator==(const C &c1, const C &c2)
 namespace serialization {
 
 template<class Archive>
-void save(Archive &archive, C &c)
+void save(Archive &archive, C &c, unsigned int version)
 {
   archive << MakeNameValuePair("B", c.b);
   archive << MakeNameValuePair("c", c.c);
 }
 
 template<class Archive>
-void load(Archive &archive, C &c)
+void load(Archive &archive, C &c, unsigned int version)
 {
   archive >> c.b;
   archive >> c.c;
 }
 
 template<class Archive>
-void save(Archive &archive, B &b)
+void save(Archive &archive, B &b, unsigned int version)
 {
   archive << *static_cast<A*>(&b);
   archive << MakeNameValuePair("b", b.b);
 }
 
 template<class Archive>
-void load(Archive &archive, B &b)
+void load(Archive &archive, B &b, unsigned int version)
 {
   archive >> *static_cast<A*>(&b);
   archive >> b.b;
 }
 
 template<class Archive>
-void save(Archive &archive, A &a)
+void save(Archive &archive, A &a, unsigned int version)
 {
   archive << MakeNameValuePair("a", a.a);
 }
 
 template<class Archive>
-void load(Archive &archive, A &a)
+void load(Archive &archive, A &a, unsigned int version)
 {
   archive >> a.a;
 }
 
-}
-
+} // namespace serialization
 #endif

@@ -60,13 +60,13 @@ class AIComponent : public IComponent {
 namespace serialization {
 
 template<class Archive>
-void save(Archive &archive, AIComponent &comp)
+void save(Archive &archive, AIComponent &comp, unsigned int version)
 {
   archive << MakeNameValuePair("castRate", comp.cast_rate);
 }
 
 template<class Archive>
-void load(Archive &archive, AIComponent &comp)
+void load(Archive &archive, AIComponent &comp, unsigned int version)
 {
   NameValuePair<int> castRate = MakeNameValuePair("castRate", comp.cast_rate);
   archive >> castRate;

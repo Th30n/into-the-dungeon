@@ -59,7 +59,7 @@ class IArchive
     template<class T>
     IArchive &operator>>(T &t)
     {
-      load(*this, t);
+      load(*this, t, 0);
       return *this;
     }
 

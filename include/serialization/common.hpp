@@ -26,15 +26,15 @@ namespace serialization
 {
 
 template<class Archive, class T>
-void save(Archive &archive, T &t)
+inline void save(Archive &archive, T &t, unsigned int version)
 {
-  t.save(archive);
+  t.save(archive, version);
 }
 
 template<class Archive, class T>
-void load(Archive &archive, T &t)
+inline void load(Archive &archive, T &t, unsigned int version)
 {
-  t.load(archive);
+  t.load(archive, version);
 }
 
 } // namespace serialization

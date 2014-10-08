@@ -52,7 +52,7 @@ class OArchive {
     template<class T>
     OArchive &operator<<(T &t)
     {
-      serialization::save(*this, t);
+      save(*this, t, 0);
       return *this;
     }
 

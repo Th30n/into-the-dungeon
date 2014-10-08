@@ -19,9 +19,10 @@
  *
  * Author(s): Teon Banek <intothedungeon@gmail.com>
  */
+#include "test.hpp"
 
 #include <sstream>
-#include "test.hpp"
+
 #include "serialization/iml/IArchive.hpp"
 #include "serialization/iml/OArchive.hpp"
 
