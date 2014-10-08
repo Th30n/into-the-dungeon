@@ -24,7 +24,6 @@
 
 #include <iostream>
 #include <map>
-#include <ostream>
 #include <stack>
 #include <sstream>
 #include <string>
@@ -32,10 +31,18 @@
 
 #include "iml/IMLTag.h"
 #include "iml/IMLValue.h"
+#include "serialization/NameValuePair.hpp"
 
 namespace serialization
 {
 
+template<class Archive, class T>
+void save(Archive &archive, T &t)
+{
+  t.save(archive);
+}
+
+// Writes an IML (almost XML) representation.
 class IMLArchive {
   public:
     IMLArchive(std::ostream &os) : os_(os)
@@ -44,41 +51,34 @@ class IMLArchive {
     }
     ~IMLArchive() { delete node_stack_.top(); }
 
-    template<typename T>
-    IMLArchive &operator<<(const T &t)
+    // Default implementation requires save function or method for given type.
+    template<class T>
+    IMLArchive &operator<<(T &t)
     {
-      std::ostringstream oss;
-      oss << t;
-      IMLValue *val_node = new IMLValue(oss.str());
-      node_stack_.top()->addChild(val_node);
-      //val_node->writeToStream(os_);
+      save(*this, t);
       return *this;
     }
 
-    template<typename T, typename U>
-    IMLArchive &operator<<(const std::pair<T, U> &tag)
+    // Specializations for primitive types
+    IMLArchive &operator<<(int val)
     {
       std::ostringstream oss;
-      oss << tag.first;
-      IMLTag *tag_node = new IMLTag(oss.str(), false);
+      oss << val;
+      node_stack_.top()->addChild(new IMLValue(oss.str()));
+      return *this;
+    }
+
+    // Writes a tag node.
+    template<class T>
+    IMLArchive &operator<<(const NameValuePair<T> &tag)
+    {
+      IMLTag *tag_node = new IMLTag(tag.name, false);
       node_stack_.top()->addChild(tag_node);
       node_stack_.push(tag_node);
-      *this << tag.second;
+      *this << tag.value;
       node_stack_.pop();
       if (node_stack_.size() == 1) {
         tag_node->writeToStream(os_);
-      }
-      return *this;
-    }
-
-    template<typename T>
-    IMLArchive &operator<<(const std::map<std::string, T> &attr)
-    {
-      typename std::map<std::string, T>::const_iterator it;
-      for (it = attr.begin(); it != attr.end(); ++it) {
-        std::ostringstream oss;
-        oss << it->second;
-        node_stack_.top()->getAttributes()[it->first] = oss.str();
       }
       return *this;
     }

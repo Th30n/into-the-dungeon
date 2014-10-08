@@ -22,11 +22,12 @@
 #include "AIComponent.h"
 
 #include <cstdlib>
-#include <utility>
+#include <sstream>
 
 #include "ComponentFactory.h"
 #include "iml/utils.h"
 #include "serialization/IMLArchive.h"
+#include "serialization/IArchive.h"
 
 int AIComponent::hreg = ComponentFactory::instance().registerCreator(
     "ai", AIComponent::creator);
@@ -43,21 +44,32 @@ AIComponent::AIComponent()
 {
 }
 
-template <typename T>
-std::string ToString(T &val)
+namespace serialization {
+
+template<class Archive>
+void save(Archive &archive, AIComponent &comp)
 {
-  std::ostringstream oss;
-  oss << val;
-  return oss.str();
+  archive << MakeNameValuePair("castRate", comp.cast_rate);
+}
+
+template<class Archive>
+void load(Archive &archive, AIComponent &comp)
+{
+  NameValuePair<int> castRate = MakeNameValuePair("castRate", comp.cast_rate);
+  archive >> castRate;
+}
+
 }
 
 void AIComponent::loadIML(const IMLNode &node)
 {
   cast_rate = iml::GetAttribute(node, "castRate", 0);
   serialization::IMLArchive archive(std::cout);
-  AttributesMap attrs;
-  attrs["castRate"] = ToString(cast_rate);
-  archive << std::make_pair("ai", attrs);
+  archive << *this;
+  std::istringstream iss("<castRate>25</castRate>");
+  serialization::IArchive iarchive(iss);
+  iarchive >> *this;
+  std::cout << "Loaded: " << cast_rate;
 }
 
 void AIComponent::save(FILE *file)
