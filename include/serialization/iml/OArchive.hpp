@@ -19,8 +19,8 @@
  *
  * Author(s): Teon Banek <intothedungeon@gmail.com>
  */
-#ifndef SERIALIZATION_IMLARCHIVE_H
-#define SERIALIZATION_IMLARCHIVE_H
+#ifndef SERIALIZATION_IML_OARCHIVE_HPP
+#define SERIALIZATION_IML_OARCHIVE_HPP
 
 #include <iostream>
 #include <map>
@@ -31,36 +31,33 @@
 
 #include "iml/IMLTag.h"
 #include "iml/IMLValue.h"
+#include "serialization/common.hpp"
 #include "serialization/NameValuePair.hpp"
 
 namespace serialization
 {
 
-template<class Archive, class T>
-void save(Archive &archive, T &t)
-{
-  t.save(archive);
-}
+namespace iml {
 
 // Writes an IML (almost XML) representation.
-class IMLArchive {
+class OArchive {
   public:
-    IMLArchive(std::ostream &os) : os_(os)
+    OArchive(std::ostream &os) : os_(os)
     {
       node_stack_.push(new IMLTag("Document", false));
     }
-    ~IMLArchive() { delete node_stack_.top(); }
+    ~OArchive() { delete node_stack_.top(); }
 
     // Default implementation requires save function or method for given type.
     template<class T>
-    IMLArchive &operator<<(T &t)
+    OArchive &operator<<(T &t)
     {
-      save(*this, t);
+      serialization::save(*this, t);
       return *this;
     }
 
     // Specializations for primitive types
-    IMLArchive &operator<<(int val)
+    OArchive &operator<<(int val)
     {
       std::ostringstream oss;
       oss << val;
@@ -70,7 +67,7 @@ class IMLArchive {
 
     // Writes a tag node.
     template<class T>
-    IMLArchive &operator<<(const NameValuePair<T> &tag)
+    OArchive &operator<<(const NameValuePair<T> &tag)
     {
       IMLTag *tag_node = new IMLTag(tag.name, false);
       node_stack_.top()->addChild(tag_node);
@@ -87,6 +84,8 @@ class IMLArchive {
     std::ostream &os_;
     std::stack<IMLTag*> node_stack_;
 };
+
+} // namespace iml
 
 } // namespace serialization
 #endif

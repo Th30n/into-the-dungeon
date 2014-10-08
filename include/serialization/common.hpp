@@ -19,39 +19,24 @@
  *
  * Author(s): Teon Banek <intothedungeon@gmail.com>
  */
-#include "AIComponent.h"
+#ifndef SERIALIZATION_COMMON_HPP
+#define SERIALIZATION_COMMON_HPP
 
-#include <cstdlib>
-#include <sstream>
-
-#include "ComponentFactory.h"
-#include "iml/utils.h"
-
-int AIComponent::hreg = ComponentFactory::instance().registerCreator(
-    "ai", AIComponent::creator);
-
-const Vector2f AIComponent::RESET_POSITION(-1.0f, -1.0f);
-
-IComponent *AIComponent::creator()
+namespace serialization
 {
-  return new AIComponent();
+
+template<class Archive, class T>
+void save(Archive &archive, T &t)
+{
+  t.save(archive);
 }
 
-AIComponent::AIComponent()
-  : waypoint(RESET_POSITION), cast_rate(0)
+template<class Archive, class T>
+void load(Archive &archive, T &t)
 {
+  t.load(archive);
 }
 
-void AIComponent::loadIML(const IMLNode &node)
-{
-  cast_rate = iml::GetAttribute(node, "castRate", 0);
-}
+} // namespace serialization
 
-void AIComponent::save(FILE *file)
-{
-}
-
-bool AIComponent::load(FILE *file)
-{
-  return true;
-}
+#endif

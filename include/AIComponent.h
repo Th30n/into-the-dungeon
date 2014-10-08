@@ -26,6 +26,7 @@
 
 #include "IComponent.h"
 
+#include "serialization/NameValuePair.hpp"
 #include "Vector2f.h"
 
 /**
@@ -55,5 +56,22 @@ class AIComponent : public IComponent {
     // Spell cast rate (0-100) in percentage.
     int cast_rate;
 };
+
+namespace serialization {
+
+template<class Archive>
+void save(Archive &archive, AIComponent &comp)
+{
+  archive << MakeNameValuePair("castRate", comp.cast_rate);
+}
+
+template<class Archive>
+void load(Archive &archive, AIComponent &comp)
+{
+  NameValuePair<int> castRate = MakeNameValuePair("castRate", comp.cast_rate);
+  archive >> castRate;
+}
+
+} // namespace serialization
 #endif
 

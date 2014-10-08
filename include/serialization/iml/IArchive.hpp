@@ -19,24 +19,23 @@
  *
  * Author(s): Teon Banek <intothedungeon@gmail.com>
  */
-#ifndef SERIALIZATION_IARCHIVE_H
-#define SERIALIZATION_IARCHIVE_H
+#ifndef SERIALIZATION_IML_IARCHIVE_HPP
+#define SERIALIZATION_IML_IARCHIVE_HPP
 
 #include <istream>
+#include <list>
 #include <vector>
 
 #include "iml/IMLParser.h"
 #include "iml/utils.h"
+#include "serialization/common.hpp"
 #include "serialization/NameValuePair.hpp"
 
 namespace serialization {
 
-template<class Archive, class T>
-void load(Archive &archive, T &t)
-{
-  t.load(archive);
-}
+namespace iml {
 
+// Reads an IML (almost XML) representation.
 class IArchive
 {
   public:
@@ -45,8 +44,8 @@ class IArchive
       IMLParser parser;
       if (parser.createTree(is)) {
         root_node_ = parser.getRoot();
-        tag_nodes_ = iml::GetChildrenTags(*root_node_);
-        it_ = tag_nodes_.begin();
+        std::vector<IMLTag*> children = ::iml::GetChildrenTags(*root_node_);
+        tag_nodes_.insert(tag_nodes_.begin(), children.begin(), children.end());
       }
     }
     ~IArchive()
@@ -67,16 +66,29 @@ class IArchive
     // Specializations for primitive types
     IArchive &operator>>(int &val)
     {
-      val = iml::GetTagValue<int>(**it_);
-      it_++;
+      readTagValue(val);
       return *this;
     }
 
   private:
+    // Reads a tag value into given argument and inserts current tags
+    // children to tag nodes list.
+    // This realizes depth first traversal.
+    template<typename T>
+    void readTagValue(T &val)
+    {
+      IMLTag *tag_node = tag_nodes_.front();
+      val = ::iml::GetTagValue<T>(*tag_node);
+      tag_nodes_.pop_front();
+      std::vector<IMLTag*> children(::iml::GetChildrenTags(*tag_node));
+      tag_nodes_.insert(tag_nodes_.begin(), children.begin(), children.end());
+    }
+
     IMLNode *root_node_;
-    std::vector<IMLTag*> tag_nodes_;
-    std::vector<IMLTag*>::iterator it_;
+    std::list<IMLTag*> tag_nodes_;
 };
+
+} // namespace iml
 
 } // namespace serialization
 #endif
