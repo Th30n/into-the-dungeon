@@ -52,6 +52,7 @@ class OArchive {
     template<class T>
     OArchive &operator<<(T &t)
     {
+      using serialization::save;
       save(*this, t, 0);
       return *this;
     }
@@ -62,6 +63,12 @@ class OArchive {
       std::ostringstream oss;
       oss << val;
       node_stack_.top()->addChild(new IMLValue(oss.str()));
+      return *this;
+    }
+
+    OArchive &operator<<(std::string val)
+    {
+      node_stack_.top()->addChild(new IMLValue(val));
       return *this;
     }
 

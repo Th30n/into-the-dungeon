@@ -21,6 +21,7 @@
  */
 #include "test.hpp"
 
+#include <iostream>
 #include <sstream>
 
 #include "serialization/iml/IArchive.hpp"
@@ -33,16 +34,20 @@ int main(int argc, char *argv[])
   std::ostringstream oss;
   serialization::iml::OArchive oarchive(oss);
   oarchive << c;
-  if (oss.str() == "<B><a>1</a><b>2</b></B><c>5</c>") {
-    return 0;
+  if (oss.str() != "<B><a>1</a><b>2</b></B><c>5</c>") {
+    std::cerr << oss.str() << " != <B><a>1</a><b>2</b></B><c>5</c>"
+      << std::endl;
+    return -1;
   }
 
   C c2;
   std::istringstream iss(oss.str());
   serialization::iml::IArchive iarchive(iss);
   iarchive >> c2;
-  if (c2 == c) {
-    return 0;
+  if (c2 != c) {
+    std::cerr << "c2 != c" << std::endl;
+    std::cerr << "c2.c = " << c2.c << std::endl;
+    return -1;
   }
-  return -1;
+  return 0;
 }

@@ -48,9 +48,19 @@ bool operator==(const B &b1, const B &b2)
   return (b1.b == b2.b && b1.a == b2.a);
 }
 
+bool operator!=(const B &b1, const B &b2)
+{
+  return !(b1 == b2);
+}
+
 bool operator==(const C &c1, const C &c2)
 {
   return (c1.c == c2.c && c1.b == c2.b);
+}
+
+bool operator!=(const C &c1, const C &c2)
+{
+  return !(c1 == c2);
 }
 
 namespace serialization {
@@ -65,6 +75,8 @@ void save(Archive &archive, C &c, unsigned int version)
 template<class Archive>
 void load(Archive &archive, C &c, unsigned int version)
 {
+  int empty_val_tag;
+  archive >> empty_val_tag;
   archive >> c.b;
   archive >> c.c;
 }

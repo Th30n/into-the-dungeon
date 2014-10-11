@@ -59,6 +59,7 @@ class IArchive
     template<class T>
     IArchive &operator>>(T &t)
     {
+      using serialization::load;
       load(*this, t, 0);
       return *this;
     }

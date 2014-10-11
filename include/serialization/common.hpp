@@ -26,13 +26,13 @@ namespace serialization
 {
 
 template<class Archive, class T>
-inline void save(Archive &archive, T &t, unsigned int version)
+inline void save(Archive &archive, T &t, const unsigned int version)
 {
   t.save(archive, version);
 }
 
 template<class Archive, class T>
-inline void load(Archive &archive, T &t, unsigned int version)
+inline void load(Archive &archive, T &t, const unsigned int version)
 {
   t.load(archive, version);
 }
