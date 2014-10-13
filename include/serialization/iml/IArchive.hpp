@@ -60,7 +60,9 @@ class IArchive
     IArchive &operator>>(T &t)
     {
       using serialization::load;
-      load(*this, t, 0);
+      int version = 0;
+      readTagValue(version);
+      load(*this, t, version);
       return *this;
     }
 
@@ -69,6 +71,25 @@ class IArchive
     {
       readTagValue(val);
       return *this;
+    }
+
+    IArchive &operator>>(unsigned int &val)
+    {
+      readTagValue(val);
+      return *this;
+    }
+
+    IArchive &operator>>(bool &val)
+    {
+      readTagValue(val);
+      return *this;
+    }
+
+    // Reads a tag node.
+    template<class T>
+    IArchive &operator>>(NameValuePair<T> &tag)
+    {
+      return operator>>(tag.value);
     }
 
   private:

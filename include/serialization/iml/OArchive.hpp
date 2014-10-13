@@ -37,10 +37,12 @@
 namespace serialization
 {
 
-namespace iml {
+namespace iml
+{
 
 // Writes an IML (almost XML) representation.
-class OArchive {
+class OArchive
+{
   public:
     OArchive(std::ostream &os) : os_(os)
     {
@@ -53,12 +55,30 @@ class OArchive {
     OArchive &operator<<(T &t)
     {
       using serialization::save;
-      save(*this, t, 0);
+      int version = 0;
+      *this << MakeNameValuePair("version", version);
+      save(*this, t, version);
       return *this;
     }
 
     // Specializations for primitive types
     OArchive &operator<<(int val)
+    {
+      std::ostringstream oss;
+      oss << val;
+      node_stack_.top()->addChild(new IMLValue(oss.str()));
+      return *this;
+    }
+
+    OArchive &operator<<(unsigned int val)
+    {
+      std::ostringstream oss;
+      oss << val;
+      node_stack_.top()->addChild(new IMLValue(oss.str()));
+      return *this;
+    }
+
+    OArchive &operator<<(bool val)
     {
       std::ostringstream oss;
       oss << val;

@@ -32,13 +32,13 @@ struct NameValuePair
   }
 
   template<class Archive>
-  void save(Archive &archive) const
+  void save(Archive &archive, unsigned int version) const
   {
     archive << value;
   }
 
   template<class Archive>
-  void load(Archive &archive)
+  void load(Archive &archive, unsigned int version)
   {
     archive.operator>>(value);
   }

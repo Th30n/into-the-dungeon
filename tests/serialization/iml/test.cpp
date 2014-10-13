@@ -34,9 +34,10 @@ int main(int argc, char *argv[])
   std::ostringstream oss;
   serialization::iml::OArchive oarchive(oss);
   oarchive << c;
-  if (oss.str() != "<B><a>1</a><b>2</b></B><c>5</c>") {
-    std::cerr << oss.str() << " != <B><a>1</a><b>2</b></B><c>5</c>"
-      << std::endl;
+  std::string expected = "<version>0</version><B><version>0</version>";
+  expected += "<version>0</version><a>1</a><b>2</b></B><c>5</c>";
+  if (oss.str() != expected) {
+    std::cerr << oss.str() << " != " << expected << std::endl;
     return -1;
   }
 
