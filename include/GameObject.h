@@ -22,6 +22,8 @@
 #ifndef GAMEOBJECT_H_
 #define GAMEOBJECT_H_
 
+#include "serialization/NameValuePair.hpp"
+
 /*
  * Base game object. Game Entity is defined as a sum of components that
  * are tied to ID represented by instance of this class.
@@ -29,12 +31,27 @@
  */
 class GameObject {
   public:
-    GameObject(unsigned id) : eid(id) {}
+    GameObject(unsigned id) : id_(id) {}
     virtual ~GameObject() {}
-    unsigned getId() const { return eid; }
+    unsigned getId() const { return id_; }
+
+    template<class Archive>
+    inline void save(Archive &archive, unsigned int version)
+    {
+      using namespace serialization;
+      archive << MakeNameValuePair("id", id_);
+    }
+
+    template<class Archive>
+    inline void load(Archive &archive, unsigned int version)
+    {
+      using namespace serialization;
+      NameValuePair<unsigned> id = MakeNameValuePair("id", id_);
+      archive >> id;
+    }
 
   private:
-    unsigned eid;
+    unsigned id_;
 };
 
 inline bool operator==(const GameObject &l, const GameObject &r)

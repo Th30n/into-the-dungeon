@@ -22,11 +22,10 @@
 #ifndef AICOMPONENT_H
 #define AICOMPONENT_H
 
-#include <cstdio>
-
 #include "IComponent.h"
 
-#include "serialization/NameValuePair.hpp"
+#include <cstdio>
+
 #include "Vector2f.h"
 
 /**
@@ -60,16 +59,18 @@ class AIComponent : public IComponent {
 namespace serialization {
 
 template<class Archive>
-void save(Archive &archive, AIComponent &comp, unsigned int version)
+inline void save(Archive &archive, AIComponent &comp, unsigned int version)
 {
+  archive << *static_cast<IComponent*>(&comp);
   archive << MakeNameValuePair("castRate", comp.cast_rate);
 }
 
 template<class Archive>
-void load(Archive &archive, AIComponent &comp, unsigned int version)
+inline void load(Archive &archive, AIComponent &comp, unsigned int version)
 {
-  NameValuePair<int> castRate = MakeNameValuePair("castRate", comp.cast_rate);
-  archive >> castRate;
+  archive >> *static_cast<IComponent*>(&comp);
+  NameValuePair<int> cast_rate = MakeNameValuePair("castRate", comp.cast_rate);
+  archive >> cast_rate;
 }
 
 } // namespace serialization

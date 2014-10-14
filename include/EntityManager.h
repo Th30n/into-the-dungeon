@@ -30,6 +30,7 @@
 
 #include "IComponent.h"
 #include "GameObject.h"
+#include "serialization/NameValuePair.hpp"
 
 /**
  * Manages objects and components.
@@ -113,4 +114,5 @@ void EntityManager::getAllComponentsOfType(std::vector<T*> &component)
     }
   }
 }
+
 #endif

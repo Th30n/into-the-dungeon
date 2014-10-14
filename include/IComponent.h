@@ -22,6 +22,9 @@
 #ifndef ICOMPONENT_H
 #define ICOMPONENT_H
 
+#include "GameObject.h"
+#include "serialization/NameValuePair.hpp"
+
 class IMLNode;
 
 /**
@@ -31,7 +34,26 @@ class IMLNode;
  */
 class IComponent {
   public:
+    IComponent() : parent_(0) {}
     virtual ~IComponent() {}
     virtual void loadIML(const IMLNode &node) {}
+    const GameObject &parent() const { return parent_; }
+
+    template<class Archive>
+    inline void save(Archive &archive, unsigned int version)
+    {
+      archive << parent_;
+    }
+
+    template<class Archive>
+    inline void load(Archive &archive, unsigned int version)
+    {
+      archive >> parent_;
+    }
+
+  private:
+    friend class EntityManager;
+    GameObject parent_;
 };
+
 #endif

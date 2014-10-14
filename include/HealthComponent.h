@@ -70,5 +70,33 @@ class HealthComponent : public IComponent {
     // Not used at the moment
     //std::map<std::string, float> stats_multipliers;
 };
+
+namespace serialization {
+
+template<class Archive>
+inline void save(Archive &archive, HealthComponent &comp, unsigned int version)
+{
+  archive << *static_cast<IComponent*>(&comp);
+  archive << MakeNameValuePair("health", comp.health);
+  archive << MakeNameValuePair("maxHealth", comp.max_health);
+  archive << MakeNameValuePair("isDead", comp.is_dead);
+  archive << MakeNameValuePair("ailments", comp.ailments);
+  archive << MakeNameValuePair("light", comp.light);
+  archive << MakeNameValuePair("maxLight", comp.max_light);
+}
+
+template<class Archive>
+inline void load(Archive &archive, HealthComponent &comp, unsigned int version)
+{
+  archive >> *static_cast<IComponent*>(&comp);
+  archive >> comp.health;
+  archive >> comp.max_health;
+  archive >> comp.is_dead;
+  archive >> comp.ailments;
+  archive >> comp.light;
+  archive >> comp.max_light;
+}
+
+} // namespace serialization
 #endif
 

@@ -82,6 +82,7 @@ void EntityManager::addComponentToEntity(
     //printf("Deleted previous: %s\n", typeid(*(prev->second)).name());
     delete prev->second;
   }
+  comp->parent_ = entity;
   components[entity.getId()] = comp;
   //printf("Added component '%s' to %d\n", compClass.c_str(), entity.getId());
 }

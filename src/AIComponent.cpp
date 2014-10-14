@@ -27,8 +27,10 @@
 #include "ComponentFactory.h"
 #include "iml/utils.h"
 
+static const char *component_name = "ai";
+
 int AIComponent::hreg = ComponentFactory::instance().registerCreator(
-    "ai", AIComponent::creator);
+    component_name, AIComponent::creator);
 
 const Vector2f AIComponent::RESET_POSITION(-1.0f, -1.0f);
 
