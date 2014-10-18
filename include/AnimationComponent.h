@@ -88,7 +88,6 @@ inline void save(Archive &archive, AnimationComponent &comp, unsigned int versio
   archive << *static_cast<IComponent*>(&comp);
   archive << MakeNameValuePair("maxFrames", comp.max_frames);
   archive << MakeNameValuePair("frameRate", comp.frame_rate);
-  archive << MakeNameValuePair("startTime", comp.start_time);
   archive << MakeNameValuePair("currentFrameCol", comp.current_frame_col);
   archive << MakeNameValuePair("currentFrameRow", comp.current_frame_row);
   archive << MakeNameValuePair("idleFrameCol", comp.idle_frame_col);
@@ -104,7 +103,6 @@ inline void load(Archive &archive, AnimationComponent &comp, unsigned int versio
   archive >> *static_cast<IComponent*>(&comp);
   archive >> comp.max_frames;
   archive >> comp.frame_rate;
-  archive >> comp.start_time;
   archive >> comp.current_frame_col;
   archive >> comp.current_frame_row;
   archive >> comp.idle_frame_col;
