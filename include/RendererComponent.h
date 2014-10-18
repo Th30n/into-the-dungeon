@@ -41,6 +41,10 @@ class RendererComponent : public IComponent {
     virtual ~RendererComponent();
     virtual void start();
     virtual void loadIML(const IMLNode &node);
+    template<class Archive>
+    inline void save(Archive &archive, unsigned int version);
+    template<class Archive>
+    inline void load(Archive &archive, unsigned int version);
 
     SDL_Surface *image;
     int x;
@@ -53,4 +57,33 @@ class RendererComponent : public IComponent {
   private:
     std::string gfx_filename_;
 };
+
+template<class Archive>
+inline void RendererComponent::save(Archive &archive, unsigned int version)
+{
+  using serialization::MakeNameValuePair;
+  archive << *static_cast<IComponent*>(this);
+  archive << MakeNameValuePair("x", x);
+  archive << MakeNameValuePair("y", y);
+  archive << MakeNameValuePair("width", width);
+  archive << MakeNameValuePair("height", height);
+  archive << MakeNameValuePair("xOffset", x_offset);
+  archive << MakeNameValuePair("yOffset", y_offset);
+  archive << MakeNameValuePair("gfxFilename", gfx_filename_);
+}
+
+template<class Archive>
+inline void RendererComponent::load(Archive &archive, unsigned int version)
+{
+  archive >> *static_cast<IComponent*>(this);
+  archive >> x;
+  archive >> y;
+  archive >> width;
+  archive >> height;
+  archive >> x_offset;
+  archive >> y_offset;
+  archive >> gfx_filename_;
+  start();
+}
+
 #endif

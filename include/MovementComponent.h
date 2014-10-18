@@ -44,10 +44,30 @@ class MovementComponent : public IComponent {
     void save(FILE *file);
     bool load(FILE *file);
 
-    // Speed, technically tiles per second.
+    // Speed, tiles per second.
     float speed;
     // Destination waypoint.
     Vector2f waypoint;
 };
-#endif
 
+namespace serialization {
+
+template<class Archive>
+inline void save(Archive &archive, MovementComponent &comp, unsigned int version)
+{
+  archive << *static_cast<IComponent*>(&comp);
+  archive << MakeNameValuePair("speed", comp.speed);
+  archive << comp.waypoint;
+}
+
+template<class Archive>
+inline void load(Archive &archive, MovementComponent &comp, unsigned int version)
+{
+  archive >> *static_cast<IComponent*>(&comp);
+  archive >> comp.speed;
+  archive >> comp.waypoint;
+}
+
+} // namespace serialization
+
+#endif

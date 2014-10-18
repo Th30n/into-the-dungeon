@@ -43,5 +43,21 @@ class CollisionComponent : public IComponent {
     void save(FILE *file);
     bool load(FILE *file);
 };
-#endif
 
+namespace serialization {
+
+template<class Archive>
+inline void save(Archive &archive, CollisionComponent &comp, unsigned int version)
+{
+  archive << *static_cast<IComponent*>(&comp);
+}
+
+template<class Archive>
+inline void load(Archive &archive, CollisionComponent &comp, unsigned int version)
+{
+  archive >> *static_cast<IComponent*>(&comp);
+}
+
+} // namespace serialization
+
+#endif

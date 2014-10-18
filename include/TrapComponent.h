@@ -49,4 +49,31 @@ class TrapComponent: public IComponent {
     // False if not visible by the player.
     bool is_visible;
 };
+
+namespace serialization {
+
+template<class Archive>
+inline void save(Archive &archive, TrapComponent &comp, unsigned int version)
+{
+  archive << *static_cast<IComponent*>(&comp);
+  archive << MakeNameValuePair("team", comp.team);
+  archive << MakeNameValuePair("isTriggered", comp.is_triggered);
+  archive << MakeNameValuePair("isDestroyed", comp.is_destroyed);
+  archive << MakeNameValuePair("spell", comp.spell);
+  archive << MakeNameValuePair("isVisible", comp.is_visible);
+}
+
+template<class Archive>
+inline void load(Archive &archive, TrapComponent &comp, unsigned int version)
+{
+  archive >> *static_cast<IComponent*>(&comp);
+  archive >> comp.team;
+  archive >> comp.is_triggered;
+  archive >> comp.is_destroyed;
+  archive >> comp.spell;
+  archive >> comp.is_visible;
+}
+
+} // namespace serialization
+
 #endif

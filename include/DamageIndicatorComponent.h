@@ -65,5 +65,53 @@ class DamageIndicatorComponent : public IComponent {
   
     OverlayList overlays;
 };
+
+namespace serialization {
+
+template<class Archive>
+inline void save(Archive &archive, Overlay &overlay, unsigned int version)
+{
+  archive << MakeNameValuePair("text", overlay.text);
+  archive << MakeNameValuePair("startTime", overlay.start_time);
+  archive << MakeNameValuePair("healthChange", overlay.health_change);
+  archive << MakeNameValuePair("color", overlay.color);
+}
+
+template<class Archive>
+inline void load(Archive &archive, Overlay &overlay, unsigned int version)
+{
+  archive >> overlay.text;
+  archive >> overlay.start_time;
+  archive >> overlay.health_change;
+  archive >> overlay.color;
+}
+
+template<class Archive>
+inline void save(Archive &archive, DamageIndicatorComponent &comp, unsigned int version)
+{
+  archive << *static_cast<IComponent*>(&comp);
+  OverlayList::size_type overlays = comp.overlays.size();
+  archive << MakeNameValuePair("overlays", overlays);
+  for (OverlayListIterator it = comp.overlays.begin();
+      it != comp.overlays.end(); ++it) {
+    archive << **it;
+  }
+}
+
+template<class Archive>
+inline void load(Archive &archive, DamageIndicatorComponent &comp, unsigned int version)
+{
+  archive >> *static_cast<IComponent*>(&comp);
+  OverlayList::size_type overlays = 0;
+  archive << MakeNameValuePair("overlays", overlays);
+  for (OverlayList::size_type i = 0; i < overlays; ++i) {
+    Overlay *overlay = new Overlay;
+    archive >> *overlay;
+    comp.overlays.push_back(overlay);
+  }
+}
+
+} // namespace serialization
+
 #endif
 

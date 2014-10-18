@@ -20,21 +20,25 @@
  * Author(s): Teon Banek <intothedungeon@gmail.com>
  */
 #include "CApp.h"
+
+#include <iostream>
+
+#include "AnimationComponent.h"
 #include "CArea.h"
-#include "CHud.h"
-#include "CText.h"
-#include "CMap.h"
+#include "CCamera.h"
 #include "CFPS.h"
+#include "CHud.h"
+#include "CMap.h"
+#include "ControlSystem.h"
 #include "COptions.h"
 #include "CSurface.h"
-#include "CCamera.h"
-#include "ControlSystem.h"
-#include "LevelLoader.h"
-#include "SpaceComponent.h"
-#include "HealthComponent.h"
+#include "CText.h"
+#include "data/save.hpp"
 #include "EntityFactory.h"
 #include "EntityManager.h"
-#include "AnimationComponent.h"
+#include "HealthComponent.h"
+#include "LevelLoader.h"
+#include "SpaceComponent.h"
 
 void CApp::OnEvent(SDL_Event *Event)
 {
@@ -110,6 +114,7 @@ void CApp::newOnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
     if (CText::TextControl.displayPrompt(Surf_Display,
         "Do you want to quit? y/n", 80, 20)) {
       Running = false;
+      data::SaveGame(em);
       return;
     }
   } else if (sym == SDLK_RETURN) {

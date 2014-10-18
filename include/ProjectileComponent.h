@@ -54,4 +54,29 @@ class ProjectileComponent: public IComponent {
     // Currently all projectiles always hit their targets.
     AttackFun attack_fun;
 };
+
+namespace serialization {
+
+template<class Archive>
+inline void save(Archive &archive, ProjectileComponent &comp,
+    unsigned int version)
+{
+  archive << *static_cast<IComponent*>(&comp);
+  archive << comp.end;
+  archive << MakeNameValuePair("destroyed", comp.destroyed);
+  archive << MakeNameValuePair("destroyTime", comp.destroy_time);
+}
+
+template<class Archive>
+inline void load(Archive &archive, ProjectileComponent &comp,
+    unsigned int version)
+{
+  archive >> *static_cast<IComponent*>(&comp);
+  archive << comp.end;
+  archive >> comp.destroyed;
+  archive >> comp.destroy_time;
+}
+
+} // namespace serialization
+
 #endif

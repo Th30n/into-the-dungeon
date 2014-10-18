@@ -42,6 +42,25 @@ class TurnComponent : public IComponent {
     // True if this object took its action this turn.
     bool turn_taken;
 };
+
+namespace serialization {
+
+template<class Archive>
+inline void save(Archive &archive, TurnComponent &comp, unsigned int version)
+{
+  archive << *static_cast<IComponent*>(&comp);
+  archive << MakeNameValuePair("team", comp.team);
+  archive << MakeNameValuePair("turnTaken", comp.turn_taken);
+}
+
+template<class Archive>
+inline void load(Archive &archive, TurnComponent &comp, unsigned int version)
+{
+  archive >> *static_cast<IComponent*>(&comp);
+  archive >> comp.team;
+  archive >> comp.turn_taken;
+}
+
+} // namespace serialization
+
 #endif
-
-

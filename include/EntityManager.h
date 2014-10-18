@@ -55,6 +55,12 @@ class EntityManager {
     void getAllComponentsOfType(std::vector<T*> &components);
     // Clear every entity and start from 0.
     void reset();
+    // Serializes the entity manager to archive.
+    template<class Archive>
+    inline void save(Archive &archive, unsigned int version);
+    // Deserializes the entity manager from archive.
+    template<class Archive>
+    inline void load(Archive &archive, unsigned int version);
   
   private:
     typedef std::map<unsigned, IComponent*> ComponentEntityMap;
@@ -112,6 +118,33 @@ void EntityManager::getAllComponentsOfType(std::vector<T*> &component)
     for (; compIt != componentsByEntity.end(); ++compIt) {
       component.push_back(static_cast<T*>(compIt->second));
     }
+  }
+}
+
+// Serializes the entity manager to archive.
+template<class Archive>
+inline void EntityManager::save(Archive &archive, unsigned int version)
+{
+  using serialization::MakeNameValuePair;
+  archive << MakeNameValuePair("lowestUnassignedId", lowest_unassigned_eid_);
+  EntityArray::size_type entities = entities_.size();
+  archive << MakeNameValuePair("entities", entities);
+  for (EntityArrayIt it = entities_.begin(); it != entities_.end(); ++it) {
+    archive << MakeNameValuePair("id", *it);
+  }
+}
+// Deserializes the entity manager from archive.
+template<class Archive>
+inline void EntityManager::load(Archive &archive, unsigned int version)
+{
+  reset();
+  archive >> lowest_unassigned_eid_;
+  EntityArray::size_type entities = 0;
+  archive >> entities;
+  for (EntityArray::size_type i = 0; i < entities; ++i) {
+    unsigned id = 0;
+    archive >> id;
+    entities_.push_back(id);
   }
 }
 

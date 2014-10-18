@@ -55,4 +55,48 @@ class StatsComponent: public IComponent {
     // Currently used by the AI, should be expanded.
     std::vector<std::string> skills;
 };
+
+namespace serialization {
+
+template<class Archive>
+inline void save(Archive &archive, StatsComponent &comp, unsigned int version)
+{
+  archive << *static_cast<IComponent*>(&comp);
+  archive << MakeNameValuePair("level", comp.level);
+  archive << MakeNameValuePair("xp", comp.xp);
+  archive << MakeNameValuePair("visionRange", comp.vision_range);
+  archive << MakeNameValuePair("attack", comp.attack);
+  archive << MakeNameValuePair("armor", comp.armor);
+  archive << MakeNameValuePair("health", comp.health);
+  typedef std::vector<std::string> Skills;
+  Skills::size_type skills = comp.skills.size();
+  archive << MakeNameValuePair("skills", skills);
+  for (Skills::iterator it = comp.skills.begin();
+      it != comp.skills.end(); ++it) {
+    archive << MakeNameValuePair("skill", *it);
+  }
+}
+
+template<class Archive>
+inline void load(Archive &archive, StatsComponent &comp, unsigned int version)
+{
+  archive >> *static_cast<IComponent*>(&comp);
+  archive >> comp.level;
+  archive >> comp.xp;
+  archive >> comp.vision_range;
+  archive >> comp.attack;
+  archive >> comp.armor;
+  archive >> comp.health;
+  typedef std::vector<std::string> Skills;
+  Skills::size_type skills = 0;
+  archive >> skills;
+  for (Skills::size_type i = 0; i < skills; ++i) {
+    std::string skill;
+    archive >> skill;
+    comp.skills.push_back(skill);
+  }
+}
+
+} // namespace serialization
+
 #endif

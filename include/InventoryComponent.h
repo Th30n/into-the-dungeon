@@ -45,4 +45,46 @@ class InventoryComponent: public IComponent {
     std::vector<unsigned> scrolls;
 };
 
+namespace serialization {
+
+template<class Archive>
+inline void save(Archive &archive, InventoryComponent &comp, unsigned int version)
+{
+  archive << *static_cast<IComponent*>(&comp);
+  archive << MakeNameValuePair("maxSize", comp.max_size);
+  typedef std::vector<unsigned> Items;
+  Items::size_type items = comp.items.size();
+  archive << MakeNameValuePair("items", items);
+  for (Items::iterator it = comp.items.begin(); it != comp.items.end(); ++it) {
+    archive << MakeNameValuePair("item", *it);
+  }
+  Items::size_type scrolls = comp.scrolls.size();
+  archive << MakeNameValuePair("scrolls", scrolls);
+  for (Items::iterator it = comp.scrolls.begin(); it != comp.scrolls.end(); ++it) {
+    archive << MakeNameValuePair("scroll", *it);
+  }
+}
+
+template<class Archive>
+inline void load(Archive &archive, InventoryComponent &comp, unsigned int version)
+{
+  archive >> *static_cast<IComponent*>(&comp);
+  archive >> comp.max_size;
+  typedef std::vector<unsigned> Items;
+  Items::size_type items = 0;
+  for (Items::size_type i = 0; i < items; ++i) {
+    unsigned item = 0;
+    archive >> item;
+    comp.items.push_back(item);
+  }
+  Items::size_type scrolls = 0;
+  for (Items::size_type i = 0; i < scrolls; ++i) {
+    unsigned scroll = 0;
+    archive >> scroll;
+    comp.scrolls.push_back(scroll);
+  }
+}
+
+} // namespace serialization
+
 #endif

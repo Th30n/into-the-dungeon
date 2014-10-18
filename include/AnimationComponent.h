@@ -79,5 +79,42 @@ class AnimationComponent : public IComponent {
     bool is_dead;
     bool casting;
 };
+
+namespace serialization {
+
+template<class Archive>
+inline void save(Archive &archive, AnimationComponent &comp, unsigned int version)
+{
+  archive << *static_cast<IComponent*>(&comp);
+  archive << MakeNameValuePair("maxFrames", comp.max_frames);
+  archive << MakeNameValuePair("frameRate", comp.frame_rate);
+  archive << MakeNameValuePair("startTime", comp.start_time);
+  archive << MakeNameValuePair("currentFrameCol", comp.current_frame_col);
+  archive << MakeNameValuePair("currentFrameRow", comp.current_frame_row);
+  archive << MakeNameValuePair("idleFrameCol", comp.idle_frame_col);
+  archive << MakeNameValuePair("moving", comp.moving);
+  archive << MakeNameValuePair("attacking", comp.attacking);
+  archive << MakeNameValuePair("isDead", comp.is_dead);
+  archive << MakeNameValuePair("casting", comp.casting);
+}
+
+template<class Archive>
+inline void load(Archive &archive, AnimationComponent &comp, unsigned int version)
+{
+  archive >> *static_cast<IComponent*>(&comp);
+  archive >> comp.max_frames;
+  archive >> comp.frame_rate;
+  archive >> comp.start_time;
+  archive >> comp.current_frame_col;
+  archive >> comp.current_frame_row;
+  archive >> comp.idle_frame_col;
+  archive >> comp.moving;
+  archive >> comp.attacking;
+  archive >> comp.is_dead;
+  archive >> comp.casting;
+}
+
+} // namespace serialization
+
 #endif
 

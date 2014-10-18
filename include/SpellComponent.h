@@ -103,4 +103,88 @@ class SpellComponent: public IComponent {
     // Range in which bounce works.
     int bounce_range;
 };
+
+namespace serialization {
+
+template<class Archive>
+inline void save(Archive &archive, Effect &effect, unsigned int version)
+{
+  archive << effect.source;
+  archive << effect.target;
+  archive << MakeNameValuePair("type", effect.type);
+  archive << MakeNameValuePair("damage", effect.damage);
+  archive << MakeNameValuePair("duration", effect.duration);
+  archive << MakeNameValuePair("ailment", effect.ailment);
+  archive << MakeNameValuePair("chance", effect.chance);
+  archive << MakeNameValuePair("spell", effect.spell);
+  archive << effect.stats;
+  archive << MakeNameValuePair("entity", effect.entity);
+}
+
+template<class Archive>
+inline void load(Archive &archive, Effect &effect, unsigned int version)
+{
+  archive >> effect.source;
+  archive >> effect.target;
+  archive >> effect.type;
+  archive >> effect.damage;
+  archive >> effect.duration;
+  archive >> effect.ailment;
+  archive >> effect.chance;
+  archive >> effect.spell;
+  archive >> effect.stats;
+  archive >> effect.entity;
+}
+
+template<class Archive>
+inline void save(Archive &archive, SpellComponent &comp, unsigned int version)
+{
+  archive << *static_cast<IComponent*>(&comp);
+  archive << MakeNameValuePair("targeting", comp.targeting);
+  archive << MakeNameValuePair("name", comp.name);
+  archive << MakeNameValuePair("description", comp.description);
+  typedef std::vector<Effect> Effects;
+  Effects::size_type effects = comp.effects.size();
+  archive << MakeNameValuePair("effects", effects);
+  for (Effects::iterator it = comp.effects.begin();
+      it != comp.effects.end(); ++it) {
+    archive << *it;
+  }
+  archive << comp.source;
+  archive << comp.target;
+  archive << comp.pre_sfx;
+  archive << comp.post_sfx;
+  archive << MakeNameValuePair("aoe", comp.aoe);
+  archive << MakeNameValuePair("radius", comp.radius);
+  archive << MakeNameValuePair("bounces", comp.bounces);
+  archive << MakeNameValuePair("bounce_range", comp.bounce_range);
+}
+
+template<class Archive>
+inline void load(Archive &archive, SpellComponent &comp, unsigned int version)
+{
+  archive >> *static_cast<IComponent*>(&comp);
+  archive >> comp.targeting;
+  archive >> comp.name;
+  archive >> comp.description;
+  typedef std::vector<Effect> Effects;
+  Effects::size_type effects = 0;
+  archive >> effects;
+  for (Effects::size_type i = 0; i < effects; ++i) {
+    Effect effect;
+    archive >> effect;
+    comp.effects.push_back(effect);
+  }
+  archive >> comp.source;
+  archive >> comp.target;
+  archive >> comp.pre_sfx;
+  archive >> comp.post_sfx;
+  archive >> comp.aoe;
+  archive >> comp.radius;
+  archive >> comp.bounces;
+  archive >> comp.bounce_range;
+}
+
+} // namespace serialization
+
 #endif

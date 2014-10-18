@@ -62,6 +62,7 @@ template<class Archive>
 inline void save(Archive &archive, AIComponent &comp, unsigned int version)
 {
   archive << *static_cast<IComponent*>(&comp);
+  archive << comp.waypoint;
   archive << MakeNameValuePair("castRate", comp.cast_rate);
 }
 
@@ -69,8 +70,8 @@ template<class Archive>
 inline void load(Archive &archive, AIComponent &comp, unsigned int version)
 {
   archive >> *static_cast<IComponent*>(&comp);
-  NameValuePair<int> cast_rate = MakeNameValuePair("castRate", comp.cast_rate);
-  archive >> cast_rate;
+  archive >> comp.waypoint;
+  archive >> comp.cast_rate;
 }
 
 } // namespace serialization

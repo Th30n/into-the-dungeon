@@ -64,25 +64,37 @@ class OArchive
     // Specializations for primitive types
     OArchive &operator<<(int val)
     {
-      std::ostringstream oss;
-      oss << val;
-      node_stack_.top()->addChild(new IMLValue(oss.str()));
+      writeTagValue(val);
+      return *this;
+    }
+
+    OArchive &operator<<(long int val)
+    {
+      writeTagValue(val);
       return *this;
     }
 
     OArchive &operator<<(unsigned int val)
     {
-      std::ostringstream oss;
-      oss << val;
-      node_stack_.top()->addChild(new IMLValue(oss.str()));
+      writeTagValue(val);
+      return *this;
+    }
+
+    OArchive &operator<<(long unsigned int val)
+    {
+      writeTagValue(val);
       return *this;
     }
 
     OArchive &operator<<(bool val)
     {
-      std::ostringstream oss;
-      oss << val;
-      node_stack_.top()->addChild(new IMLValue(oss.str()));
+      writeTagValue(val);
+      return *this;
+    }
+
+    OArchive &operator<<(float val)
+    {
+      writeTagValue(val);
       return *this;
     }
 
@@ -108,6 +120,14 @@ class OArchive
     }
 
   private:
+    template<typename T>
+    void writeTagValue(const T &val)
+    {
+      std::ostringstream oss;
+      oss << val;
+      node_stack_.top()->addChild(new IMLValue(oss.str()));
+    }
+
     std::ostream &os_;
     std::stack<IMLTag*> node_stack_;
 };

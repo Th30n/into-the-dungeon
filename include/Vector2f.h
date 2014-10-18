@@ -22,6 +22,8 @@
 #ifndef VECTOR2F_H
 #define VECTOR2F_H
 
+#include "serialization/NameValuePair.hpp"
+
 /**
  * Vector of 2 float values, can be used as a point in space also.
  * Among the usual methods are:
@@ -94,4 +96,22 @@ inline bool operator!=(const Vector2f &l, const Vector2f &r)
 {
   return !operator==(l, r);
 }
+
+namespace serialization {
+
+template<class Archive>
+inline void save(Archive &archive, Vector2f &vec, unsigned int version)
+{
+  archive << MakeNameValuePair("x", vec.x);
+  archive << MakeNameValuePair("y", vec.y);
+}
+
+template<class Archive>
+inline void load(Archive &archive, Vector2f &vec, unsigned int version)
+{
+  archive >> vec.x;
+  archive >> vec.y;
+}
+
+} // namespace serialization
 #endif

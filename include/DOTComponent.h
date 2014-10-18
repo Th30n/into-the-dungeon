@@ -56,4 +56,37 @@ class DOTComponent: public IComponent {
     // Which spell is triggered each turn.
     std::string spell;
 };
+
+namespace serialization {
+
+template<class Archive>
+inline void save(Archive &archive, DOTComponent &comp, unsigned int version)
+{
+  archive << *static_cast<IComponent*>(&comp);
+  archive << comp.source;
+  archive << comp.target;
+  archive << MakeNameValuePair("duration", comp.duration);
+  archive << MakeNameValuePair("infinite", comp.infinite);
+  archive << MakeNameValuePair("lightChange", comp.light_change);
+  archive << MakeNameValuePair("healthChange", comp.health_change);
+  archive << MakeNameValuePair("ailments", comp.ailments);
+  archive << MakeNameValuePair("spell", comp.spell);
+}
+
+template<class Archive>
+inline void load(Archive &archive, DOTComponent &comp, unsigned int version)
+{
+  archive >> *static_cast<IComponent*>(&comp);
+  archive >> comp.source;
+  archive >> comp.target;
+  archive >> comp.duration;
+  archive >> comp.infinite;
+  archive >> comp.light_change;
+  archive >> comp.health_change;
+  archive >> comp.ailments;
+  archive >> comp.spell;
+}
+
+} // namespace serialization
+
 #endif

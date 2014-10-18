@@ -59,5 +59,31 @@ class SpaceComponent : public IComponent {
     // Look direction, might not be normalized.
     Vector2f look_dir;
 };
-#endif
 
+namespace serialization {
+
+template<class Archive>
+inline void save(Archive &archive, SpaceComponent &comp, unsigned int version)
+{
+  archive << *static_cast<IComponent*>(&comp);
+  archive << MakeNameValuePair("isActive", comp.is_active);
+  archive << comp.pos;
+  archive << MakeNameValuePair("width", comp.width);
+  archive << MakeNameValuePair("height", comp.height);
+  archive << comp.look_dir;
+}
+
+template<class Archive>
+inline void load(Archive &archive, SpaceComponent &comp, unsigned int version)
+{
+  archive >> *static_cast<IComponent*>(&comp);
+  archive >> comp.is_active;
+  archive >> comp.pos;
+  archive >> comp.width;
+  archive >> comp.height;
+  archive >> comp.look_dir;
+}
+
+} // namespace serialization
+
+#endif

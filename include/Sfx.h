@@ -24,6 +24,8 @@
 
 #include <string>
 
+#include "serialization/NameValuePair.hpp"
+
 class IMLNode;
 
 /**
@@ -51,5 +53,37 @@ class Sfx {
     // Speed of projectile
     float speed;
 };
+
+namespace serialization {
+
+template<class Archive>
+inline void save(Archive &archive, Sfx &sfx, unsigned int version)
+{
+  archive << MakeNameValuePair("type", sfx.type);
+  archive << MakeNameValuePair("sprite", sfx.sprite);
+  archive << MakeNameValuePair("width", sfx.width);
+  archive << MakeNameValuePair("height", sfx.height);
+  archive << MakeNameValuePair("xOffset", sfx.x_offset);
+  archive << MakeNameValuePair("yOffset", sfx.y_offset);
+  archive << MakeNameValuePair("maxFrames", sfx.max_frames);
+  archive << MakeNameValuePair("frame_rate", sfx.frame_rate);
+  archive << MakeNameValuePair("speed", sfx.speed);
+}
+
+template<class Archive>
+inline void load(Archive &archive, Sfx &sfx, unsigned int version)
+{
+  archive >> sfx.type;
+  archive >> sfx.sprite;
+  archive >> sfx.width;
+  archive >> sfx.height;
+  archive >> sfx.x_offset;
+  archive >> sfx.y_offset;
+  archive >> sfx.max_frames;
+  archive >> sfx.frame_rate;
+  archive >> sfx.speed;
+}
+
+} // namespace serialization
 
 #endif

@@ -26,8 +26,25 @@
 #include <vector>
 
 #include "AIComponent.h"
+#include "AnimationComponent.h"
+#include "CollisionComponent.h"
+#include "DamageIndicatorComponent.h"
+#include "DOTComponent.h"
 #include "EntityManager.h"
 #include "HealthComponent.h"
+#include "InventoryComponent.h"
+#include "ItemComponent.h"
+#include "MovementComponent.h"
+#include "ParticleComponent.h"
+#include "ProjectileComponent.h"
+#include "RendererComponent.h"
+#include "SpaceComponent.h"
+#include "SpellComponent.h"
+#include "StatsComponent.h"
+#include "TrapComponent.h"
+#include "TurnComponent.h"
+#include "WeaponComponent.h"
+
 #include "serialization/iml/IArchive.hpp"
 #include "serialization/iml/OArchive.hpp"
 #include "utility/typelist.hpp"
@@ -40,8 +57,12 @@ namespace data
 // TODO: Look into type traits and resolving pointer to base template.
 // That should provide for a much more decoupled solution than listing all
 // the component types that need to be serialized.
-
-typedef TYPELIST_2(AIComponent, HealthComponent) ComponentList;
+typedef TYPELIST_18(AIComponent, AnimationComponent, CollisionComponent,
+    DamageIndicatorComponent, DOTComponent, HealthComponent,
+    InventoryComponent, ItemComponent, MovementComponent, ParticleComponent,
+    ProjectileComponent, RendererComponent, SpaceComponent, SpellComponent,
+    StatsComponent, TrapComponent, TurnComponent, WeaponComponent)
+  ComponentList;
 
 template<class Component, class Archive>
 void saveComponents(Archive &archive, EntityManager &em)
@@ -88,6 +109,7 @@ void SaveGame(EntityManager &em)
   using serialization::iml::OArchive;
   std::ofstream save_file("./save.sav");
   OArchive oarchive(save_file);
+  oarchive << em;
   ComponentSaver<ComponentList, OArchive> saver;
   saver(oarchive, em);
 }
@@ -97,6 +119,7 @@ void LoadGame(EntityManager &em)
   using serialization::iml::IArchive;
   std::ifstream save_file("./save.sav");
   IArchive iarchive(save_file);
+  iarchive >> em;
 }
 
 } // namespace data

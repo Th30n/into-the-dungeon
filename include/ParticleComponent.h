@@ -55,4 +55,26 @@ class ParticleComponent: public IComponent {
     AttackFun attack_fun;
 };
 
+namespace serialization {
+
+template<class Archive>
+inline void save(Archive &archive, ParticleComponent &comp, unsigned int version)
+{
+  archive << *static_cast<IComponent*>(&comp);
+  archive << MakeNameValuePair("startTime", comp.start_time);
+  archive << MakeNameValuePair("timeToLive", comp.time_to_live);
+  archive << comp.velocity;
+}
+
+template<class Archive>
+inline void load(Archive &archive, ParticleComponent &comp, unsigned int version)
+{
+  archive >> *static_cast<IComponent*>(&comp);
+  archive >> comp.start_time;
+  archive >> comp.time_to_live;
+  archive >> comp.velocity;
+}
+
+} // namespace serialization
+
 #endif

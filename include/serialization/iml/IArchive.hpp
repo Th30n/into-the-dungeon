@@ -73,13 +73,31 @@ class IArchive
       return *this;
     }
 
+    IArchive &operator>>(long int &val)
+    {
+      readTagValue(val);
+      return *this;
+    }
+
     IArchive &operator>>(unsigned int &val)
     {
       readTagValue(val);
       return *this;
     }
 
+    IArchive &operator>>(long unsigned int &val)
+    {
+      readTagValue(val);
+      return *this;
+    }
+
     IArchive &operator>>(bool &val)
+    {
+      readTagValue(val);
+      return *this;
+    }
+
+    IArchive &operator>>(float &val)
     {
       readTagValue(val);
       return *this;

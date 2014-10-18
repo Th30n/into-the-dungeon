@@ -87,4 +87,77 @@ class ItemComponent: public IComponent {
     bool cursed;
     bool equipped;
 };
+
+namespace serialization {
+
+template<class Archive>
+inline void save(Archive &archive, ItemComponent::UseTypes &use_type,
+    unsigned int version)
+{
+  int val = use_type;
+  archive << MakeNameValuePair("useType", val);
+}
+
+template<class Archive>
+inline void load(Archive &archive, ItemComponent::UseTypes &use_type,
+    unsigned int version)
+{
+  int val = use_type;
+  archive >> val;
+  use_type = val;
+}
+
+template<class Archive>
+inline void save(Archive &archive, ItemComponent::RareTypes &rare_type,
+    unsigned int version)
+{
+  int val = rare_type;
+  archive << MakeNameValuePair("rareType", val);
+}
+
+template<class Archive>
+inline void load(Archive &archive, ItemComponent::RareTypes &rare_type,
+    unsigned int version)
+{
+  int val = rare_type;
+  archive >> val;
+  rare_type = val;
+}
+
+template<class Archive>
+inline void save(Archive &archive, ItemComponent &comp, unsigned int version)
+{
+  archive << *static_cast<IComponent*>(&comp);
+  archive << MakeNameValuePair("itemLevel", comp.itemLevel);
+  archive << MakeNameValuePair("name", comp.name);
+  archive << MakeNameValuePair("description", comp.description);
+  archive << MakeNameValuePair("spell", comp.spell);
+  archive << comp.statsModifiers;
+  archive << comp.useType;
+  archive << comp.rareType;
+  archive << MakeNameValuePair("spriteId", comp.spriteId);
+  archive << MakeNameValuePair("identified", comp.identified);
+  archive << MakeNameValuePair("cursed", comp.cursed);
+  archive << MakeNameValuePair("equipped", comp.equipped);
+}
+
+template<class Archive>
+inline void load(Archive &archive, ItemComponent &comp, unsigned int version)
+{
+  archive >> *static_cast<IComponent*>(&comp);
+  archive >> comp.itemLevel;
+  archive >> comp.name;
+  archive >> comp.description;
+  archive >> comp.spell;
+  archive >> comp.statsModifiers;
+  archive >> comp.useType;
+  archive >> comp.rareType;
+  archive >> comp.spriteId;
+  archive >> comp.identified;
+  archive >> comp.cursed;
+  archive >> comp.equipped;
+}
+
+} // namespace serialization
+
 #endif
