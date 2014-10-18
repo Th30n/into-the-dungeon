@@ -34,10 +34,13 @@ int main(int argc, char *argv[])
   std::ostringstream oss;
   serialization::iml::OArchive oarchive(oss);
   oarchive << c;
-  std::string expected = "<version>0</version><B><version>0</version>";
-  expected += "<version>0</version><a>1</a><b>2</b></B><c>5</c>";
-  if (oss.str() != expected) {
-    std::cerr << oss.str() << " != " << expected << std::endl;
+  std::ostringstream expected;
+  expected <<
+    "<version>0</version>\n" <<
+    "<B><version>0</version><version>0</version><a>1</a><b>2</b></B>\n" <<
+    "<c>5</c>\n";
+  if (oss.str() != expected.str()) {
+    std::cerr << oss.str() << " != " << expected.str() << std::endl;
     return -1;
   }
 

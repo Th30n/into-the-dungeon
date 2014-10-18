@@ -127,6 +127,8 @@ class OArchive
       node_stack_.pop();
       if (node_stack_.size() == 1) {
         tag_node->writeToStream(os_);
+        // For better readability.
+        os_ << std::endl;
       }
       return *this;
     }
