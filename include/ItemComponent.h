@@ -104,7 +104,7 @@ inline void load(Archive &archive, ItemComponent::UseTypes &use_type,
 {
   int val = use_type;
   archive >> val;
-  use_type = val;
+  use_type = static_cast<ItemComponent::UseTypes>(val);
 }
 
 template<class Archive>
@@ -121,7 +121,7 @@ inline void load(Archive &archive, ItemComponent::RareTypes &rare_type,
 {
   int val = rare_type;
   archive >> val;
-  rare_type = val;
+  rare_type = static_cast<ItemComponent::RareTypes>(val);
 }
 
 template<class Archive>

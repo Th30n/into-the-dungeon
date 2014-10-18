@@ -91,7 +91,9 @@ static void animate(GameObject object)
       moving = true;
     }
   }
-  changeFacing(ac, getFacing(sc->look_dir));
+  if (sc) {
+    changeFacing(ac, getFacing(sc->look_dir));
+  }
   if (ac->attacking) {
     attackAnimation(ac);
   } else if (ac->is_dead) {

@@ -24,6 +24,7 @@
   
 #include "Define.h"
 #include "CMusic.h"
+#include "serialization/NameValuePair.hpp"
 
 enum
 {
@@ -106,5 +107,33 @@ class CTile {
     void save(FILE *file);
     bool load(FILE *file);
 };
+
+namespace serialization {
+
+template<class Archive>
+inline void save(Archive &archive, CTile &tile, unsigned int version)
+{
+  archive << MakeNameValuePair("tileId", tile.tile_id);
+  archive << MakeNameValuePair("layerId", tile.layer_id);
+  archive << MakeNameValuePair("typeId", tile.type_id);
+  archive << MakeNameValuePair("tileRow", tile.tile_row);
+  archive << MakeNameValuePair("fowMask", tile.fow_mask);
+  archive << MakeNameValuePair("isVisible", tile.is_visible);
+  archive << MakeNameValuePair("isExplored", tile.is_explored);
+}
+
+template<class Archive>
+inline void load(Archive &archive, CTile &tile, unsigned int version)
+{
+  archive >> tile.tile_id;
+  archive >> tile.layer_id;
+  archive >> tile.type_id;
+  archive >> tile.tile_row;
+  archive >> tile.fow_mask;
+  archive >> tile.is_visible;
+  archive >> tile.is_explored;
+}
+
+} // namespace serialization
 
 #endif

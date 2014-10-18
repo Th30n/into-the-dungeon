@@ -114,7 +114,6 @@ void CApp::newOnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
     if (CText::TextControl.displayPrompt(Surf_Display,
         "Do you want to quit? y/n", 80, 20)) {
       Running = false;
-      data::SaveGame(em);
       return;
     }
   } else if (sym == SDLK_RETURN) {
@@ -122,6 +121,16 @@ void CApp::newOnKeyDown(SDLKey sym, SDLMod mod, Uint16 unicode)
     if (hp->is_dead || CArea::area_control.dungeon_level == 20) {
       player = LevelLoader::startNewGame();
       return;
+    }
+  } else if (sym == SDLK_l && (mod & KMOD_SHIFT)) {
+    if (CText::TextControl.displayPrompt(Surf_Display,
+        "Do you want to load the game? y/n", 80, 20)) {
+      LevelLoader::LoadGame();
+    }
+  } else if (sym == SDLK_s && (mod & KMOD_SHIFT)) {
+    if (CText::TextControl.displayPrompt(Surf_Display,
+        "Do you want to save the game? y/n", 80, 20)) {
+      data::SaveGame(em);
     }
   }
   if (CHud::HUD.onKeyDown(sym, mod, unicode)) {

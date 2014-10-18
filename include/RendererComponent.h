@@ -37,6 +37,7 @@ class RendererComponent : public IComponent {
     static IComponent *creator();
     static int hreg;
 
+    RendererComponent();
     RendererComponent(const char *filename);
     virtual ~RendererComponent();
     virtual void start();

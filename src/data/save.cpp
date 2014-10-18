@@ -27,6 +27,7 @@
 
 #include "AIComponent.h"
 #include "AnimationComponent.h"
+#include "CArea.h"
 #include "CollisionComponent.h"
 #include "DamageIndicatorComponent.h"
 #include "DOTComponent.h"
@@ -47,6 +48,7 @@
 
 #include "serialization/iml/IArchive.hpp"
 #include "serialization/iml/OArchive.hpp"
+#include "serialization/NameValuePair.hpp"
 #include "utility/typelist.hpp"
 
 namespace data
@@ -69,9 +71,24 @@ void saveComponents(Archive &archive, EntityManager &em)
 {
   std::vector<Component*> comps;
   em.getAllComponentsOfType(comps);
+  typename std::vector<Component*>::size_type size = comps.size();
+  archive << serialization::MakeNameValuePair("components", size);
   typename std::vector<Component*>::iterator it;
   for (it = comps.begin(); it != comps.end(); ++it) {
     archive << **it;
+  }
+}
+
+template<class Component, class Archive>
+void loadComponents(Archive &archive, EntityManager &em)
+{
+  typedef typename std::vector<Component*>::size_type SizeType;
+  SizeType size = 0;
+  archive >> size;
+  for (SizeType i = 0; i < size; ++i) {
+    Component *comp = new Component;
+    archive >> *comp;
+    em.addComponentToEntity(comp, comp->parent());
   }
 }
 
@@ -104,11 +121,37 @@ class ComponentSaver<utility::TypeList<T, U>, Archive>
     }
 };
 
+template<class TL, class Archive>
+class ComponentLoader {};
+
+template<class T, class Archive>
+class ComponentLoader<utility::TypeList<T, utility::NullType>, Archive>
+{
+  public:
+    void operator()(Archive &archive, EntityManager &em)
+    {
+      loadComponents<T>(archive, em);
+    }
+};
+
+template<class T, class U, class Archive>
+class ComponentLoader<utility::TypeList<T, U>, Archive>
+{
+  public:
+    void operator()(Archive &archive, EntityManager &em)
+    {
+      loadComponents<T>(archive, em);
+      ComponentLoader<U, Archive> loader;
+      return loader(archive, em);
+    }
+};
+
 void SaveGame(EntityManager &em)
 {
   using serialization::iml::OArchive;
   std::ofstream save_file("./save.sav");
   OArchive oarchive(save_file);
+  oarchive << CArea::area_control;
   oarchive << em;
   ComponentSaver<ComponentList, OArchive> saver;
   saver(oarchive, em);
@@ -119,7 +162,10 @@ void LoadGame(EntityManager &em)
   using serialization::iml::IArchive;
   std::ifstream save_file("./save.sav");
   IArchive iarchive(save_file);
+  iarchive >> CArea::area_control;
   iarchive >> em;
+  ComponentLoader<ComponentList, IArchive> loader;
+  loader(iarchive, em);
 }
 
 } // namespace data

@@ -157,7 +157,7 @@ inline void save(Archive &archive, SpellComponent &comp, unsigned int version)
   archive << MakeNameValuePair("aoe", comp.aoe);
   archive << MakeNameValuePair("radius", comp.radius);
   archive << MakeNameValuePair("bounces", comp.bounces);
-  archive << MakeNameValuePair("bounce_range", comp.bounce_range);
+  archive << MakeNameValuePair("bounceRange", comp.bounce_range);
 }
 
 template<class Archive>
@@ -170,6 +170,7 @@ inline void load(Archive &archive, SpellComponent &comp, unsigned int version)
   typedef std::vector<Effect> Effects;
   Effects::size_type effects = 0;
   archive >> effects;
+  comp.effects.clear();
   for (Effects::size_type i = 0; i < effects; ++i) {
     Effect effect;
     archive >> effect;

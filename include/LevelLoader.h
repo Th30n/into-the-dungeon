@@ -32,6 +32,8 @@ class LevelLoader {
   public:
     // Starts new game and returns player object.
     static GameObject startNewGame();
+    // Loads a game from standard save file.
+    static void LoadGame();
     // Changes to the next level.
     // Player and current level are needed for handling deleting
     // and creating new objects.

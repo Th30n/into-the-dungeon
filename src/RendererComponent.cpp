@@ -37,7 +37,13 @@ int RendererComponent::hreg = ComponentFactory::instance().registerCreator(
 
 IComponent *RendererComponent::creator()
 {
-  return new RendererComponent("");
+  return new RendererComponent;
+}
+
+RendererComponent::RendererComponent()
+  : image(0), x(0), y(0), width(32), height(32), x_offset(0), y_offset(0),
+    gfx_filename_("")
+{
 }
 
 RendererComponent::RendererComponent(const char *filename)

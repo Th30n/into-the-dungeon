@@ -30,6 +30,7 @@
 #include "CCamera.h"
 #include "CHud.h"
 #include "CMusic.h"
+#include "data/save.hpp"
 #include "DOTComponent.h"
 #include "EntityFactory.h"
 #include "EntityManager.h"
@@ -49,14 +50,6 @@ GameObject LevelLoader::startNewGame()
 
   CHud::HUD.start(player);
 
-  //ef.spawn(ef.createEntity("dragonBoss"));
-  //ef.spawn(ef.createItem("regenScroll"));
-  //for (int i = 0; i < 25; ++i) {
-  //  //ef.spawn(ef.createRandomEntity(0, 5));
-  //  ef.spawn(ef.createRandomItem(0, 5));
-  //}
-
-  //ef.spawn(ef.createTrap("poisonTrap"));
   /***********initiate food DOT**************/
   GameObject hunger = ef.createDOT();
   DOTComponent *dot = em.getComponentForEntity<DOTComponent>(hunger);
@@ -68,6 +61,26 @@ GameObject LevelLoader::startNewGame()
   LevelLoader::nextLevel(player, 1);
   CHud::HUD.updateStats();
   return player;
+}
+
+void LevelLoader::LoadGame()
+{
+  EntityManager &em = EntityManager::instance();
+  data::LoadGame(em);
+  GameObject player(1);
+
+  CCamera::camera_control.target_mode = TARGET_MODE_CENTER;
+  CCamera::camera_control.SetTarget(
+      em.getComponentForEntity<SpaceComponent>(player));
+  CHud::HUD.start(player);
+  CHud::HUD.updateStats();
+
+  if (!(CArea::dungeon_level % BOSS_LEVEL)) {
+    //When on Boss level change to Boss music
+    CMusic::SoundControl.ChangeMusic(CApp::MusicBoss);
+  } else {
+    CMusic::SoundControl.ChangeMusic(CApp::Music);
+  }
 }
 
 void LevelLoader::nextLevel(GameObject player, int lvl)

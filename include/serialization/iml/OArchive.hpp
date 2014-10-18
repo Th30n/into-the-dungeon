@@ -62,6 +62,18 @@ class OArchive
     }
 
     // Specializations for primitive types
+    OArchive &operator<<(short val)
+    {
+      writeTagValue(val);
+      return *this;
+    }
+
+    OArchive &operator<<(unsigned short val)
+    {
+      writeTagValue(val);
+      return *this;
+    }
+
     OArchive &operator<<(int val)
     {
       writeTagValue(val);

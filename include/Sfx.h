@@ -66,7 +66,7 @@ inline void save(Archive &archive, Sfx &sfx, unsigned int version)
   archive << MakeNameValuePair("xOffset", sfx.x_offset);
   archive << MakeNameValuePair("yOffset", sfx.y_offset);
   archive << MakeNameValuePair("maxFrames", sfx.max_frames);
-  archive << MakeNameValuePair("frame_rate", sfx.frame_rate);
+  archive << MakeNameValuePair("frameRate", sfx.frame_rate);
   archive << MakeNameValuePair("speed", sfx.speed);
 }
 

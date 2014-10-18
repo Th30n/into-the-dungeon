@@ -67,6 +67,18 @@ class IArchive
     }
 
     // Specializations for primitive types
+    IArchive &operator>>(short &val)
+    {
+      readTagValue(val);
+      return *this;
+    }
+
+    IArchive &operator>>(unsigned short &val)
+    {
+      readTagValue(val);
+      return *this;
+    }
+
     IArchive &operator>>(int &val)
     {
       readTagValue(val);
@@ -98,6 +110,12 @@ class IArchive
     }
 
     IArchive &operator>>(float &val)
+    {
+      readTagValue(val);
+      return *this;
+    }
+
+    IArchive &operator>>(std::string &val)
     {
       readTagValue(val);
       return *this;

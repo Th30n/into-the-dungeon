@@ -28,6 +28,7 @@
 #include <cstdio>
 
 #include "CTile.h"
+#include "serialization/NameValuePair.hpp"
 
 /**
  * Stores the tiles within the map.
@@ -36,6 +37,7 @@
 class CMap {
   public:
 
+    // SDL_Surfaces are managed outside this class.
     SDL_Surface *surf_tileset;
     SDL_Surface *surf_fog;
     SDL_Surface *surf_mini_tileset;
@@ -54,6 +56,10 @@ class CMap {
 
     bool Save(FILE *file);
     bool Load(FILE *file);
+    template<class Archive>
+    inline void save(Archive &archive, unsigned int version);
+    template<class Archive>
+    inline void load(Archive &archive, unsigned int version);
 
     void OnRender(SDL_Surface *display, int map_x, int map_y);
     void MiniMapOnRender(SDL_Surface *display, int player_x, int player_y);
@@ -80,5 +86,31 @@ class CMap {
     std::vector<CTile> tile_list_;
 
 };
+
+template<class Archive>
+inline void CMap::save(Archive &archive, unsigned int version)
+{
+  using serialization::MakeNameValuePair;
+  typedef std::vector<CTile> Tiles;
+  Tiles::size_type tiles = tile_list_.size();
+  archive << MakeNameValuePair("tiles", tiles);
+  for (Tiles::iterator it = tile_list_.begin(); it != tile_list_.end(); ++it) {
+    archive << *it;
+  }
+}
+
+template<class Archive>
+inline void CMap::load(Archive &archive, unsigned int version)
+{
+  typedef std::vector<CTile> Tiles;
+  Tiles::size_type tiles = 0;
+  archive >> tiles;
+  tile_list_.clear();
+  for (Tiles::size_type i = 0; i < tiles; ++i) {
+    CTile tile;
+    archive >> tile;
+    tile_list_.push_back(tile);
+  }
+}
 
 #endif

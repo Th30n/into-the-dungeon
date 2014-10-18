@@ -72,7 +72,7 @@ inline void load(Archive &archive, ProjectileComponent &comp,
     unsigned int version)
 {
   archive >> *static_cast<IComponent*>(&comp);
-  archive << comp.end;
+  archive >> comp.end;
   archive >> comp.destroyed;
   archive >> comp.destroy_time;
 }

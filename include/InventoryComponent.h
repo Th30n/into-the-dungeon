@@ -72,12 +72,16 @@ inline void load(Archive &archive, InventoryComponent &comp, unsigned int versio
   archive >> comp.max_size;
   typedef std::vector<unsigned> Items;
   Items::size_type items = 0;
+  archive >> items;
+  comp.items.clear();
   for (Items::size_type i = 0; i < items; ++i) {
     unsigned item = 0;
     archive >> item;
     comp.items.push_back(item);
   }
   Items::size_type scrolls = 0;
+  archive >> scrolls;
+  comp.scrolls.clear();
   for (Items::size_type i = 0; i < scrolls; ++i) {
     unsigned scroll = 0;
     archive >> scroll;

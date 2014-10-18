@@ -26,7 +26,9 @@
 
 #include <SDL.h>
 
-class CMap;
+#include "CMap.h"
+#include "serialization/NameValuePair.hpp"
+
 class CTile;
 
 /**
@@ -46,6 +48,10 @@ class CArea {
     CArea();
     bool OnLoad();
     bool Save(FILE *file);
+    template<class Archive>
+    inline void save(Archive &archive, unsigned int version);
+    template<class Archive>
+    inline void load(Archive &archive, unsigned int version);
     bool Load(FILE *file);
     void NextLevel();
     bool BossLevel();
@@ -62,5 +68,38 @@ class CArea {
     SDL_Surface *surf_fog_;
     SDL_Surface *surf_mini_tileset_;
 };
+
+template<class Archive>
+inline void CArea::save(Archive &archive, unsigned int version)
+{
+  using serialization::MakeNameValuePair;
+  archive << MakeNameValuePair("dungeonLevel", dungeon_level);
+  archive << MakeNameValuePair("areaSize", area_size_);
+  typedef std::vector<CMap> Maps;
+  Maps::size_type maps = map_list.size();
+  archive << MakeNameValuePair("maps", maps);
+  for (Maps::iterator it = map_list.begin(); it != map_list.end(); ++it) {
+    archive << *it;
+  }
+}
+
+template<class Archive>
+inline void CArea::load(Archive &archive, unsigned int version)
+{
+  archive >> dungeon_level;
+  archive >> area_size_;
+  typedef std::vector<CMap> Maps;
+  Maps::size_type maps = 0;
+  archive >> maps;
+  map_list.clear();
+  for (Maps::size_type i = 0; i < maps; ++i) {
+    CMap map;
+    archive >> map;
+    map.surf_tileset = surf_tileset;
+    map.surf_mini_tileset = surf_mini_tileset_;
+    map.surf_fog = surf_fog_;
+    map_list.push_back(map);
+  }
+}
 
 #endif

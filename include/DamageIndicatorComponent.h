@@ -103,7 +103,7 @@ inline void load(Archive &archive, DamageIndicatorComponent &comp, unsigned int 
 {
   archive >> *static_cast<IComponent*>(&comp);
   OverlayList::size_type overlays = 0;
-  archive << MakeNameValuePair("overlays", overlays);
+  archive >> overlays;
   for (OverlayList::size_type i = 0; i < overlays; ++i) {
     Overlay *overlay = new Overlay;
     archive >> *overlay;
