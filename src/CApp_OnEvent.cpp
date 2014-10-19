@@ -21,8 +21,6 @@
  */
 #include "CApp.h"
 
-#include <iostream>
-
 #include "AnimationComponent.h"
 #include "CArea.h"
 #include "CCamera.h"

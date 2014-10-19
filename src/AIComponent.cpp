@@ -21,9 +21,6 @@
  */
 #include "AIComponent.h"
 
-#include <cstdlib>
-#include <sstream>
-
 #include "ComponentFactory.h"
 #include "iml/utils.h"
 
