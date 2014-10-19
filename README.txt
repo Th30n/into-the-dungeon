@@ -1,5 +1,5 @@
 INTO THE DUNGEON++
-Version: Beta 0.9, xx.xx.2013.
+Version: Beta 0.9.1, 2014-10-xx
 Authors: Teon '7h30n' Banek, Luka 'Foox' Fućek, 'Psiweapon'
 ==============================================================================
 Contents:

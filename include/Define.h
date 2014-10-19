@@ -24,9 +24,9 @@
 
 /**
  * Various defines.
- * This should be removed.
+ * These should be removed.
  */
-#define VERSION "v 0.9"
+#define VERSION "v0.9.1"
 
 #define MAP_WIDTH  60
 #define MAP_HEIGHT 40

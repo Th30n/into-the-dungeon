@@ -61,7 +61,9 @@ bool CApp::OnInit()
     return false;
   }
   
-  SDL_WM_SetCaption("Into The Dungeon++, v0.9", "ITD++");
+  std::string window_title("Into The Dungeon++ ");
+  window_title += VERSION;
+  SDL_WM_SetCaption(window_title.c_str(), window_title.c_str());
   
   if (!COptions::options.getWindowed()) {
     Surf_Display = SDL_SetVideoMode(ScreenWidth, ScreenHeight, 32,
