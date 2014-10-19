@@ -1,8 +1,10 @@
 ==============================================================================
-Version Beta 0.9.1, xx.xx.20xx.
+Version Beta 0.9.1, 2014-10-xx
 ===============================
 # Misc:
-- Added proper installation for Linux and Windows
+- Added proper installation for Linux and Windows.
+# Gameplay:
+- Saving and loading is again functional.
 ==============================================================================
 Version Beta 0.9, 22.09.2013.
 ==============================
