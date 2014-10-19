@@ -30,9 +30,17 @@ namespace data
 // to filename, otherwise empty string.
 std::string FindFile(const std::string &filename);
 
+// Searches for given filename in user data directories and returns a full
+// path to filename, otherwise empty string.
+std::string FindUserFile(const std::string &filename);
+
 // Creates a directory inside user data directory hierarchy
 // and returns full path, otherwise empty string.
 std::string CreateUserDir(const std::string &dirname);
+
+// Constructs a path to a file in user data directory.
+// File does not need to exist.
+std::string CreateUserFile(const std::string &file);
 
 } // namespace data
 

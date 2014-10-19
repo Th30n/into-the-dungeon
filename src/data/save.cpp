@@ -19,6 +19,7 @@
  *
  * Author(s): Teon Banek <intothedungeon@gmail.com>
  */
+#include "data/dirs.h"
 #include "data/save.hpp"
 
 #include <fstream>
@@ -149,8 +150,11 @@ class ComponentLoader<utility::TypeList<T, U>, Archive>
 void SaveGame(EntityManager &em)
 {
   using serialization::iml::OArchive;
-  std::ofstream save_file("./save.sav");
+  std::string path = CreateUserFile("save.sav");
+  std::ofstream save_file(path.c_str());
   OArchive oarchive(save_file);
+  int version = 0;
+  oarchive << serialization::MakeNameValuePair("version", version);
   oarchive << CArea::area_control;
   oarchive << em;
   ComponentSaver<ComponentList, OArchive> saver;
@@ -160,8 +164,14 @@ void SaveGame(EntityManager &em)
 void LoadGame(EntityManager &em)
 {
   using serialization::iml::IArchive;
-  std::ifstream save_file("./save.sav");
+  std::string path = FindUserFile("save.sav");
+  if (path.empty()) {
+    return;
+  }
+  std::ifstream save_file(path.c_str());
   IArchive iarchive(save_file);
+  int version = 0;
+  iarchive >> version;
   iarchive >> CArea::area_control;
   iarchive >> em;
   ComponentLoader<ComponentList, IArchive> loader;

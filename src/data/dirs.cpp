@@ -50,17 +50,14 @@ static void setExeDir();
 static bool fileExists(const std::string &filepath);
 static bool createDir(const std::string &path);
 
-std::string FindFile(const std::string &filename)
+std::string findFile(DirList &dirs, const std::string &filename)
 {
-  buildDataDirs();
-  DirList::iterator it;
-
   // If absolute path.
   if (fileExists(filename)) {
     return filename;
   }
 
-  for (it = data_dirs.begin(); it != data_dirs.end(); ++it) {
+  for (DirList::iterator it = dirs.begin(); it != dirs.end(); ++it) {
     std::string path = *it + "/" + filename;
     if (fileExists(path)) {
       return path;
@@ -68,6 +65,18 @@ std::string FindFile(const std::string &filename)
   }
   std::cerr << "Unable to find file " << filename << std::endl;
   return std::string();
+}
+
+std::string FindFile(const std::string &filename)
+{
+  buildDataDirs();
+  return findFile(data_dirs, filename);
+}
+
+std::string FindUserFile(const std::string &filename)
+{
+  buildUserDataDirs();
+  return findFile(user_data_dirs, filename);
 }
 
 std::string CreateUserDir(const std::string &dirname)
@@ -81,6 +90,16 @@ std::string CreateUserDir(const std::string &dirname)
   } else {
     return "";
   }
+}
+
+std::string CreateUserFile(const std::string &file)
+{
+  buildUserDataDirs();
+  std::string &user_dir = user_data_dirs.front();
+  if (!createDir(user_dir)) {
+    std::cerr << "Unable to create dir " << user_dir << std::endl;
+  }
+  return user_dir + "/" + file;
 }
 
 static void dumpDirs(DirList &dirs) {
@@ -132,6 +151,7 @@ static void buildUserDataDirs()
     user_data_dirs.push_back(std::string(xdg_data_home) + "/into-the-dungeon++");
   }
 #endif // __unix__
+  user_data_dirs.push_back(exe_dir + "/..");
   dumpDirs(user_data_dirs);
 }
 
