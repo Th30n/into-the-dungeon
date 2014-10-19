@@ -161,12 +161,12 @@ void SaveGame(EntityManager &em)
   saver(oarchive, em);
 }
 
-void LoadGame(EntityManager &em)
+bool LoadGame(EntityManager &em)
 {
   using serialization::iml::IArchive;
   std::string path = FindUserFile("save.sav");
   if (path.empty()) {
-    return;
+    return false;
   }
   std::ifstream save_file(path.c_str());
   IArchive iarchive(save_file);
@@ -176,6 +176,7 @@ void LoadGame(EntityManager &em)
   iarchive >> em;
   ComponentLoader<ComponentList, IArchive> loader;
   loader(iarchive, em);
+  return true;
 }
 
 } // namespace data

@@ -67,8 +67,9 @@ class LoadGameAction : public IAction {
     virtual void performAction()
     {
       if (owner_) {
-        owner_->LoadGame();
-        owner_->getFSM()->ChangeState(Gameplay::Instance());
+        if (owner_->LoadGame()) {
+          owner_->getFSM()->ChangeState(Gameplay::Instance());
+        }
       }
     }
   private:
@@ -279,7 +280,7 @@ void MainMenu::initGUI()
       data::FindFile("gfx/UI/load_game_button.png").c_str()));
   button->setHighlightImage(CSurface::OnLoad(
       data::FindFile("gfx/UI/ITD++_MENU_SELECTOR_BIG.png").c_str()), r);
-  //button->setAction(load_game_action_);
+  button->setAction(load_game_action_);
   button->setId(BUTTON_LOAD_GAME);
   buttons_.push_back(button);
   

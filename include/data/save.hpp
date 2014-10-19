@@ -29,7 +29,7 @@ namespace data
 // Saves the game data to default location.
 void SaveGame(EntityManager &em);
 // Loads the game data from default location.
-void LoadGame(EntityManager &em);
+bool LoadGame(EntityManager &em);
 
 } // namespace data
 #endif

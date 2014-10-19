@@ -63,10 +63,12 @@ GameObject LevelLoader::startNewGame()
   return player;
 }
 
-void LevelLoader::LoadGame()
+bool LevelLoader::LoadGame()
 {
   EntityManager &em = EntityManager::instance();
-  data::LoadGame(em);
+  if (!data::LoadGame(em)) {
+    return false;
+  }
   GameObject player(1);
 
   CCamera::camera_control.target_mode = TARGET_MODE_CENTER;
@@ -81,6 +83,7 @@ void LevelLoader::LoadGame()
   } else {
     CMusic::SoundControl.ChangeMusic(CApp::Music);
   }
+  return true;
 }
 
 void LevelLoader::nextLevel(GameObject player, int lvl)

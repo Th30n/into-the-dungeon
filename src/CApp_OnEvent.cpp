@@ -221,9 +221,10 @@ bool CApp::SaveGame()
 {
   return true;
 }
+
 bool CApp::LoadGame()
 {
-  return true;
+  return LevelLoader::LoadGame();
 }
 
 bool CApp::SaveEntities(FILE *file)
