@@ -87,7 +87,7 @@ if(WIN32)
   set(CPACK_NSIS_MUI_ICON ${ITD++_SOURCE_DIR}/share/res/itd++.ico)
 endif()
 # CPack settings for source package
-set(CPACK_SOURCE_IGNORE_FILES .git* Thumbs.db build .swp$ save highscore.dat)
+set(CPACK_SOURCE_IGNORE_FILES .git* Thumbs.db build .swp$ highscore.dat)
 include(CPack)
 
 if(UNIX)

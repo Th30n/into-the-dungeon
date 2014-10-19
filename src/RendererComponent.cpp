@@ -61,12 +61,13 @@ RendererComponent::~RendererComponent()
 
 void RendererComponent::start()
 {
-  image = CSurface::OnLoad(gfx_filename_.c_str());
+  std::string path = data::FindFile(gfx_filename_);
+  image = CSurface::OnLoad(path.c_str());
 }
 
 void RendererComponent::loadIML(const IMLNode &node)
 {
-  gfx_filename_ = data::FindFile(iml::GetAttribute(node, "file"));
+  gfx_filename_ = iml::GetAttribute(node, "file");
   width = iml::GetAttribute(node, "width", 32);
   height = iml::GetAttribute(node, "height", 32);
   x_offset = iml::GetAttribute(node, "xOffset", 0);
