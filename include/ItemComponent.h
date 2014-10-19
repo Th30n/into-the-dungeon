@@ -24,6 +24,7 @@
 
 #include "IComponent.h"
 
+#include <iostream>
 #include <string>
 
 #include "StatsComponent.h"

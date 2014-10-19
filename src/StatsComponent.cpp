@@ -57,7 +57,7 @@ void StatsComponent::loadIML(const IMLNode &node)
     std::list<IMLNode*>::iterator it = skills_iml.begin();
     for (; it != skills_iml.end(); ++it) {
       if ((*it)->getName() == "skill") {
-        skills.push_back(iml::GetAttribute<std::string>(**it, "name"));
+        skills.push_back(iml::GetAttribute(**it, "name"));
       }
     }
   }

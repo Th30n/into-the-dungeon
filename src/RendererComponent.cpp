@@ -66,7 +66,7 @@ void RendererComponent::start()
 
 void RendererComponent::loadIML(const IMLNode &node)
 {
-  gfx_filename_ = data::FindFile(iml::GetAttribute<std::string>(node, "file"));
+  gfx_filename_ = data::FindFile(iml::GetAttribute(node, "file"));
   width = iml::GetAttribute(node, "width", 32);
   height = iml::GetAttribute(node, "height", 32);
   x_offset = iml::GetAttribute(node, "xOffset", 0);

@@ -54,6 +54,8 @@ T GetTagValue(const IMLNode &node, T def_val = T())
   return def_val;
 }
 
+std::string GetTagValue(const IMLNode &node, std::string def_val = "");
+
 // Returns the attribute value for given tag node with give key. If unable to
 // find attribute mapping or given node is not IMLTag node returns provided
 // default value.
@@ -76,6 +78,9 @@ T GetAttribute(const IMLNode &node, const std::string &key, T def_val = T())
   }
   return def_val;
 }
+
+std::string GetAttribute(
+    const IMLNode &node, const std::string &key, std::string def_val = "");
 
 IMLNode *OpenIML(const char *path);
 void SaveIML(const IMLNode &node, const char *path);

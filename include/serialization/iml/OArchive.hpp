@@ -110,7 +110,7 @@ class OArchive
       return *this;
     }
 
-    OArchive &operator<<(std::string val)
+    OArchive &operator<<(std::string &val)
     {
       node_stack_.top()->addChild(new IMLValue(val));
       return *this;

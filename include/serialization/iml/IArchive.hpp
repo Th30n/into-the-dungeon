@@ -142,6 +142,15 @@ class IArchive
       tag_nodes_.insert(tag_nodes_.begin(), children.begin(), children.end());
     }
 
+    void readTagValue(std::string &val)
+    {
+      IMLTag *tag_node = tag_nodes_.front();
+      val = ::iml::GetTagValue(*tag_node);
+      tag_nodes_.pop_front();
+      std::vector<IMLTag*> children(::iml::GetChildrenTags(*tag_node));
+      tag_nodes_.insert(tag_nodes_.begin(), children.begin(), children.end());
+    }
+
     IMLNode *root_node_;
     std::list<IMLTag*> tag_nodes_;
 };

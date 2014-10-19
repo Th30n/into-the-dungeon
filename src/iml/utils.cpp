@@ -28,6 +28,34 @@
 
 namespace iml {
 
+std::string GetTagValue(const IMLNode &node, std::string def_val)
+{
+  const IMLTag *tag = dynamic_cast<const IMLTag*>(&node);
+  if (!tag) {
+    return def_val;
+  }
+  const std::list<IMLNode*> &vals = tag->getChildren();
+  if (!vals.empty()) {
+    return (*vals.begin())->getName();
+  }
+  return def_val;
+}
+
+std::string GetAttribute(const IMLNode &node,
+    const std::string &key, std::string def_val)
+{
+  const IMLTag *tag = dynamic_cast<const IMLTag*>(&node);
+  if (!tag) {
+    return def_val;
+  }
+  const AttributesMap &attrs = tag->getAttributes();
+  AttributesMap::const_iterator it = attrs.find(key);
+  if (it != attrs.end()) {
+    return it->second;
+  }
+  return def_val;
+}
+
 IMLNode *OpenIML(const char *path)
 {
   IMLParser parser;

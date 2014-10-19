@@ -49,7 +49,7 @@ void WeaponComponent::loadIML(const IMLNode &node)
   max_damage = iml::GetAttribute(node, "maxDamage", 0);
   accuracy = iml::GetAttribute(node, "accuracy", 0);
   crit_chance = iml::GetAttribute(node, "critChance", 0);
-  spell = iml::GetAttribute<std::string>(node, "spell");
+  spell = iml::GetAttribute(node, "spell");
   IMLNode *stats = node.findByName("statsMultipliers");
   if (stats) {
     stats_multipliers.loadIML(*stats);

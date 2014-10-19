@@ -34,8 +34,8 @@ Sfx::Sfx()
 
 void Sfx::loadIML(const IMLNode &node)
 {
-  type = iml::GetAttribute<std::string>(node, "type");
-  sprite = iml::GetAttribute<std::string>(node, "sprite");
+  type = iml::GetAttribute(node, "type");
+  sprite = iml::GetAttribute(node, "sprite");
   width = iml::GetAttribute(node, "width", 0);
   height = iml::GetAttribute(node, "height", 0);
   x_offset = iml::GetAttribute(node, "xOffset", 0);

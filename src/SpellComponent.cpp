@@ -35,14 +35,14 @@ Effect::Effect()
 
 void Effect::loadIML(const IMLNode &node)
 {
-  type = iml::GetAttribute<std::string>(node, "type");
+  type = iml::GetAttribute(node, "type");
   damage = iml::GetAttribute(node, "damage", 0);
   duration = iml::GetAttribute(node, "duration", 0);
-  ailment = iml::GetAttribute<std::string>(node, "ailment");
+  ailment = iml::GetAttribute(node, "ailment");
   chance = iml::GetAttribute(node, "chance", 0);
-  spell = iml::GetAttribute<std::string>(node, "spell");
+  spell = iml::GetAttribute(node, "spell");
   stats.loadIML(node);
-  entity = iml::GetAttribute<std::string>(node, "entity");
+  entity = iml::GetAttribute(node, "entity");
 }
 
 int SpellComponent::hreg = ComponentFactory::instance().registerCreator(
@@ -60,9 +60,9 @@ SpellComponent::SpellComponent()
 
 void SpellComponent::loadIML(const IMLNode &node)
 {
-  targeting = iml::GetAttribute<std::string>(node, "targeting");
-  name = iml::GetAttribute<std::string>(node, "name");
-  description = iml::GetAttribute<std::string>(node, "description");
+  targeting = iml::GetAttribute(node, "targeting");
+  name = iml::GetAttribute(node, "name");
+  description = iml::GetAttribute(node, "description");
   std::list<IMLNode*> &effects_iml = node.findByName("effects")->getChildren();
   std::list<IMLNode*>::iterator it = effects_iml.begin();
   for (; it != effects_iml.end(); ++it) {
@@ -80,7 +80,7 @@ void SpellComponent::loadIML(const IMLNode &node)
   if (post) {
     post_sfx.loadIML(*post);
   }
-  aoe = iml::GetAttribute<std::string>(node, "aoe");
+  aoe = iml::GetAttribute(node, "aoe");
   radius = iml::GetAttribute(node, "radius", 0);
   bounces = iml::GetAttribute(node, "bounces", 0);
   bounce_range = iml::GetAttribute(node, "bounceRange", 0);

@@ -73,13 +73,13 @@ static ItemComponent::UseTypes stringToUseType(const std::string &name)
 void ItemComponent::loadIML(const IMLNode &node)
 {
   itemLevel = iml::GetAttribute(node, "level", 0);
-  name = iml::GetAttribute<std::string>(node, "name");
-  spell = iml::GetAttribute<std::string>(node, "spell");
-  description = iml::GetAttribute<std::string>(node, "description");
+  name = iml::GetAttribute(node, "name");
+  spell = iml::GetAttribute(node, "spell");
+  description = iml::GetAttribute(node, "description");
   IMLNode *stats = node.findByName("statsModifiers");
   if (stats) {
     statsModifiers.loadIML(*stats);
   }
   spriteId = iml::GetAttribute(node, "spriteId", 0);
-  useType = stringToUseType(iml::GetAttribute<std::string>(node, "type"));
+  useType = stringToUseType(iml::GetAttribute(node, "type"));
 }
