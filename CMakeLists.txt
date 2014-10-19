@@ -1,16 +1,15 @@
 cmake_minimum_required(VERSION 3.0)
 
+# Policy to use VERSION option in project()
+cmake_policy(SET CMP0048 NEW)
+
 # Project is in C++ but SDL is in C
-project(ITD++ CXX C)
+project(ITD++ VERSION 0.9.1 LANGUAGES CXX C)
 
 # Require SDL
 find_package(SDL REQUIRED)
 find_package(SDL_image REQUIRED)
 find_package(SDL_mixer REQUIRED)
-
-set(ITD++_VERSION_MAJOR 0)
-set(ITD++_VERSION_MINOR 9)
-set(ITD++_VERSION_PATCH 1)
 
 # Always check for warnings
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
