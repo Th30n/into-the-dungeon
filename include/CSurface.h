@@ -35,7 +35,7 @@ class CSurface {
     static bool OnDraw(SDL_Surface *dest, SDL_Surface *src,
             int dest_x, int dest_y, int src_x, int src_y, int w, int h);
     static bool Transparent(SDL_Surface *dest, int r, int g, int b);
-    static Uint32 getPixel32(SDL_Surface *src, int x, int y);
+    static Uint32 getPixel32(SDL_Surface *src, unsigned x, unsigned y);
     //you may have to LOCK the SURFACE before calling this method
     static void setPixel32(SDL_Surface *src, int x, int y,
                 int r, int g, int b);

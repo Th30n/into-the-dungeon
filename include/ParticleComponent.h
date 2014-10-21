@@ -24,6 +24,8 @@
 
 #include "IComponent.h"
 
+#include <SDL.h>
+
 #include "GameObject.h"
 #include "Vector2f.h"
 
@@ -71,6 +73,7 @@ inline void load(Archive &archive, ParticleComponent &comp, unsigned int version
 {
   archive >> *static_cast<IComponent*>(&comp);
   archive >> comp.start_time;
+  comp.start_time = SDL_GetTicks();
   archive >> comp.time_to_live;
   archive >> comp.velocity;
 }

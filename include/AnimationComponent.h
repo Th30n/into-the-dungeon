@@ -22,9 +22,11 @@
 #ifndef ANIMATIONCOMPONENT_H
 #define ANIMATIONCOMPONENT_H
 
+#include "IComponent.h"
+
 #include <cstdio>
 
-#include "IComponent.h"
+#include <SDL.h>
 
 class CAnimation;
 
@@ -66,7 +68,7 @@ class AnimationComponent : public IComponent {
     // Frame rate in ms
     int frame_rate;
     // When the animation starts (used for calculating current frame).
-    long start_time;
+    unsigned start_time;
     // Current Frame Colon used for animation (from loaded GFXFile)
     int current_frame_col;
     // Current Frame Row used for animation (from loaded GFXFile)
@@ -103,6 +105,7 @@ inline void load(Archive &archive, AnimationComponent &comp, unsigned int versio
   archive >> *static_cast<IComponent*>(&comp);
   archive >> comp.max_frames;
   archive >> comp.frame_rate;
+  comp.start_time = SDL_GetTicks();
   archive >> comp.current_frame_col;
   archive >> comp.current_frame_row;
   archive >> comp.idle_frame_col;

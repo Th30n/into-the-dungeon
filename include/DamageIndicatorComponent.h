@@ -82,6 +82,7 @@ inline void load(Archive &archive, Overlay &overlay, unsigned int version)
 {
   archive >> overlay.text;
   archive >> overlay.start_time;
+  overlay.start_time = SDL_GetTicks();
   archive >> overlay.health_change;
   archive >> overlay.color;
 }
