@@ -108,7 +108,6 @@ if(UNIX)
     if (PACK_SOURCE_ARCH)
       add_custom_target(package_arch COMMAND sh -c
         ". ${ITD++_SOURCE_DIR}/utils/package_arch.sh \
-        ${CPACK_PACKAGE_VERSION} ${CPACK_SOURCE_PACKAGE_FILE_NAME} \
         ${ITD++_SOURCE_DIR}/utils/abs/into-the-dungeon++ \
         ${ITD++_SOURCE_DIR}/Version.txt")
     endif()

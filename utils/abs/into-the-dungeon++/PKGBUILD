@@ -1,5 +1,6 @@
 # Maintainer: Teon Banek <intothedungeon at gmail dot com>
 pkgname="into-the-dungeon++"
+pkgver="0.9.1"
 pkgrel=1
 pkgdesc="Simple graphical roguelike."
 arch=('i686' 'x86_64')
@@ -9,14 +10,20 @@ depends=('hicolor-icon-theme' 'sdl_image' 'sdl_mixer')
 makedepends=('cmake>=3')
 install=into-the-dungeon.install
 changelog=ChangeLog
+source=("$pkgname-$pkgver.tar.gz::https://github.com/Th30n/into-the-dungeon/archive/v$pkgver.tar.gz")
 
 build() {
-  cd "$pkgname-$pkgver-Source"
+  cd "into-the-dungeon-$pkgver"
   cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr .
   make
 }
 
+check() {
+  cd "into-the-dungeon-$pkgver"
+  make test
+}
+
 package() {
-  cd "$pkgname-$pkgver-Source"
+  cd "into-the-dungeon-$pkgver"
   make DESTDIR="$pkgdir/" install
 }
