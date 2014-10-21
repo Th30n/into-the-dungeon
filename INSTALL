@@ -1,4 +1,5 @@
 1. Prerequisites
+================
 
 The following libraries are required:
 
@@ -13,7 +14,10 @@ For building you will also need:
   cmake >= 3.0
 
 2. Building & Installing
+========================
 
+Linux
+-----
 Out of source build with cmake is preferred.
 The simplest way to build is the following:
 
@@ -25,11 +29,20 @@ And then you can install with (which might require root using su or sudo):
 
   # make install
 
-If you want to use a different generator with cmake, for example if you are
-on Windows and want to build with CodeBlocks use -G <generator_name> when
-calling cmake:
+If you want additional control over the build configuration, in step 2) run
+either:
+  * ccmake or
+  * cmake-gui
 
-  $ mkdir build && cd build
-  $ cmake -G "CodeBlocks" ..
+Windows
+-------
+On Windows you will need to tell CMake where the libraries for SDL can be found.
+The easiest way to do that is to run the GUI version of CMake (cmake-gui) and
+follow the instructions there.
 
-Then open the generated project in CodeBlocks and build from there.
+Mac OS
+------
+Mac OS is NOT officially supported.
+Despite that the Mac OS version can be built by following the instructions
+for Linux.
+
