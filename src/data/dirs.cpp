@@ -27,11 +27,11 @@
 #include <iostream>
 #include <list>
 
-#ifdef __unix__
+#ifdef OS_UNIX
 #include <sys/stat.h>
 #include <unistd.h>
 #endif
-#ifdef _WIN32
+#ifdef OS_WINDOWS
 #include <windows.h>
 #endif
 
@@ -125,7 +125,7 @@ static void buildDataDirs()
   data_dirs.push_back(".");
   data_dirs.push_back(exe_dir);
   data_dirs.push_back(exe_dir + "/..");
-#ifdef __unix__
+#ifdef OS_UNIX
   data_dirs.push_back(exe_dir + "/../share/into-the-dungeon++");
 #endif
   dumpDirs(data_dirs);
@@ -141,7 +141,7 @@ static void buildUserDataDirs()
   if (itd_data_home) {
     user_data_dirs.push_back(itd_data_home);
   }
-#ifdef __unix__
+#ifdef OS_UNIX
   char *xdg_data_home = getenv("XDG_DATA_HOME");
   if (!xdg_data_home) {
     char *home = getenv("HOME");
@@ -150,12 +150,12 @@ static void buildUserDataDirs()
   } else {
     user_data_dirs.push_back(std::string(xdg_data_home) + "/into-the-dungeon++");
   }
-#endif // __unix__
+#endif // OS_UNIX
   user_data_dirs.push_back(exe_dir + "/..");
   dumpDirs(user_data_dirs);
 }
 
-#ifdef __unix__
+#ifdef OS_UNIX
 static void setExeDir()
 {
   const size_t BUFSIZE = 256;
@@ -218,9 +218,9 @@ static bool createDir(const std::string &path)
   }
   return true;
 }
-#endif // __unix__
+#endif // OS_UNIX
 
-#if _WIN32
+#if OS_WINDOWS
 static void setExeDir()
 {
   DWORD BUFSIZE = 256;
@@ -284,5 +284,5 @@ static bool createDir(const std::string &path)
   }
   return true;
 }
-#endif // _WIN32
+#endif // OS_WINDOWS
 } // namespace data

@@ -11,8 +11,18 @@ find_package(SDL REQUIRED)
 find_package(SDL_image REQUIRED)
 find_package(SDL_mixer REQUIRED)
 
+### Compilation options. ###
+
+if(WIN32)
+  add_definitions(-DOS_WINDOWS)
+elseif(UNIX)
+  add_definitions(-DOS_UNIX)
+endif()
+
 # Always check for warnings
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
+
+###
 
 # Disable absolute path install destinations
 set(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION ON)
