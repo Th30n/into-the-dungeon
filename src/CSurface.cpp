@@ -104,7 +104,7 @@ bool CSurface::Transparent(SDL_Surface *dest, int r, int g, int b)
   return true;
 }
 
-Uint32 CSurface::getPixel32(SDL_Surface *src, int x, int y) {
+Uint32 CSurface::getPixel32(SDL_Surface *src, unsigned x, unsigned y) {
   Uint32 *pixels = (Uint32 *)src->pixels;
   return pixels[(y * src->w) + x];
 }

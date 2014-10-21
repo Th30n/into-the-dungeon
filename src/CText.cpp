@@ -74,11 +74,11 @@ void CText::buildBMPFont(SDL_Surface *bmp_font, int *bmp_space,
 {
   Uint32 bg_color = SDL_MapRGB(bmp_font->format, 0, 0, 0);
   
-  int cell_w = bmp_font->w / 16;
-  int cell_h = bmp_font->h / 8;
+  unsigned cell_w = bmp_font->w / 16;
+  unsigned cell_h = bmp_font->h / 8;
   
-  int top = cell_h;
-  int base = cell_h;
+  unsigned top = cell_h;
+  unsigned base = cell_h;
   
   int current_char = 0;
   
@@ -91,10 +91,10 @@ void CText::buildBMPFont(SDL_Surface *bmp_font, int *bmp_space,
       bmp_chars[current_char].h = cell_h;
       
       //Find where the letter begins from left
-      for (int px_col = 0; px_col < cell_w; px_col++) {
-        for (int px_row = 0; px_row < cell_h; px_row++) {
-          int px_x = (cell_w * cols) + px_col;
-          int px_y = (cell_h * rows) + px_row;
+      for (unsigned px_col = 0; px_col < cell_w; px_col++) {
+        for (unsigned px_row = 0; px_row < cell_h; px_row++) {
+          unsigned px_x = (cell_w * cols) + px_col;
+          unsigned px_y = (cell_h * rows) + px_row;
           
           if (CSurface::getPixel32(bmp_font, px_x, px_y) != bg_color) {
             bmp_chars[current_char].x = px_x;
@@ -105,9 +105,9 @@ void CText::buildBMPFont(SDL_Surface *bmp_font, int *bmp_space,
       }
       //Find where the letter begins from right & calculate letter width
       for (int px_col_w = cell_w - 1; px_col_w >= 0; px_col_w--) {
-        for (int px_row_w = 0; px_row_w < cell_h; px_row_w++) {
-          int px_x = (cell_w * cols) + px_col_w;
-          int px_y = (cell_h * rows) + px_row_w;
+        for (unsigned px_row_w = 0; px_row_w < cell_h; px_row_w++) {
+          unsigned px_x = (cell_w * cols) + px_col_w;
+          unsigned px_y = (cell_h * rows) + px_row_w;
           
           if (CSurface::getPixel32(bmp_font, px_x, px_y) != bg_color) {
             bmp_chars[current_char].w = (px_x - bmp_chars[current_char].x) + 1;
@@ -117,10 +117,10 @@ void CText::buildBMPFont(SDL_Surface *bmp_font, int *bmp_space,
         }
       }
       //Find where the letter begins from top
-      for (int px_row = 0; px_row < cell_h; px_row++) {
-        for (int px_col = 0; px_col < cell_w; px_col++) {
-          int px_x = (cell_w * cols) + px_col;
-          int px_y = (cell_h * rows) + px_row;
+      for (unsigned px_row = 0; px_row < cell_h; px_row++) {
+        for (unsigned px_col = 0; px_col < cell_w; px_col++) {
+          unsigned px_x = (cell_w * cols) + px_col;
+          unsigned px_y = (cell_h * rows) + px_row;
           
           if (CSurface::getPixel32(bmp_font, px_x, px_y) != bg_color) {
             if (px_row < top) {
@@ -134,9 +134,9 @@ void CText::buildBMPFont(SDL_Surface *bmp_font, int *bmp_space,
       //Find bottom of A -> base of the letter
       if (current_char == 'A') {
         for (int px_row = cell_h - 1; px_row >= 0; px_row--) {
-          for (int px_col = 0; px_col < cell_w; px_col++) {
-            int px_x = (cell_w * cols) + px_col;
-            int px_y = (cell_h * rows) + px_row;
+          for (unsigned px_col = 0; px_col < cell_w; px_col++) {
+            unsigned px_x = (cell_w * cols) + px_col;
+            unsigned px_y = (cell_h * rows) + px_row;
             
             if (CSurface::getPixel32(bmp_font, px_x, px_y) != bg_color) {
               base = px_row;
