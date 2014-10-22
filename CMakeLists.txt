@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.0)
 cmake_policy(SET CMP0048 NEW)
 
 # Project is in C++ but SDL is in C
-project(ITD++ VERSION 0.9.1 LANGUAGES CXX C)
+project(ITD++ VERSION 0.9.2 LANGUAGES CXX C)
 
 # Require SDL
 find_package(SDL REQUIRED)

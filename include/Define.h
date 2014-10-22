@@ -26,7 +26,7 @@
  * Various defines.
  * These should be removed.
  */
-#define VERSION "v0.9.1"
+#define VERSION "v0.9.2"
 
 #define MAP_WIDTH  60
 #define MAP_HEIGHT 40

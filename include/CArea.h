@@ -27,6 +27,7 @@
 #include <SDL.h>
 
 #include "CMap.h"
+#include "Define.h"
 #include "serialization/NameValuePair.hpp"
 
 class CTile;
@@ -87,6 +88,12 @@ template<class Archive>
 inline void CArea::load(Archive &archive, unsigned int version)
 {
   archive >> dungeon_level;
+  bool fow_on = true;
+  // Quick hack for restoring fow_on.
+  // This should be saved and loaded properly in CMap.
+  if (!(dungeon_level % 5)) {
+    fow_on = false;
+  }
   archive >> area_size_;
   typedef std::vector<CMap> Maps;
   Maps::size_type maps = 0;
@@ -98,6 +105,7 @@ inline void CArea::load(Archive &archive, unsigned int version)
     map.surf_tileset = surf_tileset;
     map.surf_mini_tileset = surf_mini_tileset_;
     map.surf_fog = surf_fog_;
+    map.fow_on = fow_on;
     map_list.push_back(map);
   }
 }
