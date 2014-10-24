@@ -20,7 +20,7 @@ I recommend to check the definition on the internet.
 
 The game features randomly created dungeons, monsters, items and scrolls.
 Can You survive Your dungeon crawling adventure and defeat the Evil that
-lurks on the 20th Dungeon Level ?!
+lurks on the 20th Dungeon Level?!
 
 Beware of the cursed items (especially potions)!
 You cannot unequip cursed items, and cursed potions can be lethal!

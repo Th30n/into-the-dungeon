@@ -1,0 +1,139 @@
+.\"
+.\" Into the Dungeon++
+.\"
+.\" Copyright (C) 2014 Teon Banek
+.\"
+.\" This file is part of Into the Dungeon++.
+.\" Into the Dungeon++ is free software: you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation, either version 3 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" Into the Dungeon++ is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with Into the Dungeon++. If not, see <http://www.gnu.org/licenses/>
+.\"
+.\" Author(s): Teon Banek <intothedungeon@gmail.com>
+.\"
+.TH INTO-THE-DUNGEON++ 6 2014-10-24 "Linux" "Into the Dungeon++ manual"
+.SH NAME
+into-the-dungeon++, itd++ \- simple graphical roguelike
+.SH SYNOPSIS
+.B itd++
+.SH DESCRIPTION
+.B Into the Dungeon++
+is a simple graphical roguelike.
+.PP
+The game features randomly created dungeons, monsters, items and scrolls.
+.br
+Can You survive Your dungeon crawling adventure and defeat the Evil that
+lurks on the 20th Dungeon Level?
+.PP
+Beware of the
+.B cursed
+items (especially potions)!
+You cannot unequip cursed items, and cursed potions can be lethal!
+.PP
+The player is afflicted with the corruption, represented by a candle.
+It allows You to see loot through the Fog of War but staying too long on
+a dungeon level could take the toll of Your life.
+.SS Controls
+Controls for playing the game:
+.PP
+.B Movement
+\-
+.I arrow keys
+.PP
+.B Attacking
+\- move toward the enemy
+.PP
+.B Save Game
+\-
+.I SHIFT-s
+.PP
+.B Quit
+(without saving) \-
+.I CTRL-q
+.PP
+.B Load Game
+\-
+.I SHIFT-l
+.PP
+.B Skip Turn
+\-
+.I space
+.PP
+.B Pickup Item
+(when standing over it) \-
+.I return
+.PP
+.B Open/Close Spellbook
+\-
+.I r
+.PP
+.B Use Spell
+\-
+.I number
+associated with the spell in the spellbook
+.PP
+.B Inventory
+\-
+.I i
+.PP
+.B Select Item
+\-
+.I number
+associated with item in inventory
+.PP
+.B Use/Equip
+\-
+.I u
+when item is selected
+.PP
+.B Drop
+\-
+.I d
+when item is selected
+.PP
+.B Descend
+\-
+.I d
+on stairs
+.PP
+.B Next Page
+\-
+.I n
+when open Inventory or SpellBook
+.SS Heads Up Display (HUD)
+.TP
+.B Minimap
+upper left corner
+.I white
+\- floor
+.SH ENVIRONMENT
+.TP
+.B ITD_DATA_DIR
+If
+.RB $ ITD_DATA_DIR
+is set, its value is used as the directory where the game data is
+searched first.
+.TP
+.B ITD_DATA_HOME
+is
+.RB $ ITD_DATA_HOME
+is set, its value is used as the directory where the game stores and reads
+save files.
+.SH FILES
+.TP
+.I /usr/bin/itd++
+game launcher.
+.TP
+.I /usr/share/into-the-dungeon++
+directory with game data files.
+.TP
+.I $XDG_DATA_HOME/into-the-dungeon++
+directory with save files.
