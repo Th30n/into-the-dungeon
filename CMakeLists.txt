@@ -62,6 +62,17 @@ elseif(UNIX)
     PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ RENAME itd++.png)
   install(FILES share/icons/into-the-dungeon.desktop DESTINATION ${DESKTOP_DIR}
     PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ)
+  # Generate man page
+  add_custom_command(OUTPUT man/into-the-dungeon++.6.gz
+    COMMAND mkdir -p man
+    COMMAND cp ${ITD++_SOURCE_DIR}/share/man/into-the-dungeon++.6 man
+    COMMAND gzip man/into-the-dungeon++.6
+    MAIN_DEPENDENCY share/man/into-the-dungeon++.6
+    COMMENT "Compressing man page")
+  add_custom_target(gzip_man_page ALL
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/man/into-the-dungeon++.6.gz)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/man/into-the-dungeon++.6.gz
+    DESTINATION share/man/man6)
 endif()
 
 install(DIRECTORY share/gfx/ DESTINATION ${DATA_DIR}/gfx

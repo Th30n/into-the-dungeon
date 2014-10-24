@@ -4,6 +4,7 @@ pre_install() {
 
 post_install() {
   gtk-update-icon-cache -q -t -f usr/share/icons/hicolor
+  mandb -sqp
 }
 
 pre_upgrade() {
@@ -12,6 +13,7 @@ pre_upgrade() {
 
 post_upgrade() {
   gtk-update-icon-cache -q -t -f usr/share/icons/hicolor
+  mandb -sqp
 }
 
 pre_remove() {
