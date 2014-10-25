@@ -41,6 +41,8 @@ class HudInventory {
   public:
     HudInventory(CHud &hud);
     ~HudInventory();
+    // TODO: Copy constructor and assignment.
+
     bool OnLoad();
     void start(GameObject obj);
     void render(SDL_Surface *display, int x, int y);

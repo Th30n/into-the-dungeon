@@ -54,13 +54,15 @@ class IArchive
         delete root_node_;
       }
     }
+    
+    // TODO: Add copy constructor and assignment.
 
     // Default implementation requires load function or method for given type.
     template<class T>
     IArchive &operator>>(T &t)
     {
       using serialization::load;
-      int version = 0;
+      unsigned version = 0;
       readTagValue(version);
       load(*this, t, version);
       return *this;

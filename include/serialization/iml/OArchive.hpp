@@ -50,12 +50,14 @@ class OArchive
     }
     ~OArchive() { delete node_stack_.top(); }
 
+    // TODO: Add copy and assignment.
+
     // Default implementation requires save function or method for given type.
     template<class T>
     OArchive &operator<<(T &t)
     {
       using serialization::save;
-      int version = 0;
+      unsigned version = 0;
       *this << MakeNameValuePair("version", version);
       save(*this, t, version);
       return *this;
