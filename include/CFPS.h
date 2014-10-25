@@ -36,8 +36,8 @@ class CFPS {
     void ToggleFpsCap();
 
   private:
-    unsigned int old_time_;
-    int last_time_;
+    unsigned old_time_;
+    unsigned last_time_;
     float speed_factor_;
     int num_frames_;
     int frames_;

@@ -166,7 +166,7 @@ void CMap::drawLightFog(SDL_Surface *display, int target_x, int target_y,
 }
 
 void CMap::drawFog(SDL_Surface *display, int target_x, int target_y,
-        short fow_mask)
+        unsigned short fow_mask)
 {
   switch(fow_mask) {
   case FOW_CNW:

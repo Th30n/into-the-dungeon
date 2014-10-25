@@ -35,7 +35,7 @@ class CAnimation {
 
     CAnimation();
     void OnAnimate();
-    void SetFrameRate(int rate);
+    void SetFrameRate(unsigned rate);
     void SetCurrentFrame(int frame);
     int GetCurrentFrame();
     void ResetOldTime();
@@ -44,8 +44,8 @@ class CAnimation {
   private:
     int current_frame_;
     int frame_inc_;
-    int frame_rate_; //Milliseconds
-    long old_time_;
+    unsigned frame_rate_; //Milliseconds
+    unsigned old_time_;
 };
 
 #endif

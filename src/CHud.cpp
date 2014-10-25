@@ -380,10 +380,8 @@ void CHud::drawMiniMap(SDL_Surface *display)
 
 void CHud::DebugMode(SDL_Surface *display)
 { 
-  char DebugText[255] = {0};
-  strcat(DebugText, " FPS: ");
-  strcat(DebugText,
-    CText::TextControl.ConvertInt(CFPS::fps_control.GetFPS()).c_str());
+  std::string DebugText("FPS: ");
+  DebugText += CText::TextControl.ConvertInt(CFPS::fps_control.GetFPS()).c_str();
   
   CText::TextControl.displayBMPText(display, 0, 0,
       DebugText, 255, 255, 255, 0, 0, 0, FONT_SMALL, 0);

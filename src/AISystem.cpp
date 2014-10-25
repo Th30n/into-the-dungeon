@@ -167,22 +167,26 @@ static GameObject getAdjacentField(GameObject obj)
 {
   EntityManager &em = EntityManager::instance();
   SpaceComponent *tsp = em.getComponentForEntity<SpaceComponent>(obj);
-  int min_x = tsp->pos.x - 1;
-  int max_x = tsp->pos.x + tsp->width;
-  int min_y = tsp->pos.y - 1;
-  int max_y = tsp->pos.y + tsp->height;
+  int min_x = static_cast<int>(tsp->pos.x) - 1;
+  int max_x = static_cast<int>(tsp->pos.x) + tsp->width;
+  int min_y = static_cast<int>(tsp->pos.y) - 1;
+  int max_y = static_cast<int>(tsp->pos.y) + tsp->height;
   std::vector<Vector2f> adjacent_fields;
   for (int x = min_x; x <= max_x; ++x) {
     for (int y = min_y; y <= max_y; ++y) {
-      Rectangle r(tsp->pos.x, tsp->pos.y, tsp->width, tsp->height);
+      Rectangle r(
+          static_cast<int>(tsp->pos.x),
+          static_cast<int>(tsp->pos.y),
+          tsp->width, tsp->height);
       if (r.intersects(x, y)) {
         continue;
       } else {
-        adjacent_fields.push_back(Vector2f(x, y));
+        adjacent_fields.push_back(
+            Vector2f(static_cast<float>(x), static_cast<float>(y)));
       }
     }
   }
-  int picker = rand() % adjacent_fields.size();
+  unsigned picker = rand() % adjacent_fields.size();
   GameObject field = em.createEntity();
   SpaceComponent *field_space = new SpaceComponent();
   field_space->pos = adjacent_fields[picker];
@@ -223,7 +227,7 @@ static void castSpell(GameObject obj, GameObject target)
 {
   EntityManager &em = EntityManager::instance();
   StatsComponent *aistats = em.getComponentForEntity<StatsComponent>(obj);
-  int picker = rand() % aistats->skills.size();
+  unsigned picker = rand() % aistats->skills.size();
   GameObject spell_target = targetSpell(obj, target, aistats->skills[picker]);
   SpellEffects::apply(obj, spell_target, aistats->skills[picker]);
 }
@@ -254,7 +258,7 @@ static bool canSee(GameObject obj, GameObject target)
     return false;
   }
   StatsComponent *aistats = em.getComponentForEntity<StatsComponent>(obj);
-  int dist = getManhattanDistance(obj, target);
+  int dist = static_cast<int>(getManhattanDistance(obj, target));
   if (dist > aistats->vision_range) {
     return false;
   }

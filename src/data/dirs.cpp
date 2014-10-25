@@ -50,6 +50,8 @@ static void setExeDir();
 static bool fileExists(const std::string &filepath);
 static bool createDir(const std::string &path);
 
+// TODO: Consider using _dupenv_s instead of getenv for safety.
+
 std::string findFile(DirList &dirs, const std::string &filename)
 {
   // If absolute path.
