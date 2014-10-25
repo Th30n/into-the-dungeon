@@ -47,8 +47,6 @@ class AIComponent : public IComponent {
     AIComponent();
     virtual ~AIComponent() {}
     virtual void loadIML(const IMLNode &node);
-    virtual void save(FILE *file);
-    virtual bool load(FILE *file);
 
     // Last known target position.
     Vector2f waypoint;
