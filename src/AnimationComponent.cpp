@@ -55,12 +55,3 @@ void AnimationComponent::loadIML(const IMLNode &node)
   max_frames = iml::GetAttribute(node, "frames", 0);
   frame_rate = iml::GetAttribute(node, "frameRate", 0);
 }
-
-void AnimationComponent::save(FILE *file)
-{
-}
-
-bool AnimationComponent::load(FILE *file)
-{
-  return true;
-}
