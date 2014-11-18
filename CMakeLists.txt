@@ -66,7 +66,7 @@ elseif(UNIX)
   add_custom_command(OUTPUT man/into-the-dungeon++.6.gz
     COMMAND mkdir -p man
     COMMAND cp ${ITD++_SOURCE_DIR}/share/man/into-the-dungeon++.6 man
-    COMMAND gzip man/into-the-dungeon++.6
+    COMMAND gzip -f man/into-the-dungeon++.6
     MAIN_DEPENDENCY share/man/into-the-dungeon++.6
     COMMENT "Compressing man page")
   add_custom_target(gzip_man_page ALL
