@@ -143,17 +143,17 @@ is set, its value is used as the directory where the game data is
 searched first.
 .TP
 .B ITD_DATA_HOME
-is
+If
 .RB $ ITD_DATA_HOME
-is set, its value is used as the directory where the game stores and reads
-save files.
+is set, its value is used as the directory where the game stores save
+and configuration files.
 .SH FILES
 .TP
-.I /usr/bin/itd++
-game launcher.
-.TP
 .I /usr/share/into-the-dungeon++
-directory with game data files.
+Directory with game data files. Can be overriden with
+.RB $ ITD_DATA_DIR .
 .TP
-.I $XDG_DATA_HOME/into-the-dungeon++
-directory with save files.
+.IR $XDG_DATA_HOME/into-the-dungeon++ \
+" (default is " ~/.local/share/into-the-dungeon++ )
+Directory where save and configuration files are stored. Can be overriden with
+.RB $ ITD_DATA_HOME .
