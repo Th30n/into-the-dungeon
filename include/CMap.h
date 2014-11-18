@@ -77,7 +77,7 @@ class CMap {
     void drawLightFog(SDL_Surface *display, int target_x, int target_y,
               int display_x, int display_y);
     void drawFog(SDL_Surface *display, int target_x, int target_y,
-              short fow_mask);
+              unsigned short fow_mask);
 
     static const int MAX_ROOMS = 18;
     static const int MIN_ROOMS = 8;

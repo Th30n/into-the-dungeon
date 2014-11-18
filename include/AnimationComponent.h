@@ -61,8 +61,6 @@ class AnimationComponent : public IComponent {
     AnimationComponent();
     virtual ~AnimationComponent();
     virtual void loadIML(const IMLNode &node);
-    void save(FILE *file);
-    bool load(FILE *file);
   
     int max_frames;
     // Frame rate in ms

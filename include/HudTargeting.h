@@ -42,6 +42,8 @@ class HudTargeting {
   public:
     HudTargeting(CHud &hud);
     ~HudTargeting();
+    // TODO: Copy constructor and assignment.
+
     bool OnLoad();
     void start(GameObject obj);
     void render(SDL_Surface *display);

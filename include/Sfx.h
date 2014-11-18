@@ -32,10 +32,9 @@ class IMLNode;
  * Describes a special effect.
  * Used for creating particle based animations and projectiles.
  */
-class Sfx {
-  public:
+struct Sfx {
     Sfx();
-    virtual void loadIML(const IMLNode &node);
+    void loadIML(const IMLNode &node);
 
     // Special effect type (animation, projectile)
     std::string type;

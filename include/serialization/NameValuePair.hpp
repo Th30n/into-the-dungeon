@@ -31,6 +31,8 @@ struct NameValuePair
   {
   }
 
+  // TODO: Create assignment operator.
+
   template<class Archive>
   void save(Archive &archive, unsigned int version) const
   {

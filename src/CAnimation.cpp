@@ -73,7 +73,7 @@ void CAnimation::OnAnimate()
   }
 }
 
-void CAnimation::SetFrameRate(int rate)
+void CAnimation::SetFrameRate(unsigned rate)
 {
   frame_rate_ = rate;
 }

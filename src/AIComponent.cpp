@@ -45,12 +45,3 @@ void AIComponent::loadIML(const IMLNode &node)
 {
   cast_rate = iml::GetAttribute(node, "castRate", 0);
 }
-
-void AIComponent::save(FILE *file)
-{
-}
-
-bool AIComponent::load(FILE *file)
-{
-  return true;
-}

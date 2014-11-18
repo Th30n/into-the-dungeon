@@ -166,7 +166,7 @@ void CMap::drawLightFog(SDL_Surface *display, int target_x, int target_y,
 }
 
 void CMap::drawFog(SDL_Surface *display, int target_x, int target_y,
-        short fow_mask)
+        unsigned short fow_mask)
 {
   switch(fow_mask) {
   case FOW_CNW:
@@ -307,10 +307,16 @@ void CMap::GenerateRoom()
 
 void CMap::AddRoom()
 {
-  int room_length, room_height, px, py, i, j, x = 0, y;
-  char direction;
+  int room_length = 0;
+  int room_height = 0;
+  int px = 0;
+  int py = 0;
+  int x = 0;
+  int y = 0;
+  char direction = 0;
   
-  bool door, space;
+  bool door = false;
+  bool space = false;
   
   do {
     px = rand() % MAP_WIDTH; //pick starting x coordinate
@@ -322,11 +328,11 @@ void CMap::AddRoom()
     if (tile_list_[px + py*MAP_WIDTH].type_id == TILE_TYPE_BLOCK) {
       y = py + 1;
       
-      for (i = (py - 1); i < (py + 2); ++i) {
+      for (int i = (py - 1); i < (py + 2); ++i) {
         if (!door) {
           x = px + 1;
         }
-        j = px - 1;
+        int j = px - 1;
         do {
           if (i > 0 && i < (MAP_HEIGHT - 1) && 
               j > 0 && j < (MAP_WIDTH - 1))
