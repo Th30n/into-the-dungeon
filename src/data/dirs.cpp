@@ -30,9 +30,11 @@
 #ifdef OS_UNIX
 #include <sys/stat.h>
 #include <unistd.h>
-#endif
-#ifdef OS_WINDOWS
+#elif OS_WINDOWS
+#include <shlobj.h>
+#include <shlwapi.h>
 #include <windows.h>
+#include <winerror.h>
 #endif
 
 namespace data
@@ -153,13 +155,20 @@ static void buildUserDataDirs()
     user_data_dirs.push_back(std::string(xdg_data_home) + "/into-the-dungeon++");
   }
 #endif // OS_UNIX
+#ifdef OS_WINDOWS
+  TCHAR appdata[MAX_PATH];
+  // SHGetFolderPath is deprecated since Windows Vista.
+  if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_APPDATA, NULL, 0, appdata))) {
+    user_data_dirs.push_back(std::string(appdata) + "\\Into The Dungeon++");
+  }
+#endif // OS_WINDOWS
   user_data_dirs.push_back(exe_dir + "/..");
   dumpDirs(user_data_dirs);
 }
 
 #ifdef OS_UNIX
 static void setExeDir()
-{
+{    
   const size_t BUFSIZE = 256;
   char buf[BUFSIZE + 1] = {0};
   ssize_t size = readlink("/proc/self/exe", buf, BUFSIZE);
@@ -222,7 +231,7 @@ static bool createDir(const std::string &path)
 }
 #endif // OS_UNIX
 
-#if OS_WINDOWS
+#ifdef OS_WINDOWS
 static void setExeDir()
 {
   DWORD BUFSIZE = 256;

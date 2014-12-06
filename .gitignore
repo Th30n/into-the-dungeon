@@ -3,4 +3,5 @@ bin
 save
 highscore.dat
 Thumbs.db
-
+*.swp
+*~
