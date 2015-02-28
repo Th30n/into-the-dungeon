@@ -28,6 +28,7 @@
 #include "CollisionComponent.h"
 #include "data/dirs.h"
 #include "EntityManager.h"
+#include "HealthComponent.h"
 #include "ParticleComponent.h"
 #include "Rectangle.h"
 #include "RendererComponent.h"
@@ -83,6 +84,10 @@ static bool triggersTrap(GameObject entity, GameObject trap)
   TurnComponent *entity_turn = em.getComponentForEntity<TurnComponent>(entity);
   TrapComponent *tc = em.getComponentForEntity<TrapComponent>(trap);
   if (tc->team == entity_turn->team) {
+    return false;
+  }
+  HealthComponent *entity_health = em.getComponentForEntity<HealthComponent>(entity);
+  if (entity_health && entity_health->is_dead) {
     return false;
   }
   SpaceComponent *trap_space = em.getComponentForEntity<SpaceComponent>(trap);
